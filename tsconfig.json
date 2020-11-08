@@ -1,0 +1,24 @@
+{
+    "compilerOptions": {
+        "lib": ["es2020"],
+        "module": "CommonJS",
+        "target": "es2020",
+        "strict": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "removeComments": true,
+        "moduleResolution": "node",
+        "preserveConstEnums": true,
+        "sourceMap": true,
+        "allowSyntheticDefaultImports": true,
+        "declaration": true,
+        "declarationMap": true,
+        "composite": true
+    },
+    "include": ["packages"],
+    "exclude": ["node_modules", "**/*.spec.ts"]
+}

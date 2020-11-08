@@ -1,0 +1,22 @@
+{
+  "name": "psh",
+  "version": "0.0.0",
+  "description": "psh",
+  "main": "index.js",
+  "repository": "git@github.com:hoshi-hitsuji/psh.git",
+  "author": "tnRaro <deokji53@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "api": "yarn workspace @psh/api",
+    "db": "yarn workspace @psh/db",
+    "schema": "yarn workspace @psh/schema",
+    "web": "yarn workspace @psh/web"
+  },
+  "devDependencies": {
+    "lerna": "^3.22.1"
+  }
+}

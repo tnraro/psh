@@ -1,0 +1,13 @@
+{
+    "$schema": "https://json.schemastore.org/package",
+    "extends": "../../tsconfig",
+    "compilerOptions": {
+        "outDir": "dist",
+        "rootDir": "src"
+    },
+    "include": ["src"],
+    "references": [
+        { "path": "../db" },
+        { "path": "../schema" }
+    ]
+}
