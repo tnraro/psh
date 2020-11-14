@@ -1,17 +1,55 @@
-import { Box, Button, FormControl, FormErrorMessage, FormHelperText, FormLabel, Input, Link } from "@chakra-ui/core";
+import { Box, Button, FormControl, FormErrorMessage, FormHelperText, FormLabel, Input, Link, useToast } from "@chakra-ui/core";
 import { useForm } from "react-hook-form";
 import Logo from "@/comps/Logo";
+import { useSignInMutation } from "@psh/schema/dist/generated/operations";
+import router from "next/router";
+import { StatusCodes } from "http-status-codes";
 
 interface IProp {
 
 }
 
 const App = (props: IProp) => {
+    const toast = useToast();
     const { handleSubmit, errors, register, formState } = useForm();
-    const onSubmit = (values: any) => {
+    const [signIn, result] = useSignInMutation();
+    const onSubmit = async (values: any) => {
         console.log(values);
+        try {
+            const result = await signIn({
+                variables: {
+                    params: {
+                        email: values.email,
+                        password: values.password
+                    }
+                }
+            });
+            if (result.data?.signInUser) {
+                const session = result.data?.signInUser;
+                localStorage.setItem("access-token", session.access_token);
+                router.replace("/");
+            }
+        } catch(e: any) {
+            for (const errors of e.graphQLErrors) {
+                if (errors.extensions.code == StatusCodes.UNAUTHORIZED) {
+                    toast({
+                        title: "이메일 또는 비밀번호가 틀렸습니다",
+                        status: "error",
+                        duration: 3000,
+                        isClosable: true
+                    });
+                } else {
+                    toast({
+                        title: "로그인 중 문제가 발생했습니다",
+                        status: "error",
+                        duration: 3000,
+                        isClosable: true
+                    });
+                }
+            }
+            console.error(e.message);
+        }
     }
-    console.error(errors);
     return <Box bg="gray.50" height="100vh">
         <Box w={300} mx="auto" px="1em">
             <Box py={10}>
@@ -24,35 +62,18 @@ const App = (props: IProp) => {
                         placeholder="이메일"
                         bg="white"
                         ref={register({
-                            required: {
-                                value: true,
-                                message: "필수 입력 항목입니다."
-                            },
-                            pattern: {
-                                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                message: "올바른 이메일을 입력해주세요."
-                            }
+                            required: true
                         })}/>
+                </FormControl>
+                <FormControl isInvalid={errors.password} isRequired>
                     <Input
                         name="password"
+                        type="password"
                         placeholder="비밀번호"
                         bg="white"
                         ref={register({
-                            required: {
-                                value: true,
-                                message: "필수 입력 항목입니다."
-                            },
-                            minLength: {
-                                value: 8,
-                                message: "8자 이상 입력해주세요."
-                            }
+                            required: true
                         })}/>
-                        <FormErrorMessage>
-                            {errors.email&&errors.email.message}
-                        </FormErrorMessage>
-                        <FormErrorMessage>
-                            {errors.password&&errors.password.message}
-                        </FormErrorMessage>
                 </FormControl>
                 <Button
                     mt={4}

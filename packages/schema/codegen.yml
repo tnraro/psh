@@ -1,0 +1,27 @@
+overwrite: true
+schema: "schema/**/*.graphql"
+documents: "docs/**/*.graphql"
+generates:
+  ./generated/resolvers.ts:
+    config:
+      useIndexSignature: true
+      defaultMapper: Partial<{T}>
+    plugins:
+      - "typescript"
+      - "typescript-resolvers"
+  ./generated/operations.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
+  ./generated/graphql.schema.json:
+    config:
+      minify: true
+    plugins:
+      - "introspection"
+  ./generated/schema.graphql:
+    config:
+      - sort: true
+      - commentDescriptions: true
+    plugins:
+      - "schema-ast"

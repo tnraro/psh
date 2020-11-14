@@ -1,0 +1,7 @@
+#import * from "Device.graphql"
+
+type Home {
+    id: ID
+    name: String
+    devices: [Device]
+}

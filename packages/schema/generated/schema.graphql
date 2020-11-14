@@ -1,0 +1,61 @@
+type Device {
+  id: ID
+  owner: User
+}
+
+type User {
+  devices: [Device]
+  email: String
+  home: Home
+  id: ID
+  roles: Roles
+  terms: Terms
+  username: String
+}
+
+type Roles {
+  admin: Boolean
+}
+
+type Terms {
+  agelimit: Boolean
+  privacy: Boolean
+  promotion: Boolean
+  usepolicy: Boolean
+}
+
+type Home {
+  devices: [Device]
+  id: ID
+  name: String
+}
+
+type Session {
+  access_token: ID!
+  user: User
+}
+
+input NewUserInput {
+  agelimit: Boolean!
+  email: String!
+  password: String!
+  privacy: Boolean!
+  promotion: Boolean!
+  usepolicy: Boolean!
+  username: String!
+}
+
+input SignInUserInput {
+  email: String!
+  password: String!
+}
+
+type Query {
+  user(id: ID!): User
+  me: User
+}
+
+type Mutation {
+  newUser(user: NewUserInput!): Session
+  signInUser(user: SignInUserInput!): Session
+}

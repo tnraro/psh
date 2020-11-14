@@ -21,6 +21,7 @@
     "@psh/schema": "0.0.0",
     "framer-motion": "^2.9.4",
     "graphql": "^15.4.0",
+    "http-status-codes": "^2.1.4",
     "next": "^10.0.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",

@@ -14,7 +14,8 @@ import {
 } from "@chakra-ui/core";
 import TermsCheckbox from "./TermsCheckbox";
 import router from "next/router";
-import { gql, useMutation } from "@apollo/client";
+import { useNewUserMutation } from "@psh/schema/dist/generated/operations";
+import { StatusCodes } from "http-status-codes";
 
 type TermsItems = {
     id: string;
@@ -24,24 +25,10 @@ type TermsItems = {
     isChecked: boolean;
 };
 
-const NEW_USER = gql`
-mutation NewUser($user: NewUserInput!) {
-    newUser(user: $user) {
-        code
-        success
-        message
-        user {
-            id
-            username
-        }
-    }
-}
-`;
-
 const Form = () => {
     const toast = useToast();
     const { handleSubmit, errors, register, formState, watch } = useForm();
-    const [newUser, result] = useMutation(NEW_USER);
+    const [newUser, result] = useNewUserMutation();
     const [termsItems, setTermsItems] = useState<TermsItems[]>([
         {
             id: "agelimit",
@@ -116,43 +103,40 @@ const Form = () => {
         try {
             const result = await newUser({
                 variables: {
-                    user: {
+                    params: {
                         email: values.email,
                         username: values.username,
                         password: values.password,
-                        terms: {
-                            agelimit: values.agelimit,
-                            usepolicy: values.usepolicy,
-                            privacy: values.privacy,
-                            promotion: values.promotion,
-                        }
+                        agelimit: values.agelimit,
+                        usepolicy: values.usepolicy,
+                        privacy: values.privacy,
+                        promotion: values.promotion
                     }
                 }
             });
-            if (result.data.newUser)  {
-                const data = result.data.newUser;
-                if (data.success) {
-                    console.log(data);
-                    router.replace("/");
+            if (result.data?.newUser)  {
+                const session = result.data.newUser;
+                localStorage.setItem("access-token", session.access_token);
+                router.replace("/");
+            }
+        } catch (e: any) {
+            for (const errors of e.graphQLErrors) {
+                if (errors.extensions.code == StatusCodes.CONFLICT) {
+                    toast({
+                        title: "이미 가입한 이메일입니다",
+                        status: "error",
+                        duration: 3000,
+                        isClosable: true
+                    });
                 } else {
-                    if (data.code === "409") {
-                        toast({
-                            title: "이미 가입한 이메일입니다",
-                            status: "error",
-                            duration: 3000,
-                            isClosable: true
-                        });
-                    } else {
-                        toast({
-                            title: "회원가입 중 문제가 발생했습니다",
-                            status: "error",
-                            duration: 3000,
-                            isClosable: true
-                        });
-                    }
+                    toast({
+                        title: "회원가입 중 문제가 발생했습니다",
+                        status: "error",
+                        duration: 3000,
+                        isClosable: true
+                    });
                 }
             }
-        } catch (e) {
             console.error(e.message);
         }
     }
