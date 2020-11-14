@@ -1,9 +1,8 @@
-import { Button, Link } from "@chakra-ui/core";
+import { Box, Button, Divider, Flex, Link, Spacer } from "@chakra-ui/core";
 import Logo from "@/comps/Logo";
 import React from "react";
 import { ApolloClient } from "@apollo/client";
 import { MeQuery } from "@psh/schema/dist/generated/operations";
-import router from "next/router";
 
 interface IProps {
     client: ApolloClient<any>;
@@ -14,26 +13,33 @@ const Header = (props: IProps) => {
     const handleLogout = () => {
         props.client.clearStore();
         localStorage.setItem("access-token", "");
-        router.reload();
+        location.reload();
     }
-    return <div>
-        <div>
+    return <>
+        <Flex py={{ base: 2, md: 5 }} px={{ base: 1, md: 5 }}>
             <Logo />
-        </div>
-        <nav>
-            <Link m={1} href="/home">우리 집</Link>
-            <Link m={1} href="/devices">내 장치</Link>
-            <Link m={1} href="/cat">고먐미</Link>
-        </nav>
-        <div>
-            {props.me ? <>
-                <Link onClick={handleLogout}>로그아웃</Link>
-            </> : <>
-                <Link m={1} href="/users/sign-in">로그인</Link>
-                <Link m={1} href="/users/new">회원가입</Link>
-            </>}
-        </div>
-    </div>
+            <Spacer />
+            <Box as="nav">
+                {props.me
+                    && <>
+                        <Link mx={1} py={5} px={{ base: 1, md: 5 }} href="/home">우리 집</Link>
+                        <Link mx={1} py={5} px={{ base: 1, md: 5 }} href="/devices">내 장치</Link>
+                    </>
+                }
+            </Box>
+            <Spacer />
+            <Box>
+                {props.me
+                    ? <Link mx={1} p={5} onClick={handleLogout}>로그아웃</Link>
+                    : <>
+                        <Link mx={1} p={5} href="/users/sign-in">로그인</Link>
+                        <Link mx={1} p={5} href="/users/new">회원가입</Link>
+                    </>
+                } 
+            </Box>
+        </Flex>
+        <Divider />
+    </>;
 }
 
 export default Header;
