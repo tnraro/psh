@@ -2,7 +2,6 @@ import { Box, Button, FormControl, FormErrorMessage, FormHelperText, FormLabel, 
 import { useForm } from "react-hook-form";
 import Logo from "@/comps/Logo";
 import { useSignInMutation } from "@psh/schema/dist/generated/operations";
-import router from "next/router";
 import { StatusCodes } from "http-status-codes";
 
 interface IProp {
@@ -27,7 +26,7 @@ const App = (props: IProp) => {
             if (result.data?.signInUser) {
                 const session = result.data?.signInUser;
                 localStorage.setItem("access-token", session.access_token);
-                router.replace("/");
+                location.replace("/");
             }
         } catch(e: any) {
             for (const errors of e.graphQLErrors) {

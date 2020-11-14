@@ -116,7 +116,7 @@ const Form = () => {
             if (result.data?.newUser)  {
                 const session = result.data.newUser;
                 localStorage.setItem("access-token", session.access_token);
-                location.reload();
+                location.replace("/");
             }
         } catch (e: any) {
             for (const errors of e.graphQLErrors) {
