@@ -13,7 +13,6 @@ import {
     useToast
 } from "@chakra-ui/core";
 import TermsCheckbox from "./TermsCheckbox";
-import router from "next/router";
 import { useNewUserMutation } from "@psh/schema/dist/generated/operations";
 import { StatusCodes } from "http-status-codes";
 
@@ -117,7 +116,7 @@ const Form = () => {
             if (result.data?.newUser)  {
                 const session = result.data.newUser;
                 localStorage.setItem("access-token", session.access_token);
-                router.replace("/");
+                location.reload();
             }
         } catch (e: any) {
             for (const errors of e.graphQLErrors) {

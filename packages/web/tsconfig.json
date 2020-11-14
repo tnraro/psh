@@ -22,5 +22,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
+  ],
+  "files": [
+    ".env/config.ts"
   ]
 }
