@@ -1,14 +1,15 @@
-import newUser from "./newUser";
-import users from "./users";
+import { IContext } from "./types";
+import { Resolvers } from "@psh/schema/dist/generated/resolvers";
+import Query from "./Query";
+import Mutation from "./Mutation";
+import User from "./User";
+import Session from "./Session";
 
-const Query = {
-    users
-};
-
-const Mutation = {
-    newUser
-};
-
-export default {
+const resolvers: Resolvers<IContext> = {
+    User,
+    Session,
+    Query,
     Mutation
 };
+
+export default resolvers;

@@ -1,10 +1,10 @@
+/*
 import tnid from "tnid";
 import bcrypt from "bcrypt";
-import { Resolver } from "./types";
-import { INewUserInput, INewUserResponse, IUser } from "@psh/schema";
+import type { NewUserInput,  } from "@psh/schema/generated/graphql";
 
 export interface IArgs {
-    user: INewUserInput
+    user: NewUserInput
 }
 
 const resolver: Resolver<IArgs, INewUserResponse> = async (parent, args, context, info) => {
@@ -48,3 +48,4 @@ const resolver: Resolver<IArgs, INewUserResponse> = async (parent, args, context
 };
 
 export default resolver;
+*/

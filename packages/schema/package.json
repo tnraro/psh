@@ -1,16 +1,29 @@
 {
   "name": "@psh/schema",
   "version": "0.0.0",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
   "license": "MIT",
   "private": true,
   "scripts": {
+    "dev": "graphql-codegen --config codegen.yml --watch",
+    "generate": "graphql-codegen --config codegen.yml",
+    "prebuild": "yarn generate",
     "build": "tsc --build",
     "start": "node dist/index.js"
   },
   "dependencies": {
     "apollo-server": "^2.19.0",
-    "graphql": "^15.4.0"
+    "graphql": "^15.4.0",
+    "graphql-tools": "^7.0.1"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "1.19.1",
+    "@graphql-codegen/introspection": "1.18.0",
+    "@graphql-codegen/schema-ast": "^1.18.0",
+    "@graphql-codegen/typescript": "1.17.11",
+    "@graphql-codegen/typescript-operations": "1.17.9",
+    "@graphql-codegen/typescript-react-apollo": "2.1.1",
+    "@graphql-codegen/typescript-resolvers": "1.17.10"
   }
 }

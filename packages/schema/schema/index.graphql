@@ -1,0 +1,12 @@
+#import * from "User.graphql"
+#import * from "Home.graphql"
+
+type Query {
+    user(id: ID!): User
+    me: User
+}
+
+type Mutation {
+    newUser(user: NewUserInput!): Session
+    signInUser(user: SignInUserInput!): Session
+}

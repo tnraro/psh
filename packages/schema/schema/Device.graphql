@@ -1,0 +1,6 @@
+#import * from "User.graphql"
+
+type Device {
+    id: ID
+    owner: User
+}

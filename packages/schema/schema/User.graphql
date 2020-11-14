@@ -1,0 +1,38 @@
+#import * from "Device.graphql"
+#import * from "Home.graphql"
+
+type Terms {
+    agelimit: Boolean
+    usepolicy: Boolean
+    privacy: Boolean
+    promotion: Boolean
+}
+type Roles {
+    admin: Boolean
+}
+type User {
+    id: ID
+    email: String
+    username: String
+    roles: Roles
+    terms: Terms
+    devices: [Device]
+    home: Home
+}
+type Session {
+    access_token: ID!
+    user: User
+}
+input NewUserInput {
+    email: String!
+    username: String!
+    password: String!
+    agelimit: Boolean!
+    usepolicy: Boolean!
+    privacy: Boolean!
+    promotion: Boolean!
+}
+input SignInUserInput {
+    email: String!
+    password: String!
+}
