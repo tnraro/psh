@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import Logo from "@/comps/Logo";
 import { useSignInMutation } from "@psh/schema/dist/generated/operations";
 import { StatusCodes } from "http-status-codes";
+import NextLink from "next/link";
 
 interface IProp {
 
@@ -85,8 +86,12 @@ const App = (props: IProp) => {
                 </Button>
             </form>
             <Box textAlign="center" fontSize="0.9em" color="gray.600" my={3}>
-                <Link display="inline-display" mx={5}>비밀번호 재설정</Link>
-                <Link display="inline-display" mx={5} href="/users/new">회원가입</Link>
+                <NextLink href="/users/password/new">
+                    <Link display="inline-display" mx={5}>비밀번호 재설정</Link>
+                </NextLink>
+                <NextLink href="/users/new">
+                    <Link display="inline-display" mx={5}>회원가입</Link>
+                </NextLink>
             </Box>
         </Box>
     </Box>;

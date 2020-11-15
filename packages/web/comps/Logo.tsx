@@ -1,14 +1,14 @@
 import { Image } from "@chakra-ui/react";
+import Link from "next/link";
 
 interface ILogo {
     to?: string;
 }
 
 const Logo = (props: ILogo) => {
-    return <a href={props.to || "/"}>
+    return <Link href={props.to || "/"}>
         PSH Logo
-        <Image src=""/>
-    </a>;
+    </Link>;
 }
 
 export default Logo;
