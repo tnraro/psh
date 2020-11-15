@@ -1,7 +1,10 @@
 #import * from "Device.graphql"
+#import * from "User.graphql"
 
 type Home {
     id: ID
     name: String
+    family: [User]
+    admins: [User]
     devices: [Device]
 }

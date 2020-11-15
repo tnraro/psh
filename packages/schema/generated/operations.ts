@@ -13,8 +13,15 @@ export type Scalars = {
 
 export type Device = {
   __typename?: 'Device';
+  alias?: Maybe<Scalars['String']>;
+  home?: Maybe<Home>;
   id?: Maybe<Scalars['ID']>;
+  lastOnline?: Maybe<Scalars['String']>;
+  online?: Maybe<Scalars['Boolean']>;
   owner?: Maybe<User>;
+  private?: Maybe<Scalars['Boolean']>;
+  status?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['String']>;
 };
 
 export type User = {
@@ -43,7 +50,9 @@ export type Terms = {
 
 export type Home = {
   __typename?: 'Home';
+  admins?: Maybe<Array<Maybe<User>>>;
   devices?: Maybe<Array<Maybe<Device>>>;
+  family?: Maybe<Array<Maybe<User>>>;
   id?: Maybe<Scalars['ID']>;
   name?: Maybe<Scalars['String']>;
 };
@@ -84,6 +93,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   newUser?: Maybe<Session>;
   signInUser?: Maybe<Session>;
+  tnid?: Maybe<Scalars['ID']>;
 };
 
 

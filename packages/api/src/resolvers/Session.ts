@@ -3,9 +3,8 @@ import { SessionResolvers } from "@psh/schema/dist/generated/resolvers";
 import { StatusCodes } from "http-status-codes";
 import { PshError } from "../errors";
 import { mapUser } from "../mappers/User";
-import { IContext } from "./types";
 
-const resolvers: SessionResolvers<IContext> = {
+const resolvers: SessionResolvers = {
     async user(parent, _, context) {
         if (!parent.access_token) {
             throw PshError(StatusCodes.BAD_REQUEST);

@@ -1,9 +1,8 @@
-import { ApolloServer, gql } from "apollo-server";
-import schema from "@psh/schema";
-import { getUserById, IDBUser } from "@psh/db/dist/User";
 import getPool from "@psh/db";
+import { getUserById } from "@psh/db/dist/User";
+import schema from "@psh/schema";
+import { ApolloServer } from "apollo-server";
 import resolvers from "./resolvers";
-import { RowDataPacket } from "mysql2/promise";
 
 const main = async () => {
     const pool = await getPool();

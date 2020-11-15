@@ -28,6 +28,12 @@ export const getUserByEmail = async (pool: Pool, email: string): Promise<IDBUser
     const user = (<IDBUser[]>rows)[0];
     return user;
 }
+export const getFamily = async (pool: Pool, id: string): Promise<IDBUser[]> => {
+    const QUERY = "SELECT * FROM `customer`.`User` WHERE `homeId`=?";
+    const [rows] = await pool.execute(QUERY, [id]);
+    const users = (<IDBUser[]>rows);
+    return users;
+}
 export const newUser = async (pool: Pool, user: IDBUser) => {
     return await pool.execute(
         "INSERT INTO `customer`.`User` (`tnid`, `email`, `hashedPassword`, `username`, `terms`) VALUES (?,?,?,?,?);",

@@ -11942,10 +11942,10 @@ tmp@^0.0.33:
   dependencies:
     os-tmpdir "~1.0.2"
 
-tnid@0.0.0:
-  version "0.0.0"
-  resolved "https://registry.yarnpkg.com/tnid/-/tnid-0.0.0.tgz#d05c850a549076a12a3301b2bb0d8af52033a16c"
-  integrity sha512-E9NLY8O1H9RqgDT1IZ2hWUWlni8TWShBzbySIjYYEjNtpKhJ0dU6p7oyC3N1Pp9wD9ub3cAr4Lv61xyN1H6TwQ==
+tnid@0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/tnid/-/tnid-0.0.3.tgz#1095326eeb95e782d80eff37b6fa83cba7797cd2"
+  integrity sha512-uYUJv8gJljePs4MdftTHu0MsKvFz3pl5zUdJ4AeUBsMurzAXcF1F1hBl+DE6VWbkLn2SmVfdD44yzm8BFSrNeA==
 
 to-arraybuffer@^1.0.0:
   version "1.0.1"
