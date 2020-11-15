@@ -8,9 +8,9 @@ generates:
       defaultMapper: Partial<{T}>
       contextType: "@psh/api/src/resolvers/types#IContext"
       mappers:
-        User: "@psh/api/src/mappers/User#UserWithID"
-        Device: "@psh/api/src/mappers/Device#DeviceWithID"
-        Home: "@psh/api/src/mappers/Home#HomeWithID"
+        User: "@/mappers#MappedUser"
+        Device: "@/mappers#MappedDevice"
+        Home: "@/mappers#MappedHome"
     plugins:
       - "typescript"
       - "typescript-resolvers"

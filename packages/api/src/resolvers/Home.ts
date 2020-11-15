@@ -1,4 +1,4 @@
-import { PshError } from "@psh/api/src/errors";
+import { PshError } from "../errors";
 import { getDevicesByHome } from "@psh/db/dist/Device";
 import { getFamily } from "@psh/db/dist/User";
 import type { HomeResolvers } from "@psh/schema/dist/generated/resolvers";
