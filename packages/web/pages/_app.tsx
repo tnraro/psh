@@ -1,5 +1,5 @@
 import type { AppProps } from "next/app";
-import { ChakraProvider } from "@chakra-ui/core";
+import { ChakraProvider } from "@chakra-ui/react";
 import { ApolloProvider, ApolloClient, InMemoryCache, gql, createHttpLink } from "@apollo/client";
 import "@/styles/styles.css";
 import theme from "@/styles/theme";

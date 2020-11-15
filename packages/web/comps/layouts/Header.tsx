@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Flex, Link, Spacer } from "@chakra-ui/core";
+import { Box, Button, Divider, Flex, Link, Spacer } from "@chakra-ui/react";
 import Logo from "@/comps/Logo";
 import React from "react";
 import { ApolloClient } from "@apollo/client";

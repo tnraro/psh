@@ -1,10 +1,6 @@
-import Logo from "@/comps/Logo";
 import Form from "@/comps/layouts/users/new/Form";
-import {
-    Box,
-    Link,
-    Spacer
-} from "@chakra-ui/core";
+import Logo from "@/comps/Logo";
+import { Box, Link, Text, Heading } from "@chakra-ui/react";
 
 const App = () => {
     return <>

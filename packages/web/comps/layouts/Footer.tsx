@@ -1,4 +1,4 @@
-import { Box, Link, Stack } from "@chakra-ui/core";
+import { Box, Link, Stack } from "@chakra-ui/react";
 
 const Footer = () => {
     return <Stack>

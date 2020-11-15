@@ -11,7 +11,7 @@ import {
     Checkbox,
     Divider,
     useToast
-} from "@chakra-ui/core";
+} from "@chakra-ui/react";
 import TermsCheckbox from "./TermsCheckbox";
 import { useNewUserMutation } from "@psh/schema/dist/generated/operations";
 import { StatusCodes } from "http-status-codes";

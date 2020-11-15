@@ -1,4 +1,4 @@
-import { Box, Checkbox } from "@chakra-ui/core";
+import { Box, Checkbox } from "@chakra-ui/react";
 import React, { ChangeEvent } from "react";
 
 interface IProp {

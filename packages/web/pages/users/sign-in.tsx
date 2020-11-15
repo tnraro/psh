@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, FormErrorMessage, FormHelperText, FormLabel, Input, Link, useToast } from "@chakra-ui/core";
+import { Box, Button, FormControl, FormErrorMessage, FormHelperText, FormLabel, Input, Link, useToast } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import Logo from "@/comps/Logo";
 import { useSignInMutation } from "@psh/schema/dist/generated/operations";

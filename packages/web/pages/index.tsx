@@ -1,7 +1,7 @@
 import Header from "@/comps/layouts/Header";
-import { Box, Button, Stat, StatHelpText, StatLabel } from "@chakra-ui/core";
+import { Box, Stat, StatHelpText, StatLabel } from "@chakra-ui/react";
 import { useMeQuery } from "@psh/schema/dist/generated/operations";
-import React, { useEffect } from "react";
+import React from "react";
 
 const App = () => {
     const { client, loading, data } = useMeQuery();

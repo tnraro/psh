@@ -17,7 +17,9 @@
   },
   "dependencies": {
     "@apollo/client": "^3.2.5",
-    "@chakra-ui/core": "^1.0.0-rc.8",
+    "@chakra-ui/react": "^1.0.0",
+    "@emotion/react": "^11.0.0",
+    "@emotion/styled": "^11.0.0",
     "@psh/schema": "0.0.0",
     "apollo-link": "^1.2.14",
     "framer-motion": "^2.9.4",
@@ -26,6 +28,7 @@
     "next": "^10.0.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "react-hook-form": "^6.11.0"
+    "react-hook-form": "^6.11.0",
+    "react-icons": "^3.11.0"
   }
 }
