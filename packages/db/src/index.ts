@@ -2,6 +2,10 @@ import mysql from "mysql2/promise";
 import { resolve } from "path";
 import fs from "fs/promises";
 
+export * as Device from "./Device";
+export * as Home from "./Home";
+export * as User from "./User";
+
 async function loadConfig(): Promise<any> {
     const path = resolve(__dirname, "../.env/db-config.json");
     const data = await fs.readFile(path)

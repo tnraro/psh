@@ -1,6 +1,14 @@
 #import * from "User.graphql"
+#import * from "Home.graphql"
 
 type Device {
     id: ID
+    type: String
+    alias: String
+    private: Boolean
+    online: Boolean
     owner: User
+    home: Home
+    lastOnline: String
+    status: String
 }

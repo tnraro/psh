@@ -9,4 +9,5 @@ type Query {
 type Mutation {
     newUser(user: NewUserInput!): Session
     signInUser(user: SignInUserInput!): Session
+    tnid: ID
 }

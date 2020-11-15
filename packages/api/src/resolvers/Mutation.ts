@@ -1,14 +1,12 @@
-import tnid from "tnid";
-import bcrypt, { compare } from "bcrypt";
-import { IContext } from "./types";
-import type { Mutation, MutationResolvers } from "@psh/schema/dist/generated/resolvers";
-import { ApolloError, UserInputError } from "apollo-server";
 import { getUserByEmail, IDBUser, newUser } from "@psh/db/dist/User";
-import { mapUser } from "../mappers/User";
-import { PshError } from "../errors";
+import type { MutationResolvers } from "@psh/schema/dist/generated/resolvers";
+import bcrypt, { compare } from "bcrypt";
 import { StatusCodes } from "http-status-codes";
+import tnid from "tnid";
+import { PshError } from "../errors";
+import { mapUser } from "../mappers/User";
 
-const resolvers: MutationResolvers<IContext> = {
+const resolvers: MutationResolvers = {
     async newUser(parent, args, { pool }) {
         if (!(args.user.agelimit && args.user.usepolicy && args.user.privacy)) {
             throw PshError(StatusCodes.BAD_REQUEST);
@@ -62,6 +60,9 @@ const resolvers: MutationResolvers<IContext> = {
             access_token: user.tnid,
             user: mapUser(user)
         };
+    },
+    tnid() {
+        return tnid(4);
     }
 };
 

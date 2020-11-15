@@ -1,6 +1,13 @@
 type Device {
+  alias: String
+  home: Home
   id: ID
+  lastOnline: String
+  online: Boolean
   owner: User
+  private: Boolean
+  status: String
+  type: String
 }
 
 type User {
@@ -25,7 +32,9 @@ type Terms {
 }
 
 type Home {
+  admins: [User]
   devices: [Device]
+  family: [User]
   id: ID
   name: String
 }
@@ -58,4 +67,5 @@ type Query {
 type Mutation {
   newUser(user: NewUserInput!): Session
   signInUser(user: SignInUserInput!): Session
+  tnid: ID
 }

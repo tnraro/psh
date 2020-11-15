@@ -1,6 +1,11 @@
 import { GraphQLResolveInfo } from 'graphql';
+import { UserWithID } from '@psh/api/src/mappers/User';
+import { DeviceWithID } from '@psh/api/src/mappers/Device';
+import { HomeWithID } from '@psh/api/src/mappers/Home';
+import { IContext } from '@psh/api/src/resolvers/types';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 export type RequireFields<T, K extends keyof T> = { [X in Exclude<keyof T, K>]?: T[X] } & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -13,8 +18,15 @@ export type Scalars = {
 
 export type Device = {
   __typename?: 'Device';
+  alias?: Maybe<Scalars['String']>;
+  home?: Maybe<Home>;
   id?: Maybe<Scalars['ID']>;
+  lastOnline?: Maybe<Scalars['String']>;
+  online?: Maybe<Scalars['Boolean']>;
   owner?: Maybe<User>;
+  private?: Maybe<Scalars['Boolean']>;
+  status?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['String']>;
 };
 
 export type User = {
@@ -43,7 +55,9 @@ export type Terms = {
 
 export type Home = {
   __typename?: 'Home';
+  admins?: Maybe<Array<Maybe<User>>>;
   devices?: Maybe<Array<Maybe<Device>>>;
+  family?: Maybe<Array<Maybe<User>>>;
   id?: Maybe<Scalars['ID']>;
   name?: Maybe<Scalars['String']>;
 };
@@ -84,6 +98,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   newUser?: Maybe<Session>;
   signInUser?: Maybe<Session>;
+  tnid?: Maybe<Scalars['ID']>;
 };
 
 
@@ -175,15 +190,15 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
-  Device: ResolverTypeWrapper<Partial<Device>>;
-  ID: ResolverTypeWrapper<Partial<Scalars['ID']>>;
-  User: ResolverTypeWrapper<Partial<User>>;
+  Device: ResolverTypeWrapper<DeviceWithID>;
   String: ResolverTypeWrapper<Partial<Scalars['String']>>;
-  Roles: ResolverTypeWrapper<Partial<Roles>>;
+  ID: ResolverTypeWrapper<Partial<Scalars['ID']>>;
   Boolean: ResolverTypeWrapper<Partial<Scalars['Boolean']>>;
+  User: ResolverTypeWrapper<UserWithID>;
+  Roles: ResolverTypeWrapper<Partial<Roles>>;
   Terms: ResolverTypeWrapper<Partial<Terms>>;
-  Home: ResolverTypeWrapper<Partial<Home>>;
-  Session: ResolverTypeWrapper<Partial<Session>>;
+  Home: ResolverTypeWrapper<HomeWithID>;
+  Session: ResolverTypeWrapper<Partial<Omit<Session, 'user'> & { user?: Maybe<ResolversTypes['User']> }>>;
   NewUserInput: ResolverTypeWrapper<Partial<NewUserInput>>;
   SignInUserInput: ResolverTypeWrapper<Partial<SignInUserInput>>;
   Query: ResolverTypeWrapper<{}>;
@@ -192,28 +207,35 @@ export type ResolversTypes = ResolversObject<{
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
-  Device: Partial<Device>;
-  ID: Partial<Scalars['ID']>;
-  User: Partial<User>;
+  Device: DeviceWithID;
   String: Partial<Scalars['String']>;
-  Roles: Partial<Roles>;
+  ID: Partial<Scalars['ID']>;
   Boolean: Partial<Scalars['Boolean']>;
+  User: UserWithID;
+  Roles: Partial<Roles>;
   Terms: Partial<Terms>;
-  Home: Partial<Home>;
-  Session: Partial<Session>;
+  Home: HomeWithID;
+  Session: Partial<Omit<Session, 'user'> & { user?: Maybe<ResolversParentTypes['User']> }>;
   NewUserInput: Partial<NewUserInput>;
   SignInUserInput: Partial<SignInUserInput>;
   Query: {};
   Mutation: {};
 }>;
 
-export type DeviceResolvers<ContextType = any, ParentType extends ResolversParentTypes['Device'] = ResolversParentTypes['Device']> = ResolversObject<{
+export type DeviceResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['Device'] = ResolversParentTypes['Device']> = ResolversObject<{
+  alias?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  home?: Resolver<Maybe<ResolversTypes['Home']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  lastOnline?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  online?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   owner?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  private?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  status?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  type?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
+export type UserResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
   devices?: Resolver<Maybe<Array<Maybe<ResolversTypes['Device']>>>, ParentType, ContextType>;
   email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   home?: Resolver<Maybe<ResolversTypes['Home']>, ParentType, ContextType>;
@@ -224,12 +246,12 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type RolesResolvers<ContextType = any, ParentType extends ResolversParentTypes['Roles'] = ResolversParentTypes['Roles']> = ResolversObject<{
+export type RolesResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['Roles'] = ResolversParentTypes['Roles']> = ResolversObject<{
   admin?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type TermsResolvers<ContextType = any, ParentType extends ResolversParentTypes['Terms'] = ResolversParentTypes['Terms']> = ResolversObject<{
+export type TermsResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['Terms'] = ResolversParentTypes['Terms']> = ResolversObject<{
   agelimit?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   privacy?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   promotion?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
@@ -237,30 +259,33 @@ export type TermsResolvers<ContextType = any, ParentType extends ResolversParent
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type HomeResolvers<ContextType = any, ParentType extends ResolversParentTypes['Home'] = ResolversParentTypes['Home']> = ResolversObject<{
+export type HomeResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['Home'] = ResolversParentTypes['Home']> = ResolversObject<{
+  admins?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
   devices?: Resolver<Maybe<Array<Maybe<ResolversTypes['Device']>>>, ParentType, ContextType>;
+  family?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type SessionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Session'] = ResolversParentTypes['Session']> = ResolversObject<{
+export type SessionResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['Session'] = ResolversParentTypes['Session']> = ResolversObject<{
   access_token?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+export type QueryResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
   me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
 }>;
 
-export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
+export type MutationResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   newUser?: Resolver<Maybe<ResolversTypes['Session']>, ParentType, ContextType, RequireFields<MutationNewUserArgs, 'user'>>;
   signInUser?: Resolver<Maybe<ResolversTypes['Session']>, ParentType, ContextType, RequireFields<MutationSignInUserArgs, 'user'>>;
+  tnid?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
 }>;
 
-export type Resolvers<ContextType = any> = ResolversObject<{
+export type Resolvers<ContextType = IContext> = ResolversObject<{
   Device?: DeviceResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
   Roles?: RolesResolvers<ContextType>;
@@ -276,4 +301,4 @@ export type Resolvers<ContextType = any> = ResolversObject<{
  * @deprecated
  * Use "Resolvers" root object instead. If you wish to get "IResolvers", add "typesPrefix: I" to your config.
  */
-export type IResolvers<ContextType = any> = Resolvers<ContextType>;
+export type IResolvers<ContextType = IContext> = Resolvers<ContextType>;
