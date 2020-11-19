@@ -93,6 +93,8 @@ export type Mutation = {
   __typename?: 'Mutation';
   newUser?: Maybe<Session>;
   signInUser?: Maybe<Session>;
+  newHome?: Maybe<Home>;
+  joinHome?: Maybe<Home>;
   tnid?: Maybe<Scalars['ID']>;
 };
 
@@ -105,6 +107,42 @@ export type MutationNewUserArgs = {
 export type MutationSignInUserArgs = {
   user: SignInUserInput;
 };
+
+
+export type MutationNewHomeArgs = {
+  name: Scalars['String'];
+};
+
+
+export type MutationJoinHomeArgs = {
+  home: Scalars['String'];
+};
+
+export type NewHomeMutationVariables = Exact<{
+  name: Scalars['String'];
+}>;
+
+
+export type NewHomeMutation = (
+  { __typename?: 'Mutation' }
+  & { newHome?: Maybe<(
+    { __typename?: 'Home' }
+    & Pick<Home, 'id' | 'name'>
+  )> }
+);
+
+export type JoinHomeMutationVariables = Exact<{
+  homeId: Scalars['String'];
+}>;
+
+
+export type JoinHomeMutation = (
+  { __typename?: 'Mutation' }
+  & { joinHome?: Maybe<(
+    { __typename?: 'Home' }
+    & Pick<Home, 'id' | 'name'>
+  )> }
+);
 
 export type NewUserMutationVariables = Exact<{
   params: NewUserInput;
@@ -151,6 +189,32 @@ export type MeQuery = (
   )> }
 );
 
+export type MyHomeQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MyHomeQuery = (
+  { __typename?: 'Query' }
+  & { me?: Maybe<(
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'email' | 'username'>
+    & { home?: Maybe<(
+      { __typename?: 'Home' }
+      & Pick<Home, 'id' | 'name'>
+      & { family?: Maybe<Array<Maybe<(
+        { __typename?: 'User' }
+        & Pick<User, 'id' | 'email' | 'username'>
+      )>>>, devices?: Maybe<Array<Maybe<(
+        { __typename?: 'Device' }
+        & Pick<Device, 'id' | 'type' | 'alias' | 'private' | 'online' | 'status'>
+        & { owner?: Maybe<(
+          { __typename?: 'User' }
+          & Pick<User, 'id' | 'username'>
+        )> }
+      )>>> }
+    )> }
+  )> }
+);
+
 export type UserQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -182,6 +246,72 @@ export type GetUserByIdQuery = (
 );
 
 
+export const NewHomeDocument = gql`
+    mutation NewHome($name: String!) {
+  newHome(name: $name) {
+    id
+    name
+  }
+}
+    `;
+export type NewHomeMutationFn = Apollo.MutationFunction<NewHomeMutation, NewHomeMutationVariables>;
+
+/**
+ * __useNewHomeMutation__
+ *
+ * To run a mutation, you first call `useNewHomeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useNewHomeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [newHomeMutation, { data, loading, error }] = useNewHomeMutation({
+ *   variables: {
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useNewHomeMutation(baseOptions?: Apollo.MutationHookOptions<NewHomeMutation, NewHomeMutationVariables>) {
+        return Apollo.useMutation<NewHomeMutation, NewHomeMutationVariables>(NewHomeDocument, baseOptions);
+      }
+export type NewHomeMutationHookResult = ReturnType<typeof useNewHomeMutation>;
+export type NewHomeMutationResult = Apollo.MutationResult<NewHomeMutation>;
+export type NewHomeMutationOptions = Apollo.BaseMutationOptions<NewHomeMutation, NewHomeMutationVariables>;
+export const JoinHomeDocument = gql`
+    mutation JoinHome($homeId: String!) {
+  joinHome(home: $homeId) {
+    id
+    name
+  }
+}
+    `;
+export type JoinHomeMutationFn = Apollo.MutationFunction<JoinHomeMutation, JoinHomeMutationVariables>;
+
+/**
+ * __useJoinHomeMutation__
+ *
+ * To run a mutation, you first call `useJoinHomeMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useJoinHomeMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [joinHomeMutation, { data, loading, error }] = useJoinHomeMutation({
+ *   variables: {
+ *      homeId: // value for 'homeId'
+ *   },
+ * });
+ */
+export function useJoinHomeMutation(baseOptions?: Apollo.MutationHookOptions<JoinHomeMutation, JoinHomeMutationVariables>) {
+        return Apollo.useMutation<JoinHomeMutation, JoinHomeMutationVariables>(JoinHomeDocument, baseOptions);
+      }
+export type JoinHomeMutationHookResult = ReturnType<typeof useJoinHomeMutation>;
+export type JoinHomeMutationResult = Apollo.MutationResult<JoinHomeMutation>;
+export type JoinHomeMutationOptions = Apollo.BaseMutationOptions<JoinHomeMutation, JoinHomeMutationVariables>;
 export const NewUserDocument = gql`
     mutation NewUser($params: NewUserInput!) {
   newUser(user: $params) {
@@ -290,6 +420,61 @@ export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
+export const MyHomeDocument = gql`
+    query MyHome {
+  me {
+    id
+    email
+    username
+    home {
+      id
+      name
+      family {
+        id
+        email
+        username
+      }
+      devices {
+        id
+        type
+        alias
+        private
+        online
+        owner {
+          id
+          username
+        }
+        status
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useMyHomeQuery__
+ *
+ * To run a query within a React component, call `useMyHomeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMyHomeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMyHomeQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useMyHomeQuery(baseOptions?: Apollo.QueryHookOptions<MyHomeQuery, MyHomeQueryVariables>) {
+        return Apollo.useQuery<MyHomeQuery, MyHomeQueryVariables>(MyHomeDocument, baseOptions);
+      }
+export function useMyHomeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MyHomeQuery, MyHomeQueryVariables>) {
+          return Apollo.useLazyQuery<MyHomeQuery, MyHomeQueryVariables>(MyHomeDocument, baseOptions);
+        }
+export type MyHomeQueryHookResult = ReturnType<typeof useMyHomeQuery>;
+export type MyHomeLazyQueryHookResult = ReturnType<typeof useMyHomeLazyQuery>;
+export type MyHomeQueryResult = Apollo.QueryResult<MyHomeQuery, MyHomeQueryVariables>;
 export const UserDocument = gql`
     query User($id: ID!) {
   user(id: $id) {

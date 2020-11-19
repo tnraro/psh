@@ -96,6 +96,8 @@ export type Mutation = {
   __typename?: 'Mutation';
   newUser?: Maybe<Session>;
   signInUser?: Maybe<Session>;
+  newHome?: Maybe<Home>;
+  joinHome?: Maybe<Home>;
   tnid?: Maybe<Scalars['ID']>;
 };
 
@@ -107,6 +109,16 @@ export type MutationNewUserArgs = {
 
 export type MutationSignInUserArgs = {
   user: SignInUserInput;
+};
+
+
+export type MutationNewHomeArgs = {
+  name: Scalars['String'];
+};
+
+
+export type MutationJoinHomeArgs = {
+  home: Scalars['String'];
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -280,6 +292,8 @@ export type QueryResolvers<ContextType = IContext, ParentType extends ResolversP
 export type MutationResolvers<ContextType = IContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
   newUser?: Resolver<Maybe<ResolversTypes['Session']>, ParentType, ContextType, RequireFields<MutationNewUserArgs, 'user'>>;
   signInUser?: Resolver<Maybe<ResolversTypes['Session']>, ParentType, ContextType, RequireFields<MutationSignInUserArgs, 'user'>>;
+  newHome?: Resolver<Maybe<ResolversTypes['Home']>, ParentType, ContextType, RequireFields<MutationNewHomeArgs, 'name'>>;
+  joinHome?: Resolver<Maybe<ResolversTypes['Home']>, ParentType, ContextType, RequireFields<MutationJoinHomeArgs, 'home'>>;
   tnid?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
 }>;
 

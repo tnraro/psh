@@ -1,4 +1,4 @@
-import { IDBUser } from "@psh/schema/dist/src/utils";
+import { IDBUser } from "@psh/db/dist/User";
 import { Pool } from "mysql2/promise";
 
 export interface IContext {

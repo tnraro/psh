@@ -9,5 +9,7 @@ type Query {
 type Mutation {
     newUser(user: NewUserInput!): Session
     signInUser(user: SignInUserInput!): Session
+    newHome(name: String!): Home
+    joinHome(home: String!): Home
     tnid: ID
 }

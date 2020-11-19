@@ -25,6 +25,34 @@ query Me {
     username
   }
 }
+query MyHome {
+  me {
+    id
+    email
+    username
+    home {
+      id
+      name
+      family {
+        id
+        email
+        username
+      }
+      devices {
+        id
+        type
+        alias
+        private
+        online
+        owner {
+          id
+          username
+        }
+        status
+      }
+    }
+  }
+}
 query User($id: ID!){
   user(id: $id) {
     id

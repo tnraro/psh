@@ -1,3 +1,4 @@
+import Body from "@/comps/layouts/Body";
 import Form from "@/comps/layouts/users/new/Form";
 import Logo from "@/comps/Logo";
 import { Box, Link, Text, Heading } from "@chakra-ui/react";
@@ -5,7 +6,7 @@ import NextLink from "next/link";
 
 const App = () => {
     return <>
-        <Box w={{ base: "100%", md: 500 }} mx="auto" px={{ base: 1, md: 0}}>
+        <Body>
             <Box py={10}>
                 <Logo />
             </Box>
@@ -17,7 +18,7 @@ const App = () => {
                     <Link>로그인</Link>
                 </NextLink>
             </Text>
-        </Box>
+        </Body>
         <Box h="50vh" />
     </>;
 }

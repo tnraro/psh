@@ -32,7 +32,7 @@ export const getDevicesByHome = async (pool: Pool, homeId: string): Promise<IDBD
     const devices = (<IDBDevice[]>rows);
     return devices;
 }
-export const newDevice = async (pool: Pool, device: IDBDevice) => {
+export const createDevice = async (pool: Pool, device: IDBDevice) => {
     return await pool.execute(
         "INSERT INTO `customer`.`Device` (`tnid`, `type`, `homeId`, `ownerId`, `status`, `alias`) VALUES (?,?,?,?,?);",
         [device.tnid, device.type, device.homeId, device.ownerId, device.status, device.alias]

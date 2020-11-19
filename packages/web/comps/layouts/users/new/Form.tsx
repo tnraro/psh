@@ -98,7 +98,6 @@ const Form = () => {
     }
 
     const onSubmit = async (values: IFormValues) => {
-        console.log(values);
         try {
             const result = await newUser({
                 variables: {

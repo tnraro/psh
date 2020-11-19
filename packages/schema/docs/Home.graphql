@@ -1,0 +1,12 @@
+mutation NewHome($name: String!) {
+  newHome(name: $name) {
+    id
+    name
+  }
+}
+mutation JoinHome($homeId: String!) {
+  joinHome(home: $homeId) {
+    id
+    name
+  }
+}

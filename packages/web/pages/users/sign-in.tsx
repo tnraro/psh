@@ -14,7 +14,6 @@ const App = (props: IProp) => {
     const { handleSubmit, errors, register, formState } = useForm();
     const [signIn, result] = useSignInMutation();
     const onSubmit = async (values: any) => {
-        console.log(values);
         try {
             const result = await signIn({
                 variables: {

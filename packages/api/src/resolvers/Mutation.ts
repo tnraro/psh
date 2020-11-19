@@ -1,13 +1,15 @@
 import { getUserByEmail, IDBUser, newUser } from "@psh/db/dist/User";
+import { createHome, getHomeById, IDBHome, joinHome } from "@psh/db/dist/Home";
 import type { MutationResolvers } from "@psh/schema/dist/generated/resolvers";
 import bcrypt, { compare } from "bcrypt";
 import { StatusCodes } from "http-status-codes";
 import tnid from "tnid";
 import { PshError } from "../errors";
 import { mapUser } from "../mappers/User";
+import { mapHome } from "../mappers/Home";
 
 const resolvers: MutationResolvers = {
-    async newUser(parent, args, { pool }) {
+    async newUser(_, args, { pool }) {
         if (!(args.user.agelimit && args.user.usepolicy && args.user.privacy)) {
             throw PshError(StatusCodes.BAD_REQUEST);
         }
@@ -41,7 +43,7 @@ const resolvers: MutationResolvers = {
             user: mapUser(user)
         };
     },
-    async signInUser(parent, args, { pool }) {
+    async signInUser(_, args, { pool }) {
         const user = await getUserByEmail(pool, args.user.email);
 
         if (!user) {
@@ -63,6 +65,36 @@ const resolvers: MutationResolvers = {
     },
     tnid() {
         return tnid(4);
+    },
+    async newHome(_, args, context) {
+        if (!context.session)
+            throw PshError(StatusCodes.UNAUTHORIZED);
+        const id = tnid(4);
+        const home: IDBHome = {
+            tnid: id,
+            name: args.name
+        };
+
+        try {
+            await createHome(context.pool, home, context.session.user.tnid);
+        } catch(e) {
+            if (e === "NO_USER_CHANGED") {
+                throw PshError(StatusCodes.UNAUTHORIZED);
+            } else {
+                throw PshError(StatusCodes.INTERNAL_SERVER_ERROR);
+            }
+        }
+
+        return mapHome(home);
+    },
+    async joinHome(_, args, context) {
+        if (!context.session)
+            throw PshError(StatusCodes.UNAUTHORIZED);
+        const home = await getHomeById(context.pool, args.home);
+        if (!home)
+            throw PshError(StatusCodes.BAD_REQUEST);
+        await joinHome(context.pool, home.tnid, context.session.user.tnid);
+        return mapHome(home);
     }
 };
 

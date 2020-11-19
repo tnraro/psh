@@ -14,7 +14,8 @@
     "api": "yarn workspace @psh/api",
     "db": "yarn workspace @psh/db",
     "schema": "yarn workspace @psh/schema",
-    "web": "yarn workspace @psh/web"
+    "web": "yarn workspace @psh/web",
+    "startapi": "yarn schema build && yarn api start"
   },
   "devDependencies": {
     "lerna": "^3.22.1"
