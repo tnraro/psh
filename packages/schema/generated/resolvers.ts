@@ -1,7 +1,5 @@
 import { GraphQLResolveInfo } from 'graphql';
-import { UserWithID } from '@psh/api/src/mappers/User';
-import { DeviceWithID } from '@psh/api/src/mappers/Device';
-import { HomeWithID } from '@psh/api/src/mappers/Home';
+import { MappedUser, MappedDevice, MappedHome } from '@/mappers';
 import { IContext } from '@psh/api/src/resolvers/types';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -190,14 +188,14 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
-  Device: ResolverTypeWrapper<DeviceWithID>;
+  Device: ResolverTypeWrapper<MappedDevice>;
   String: ResolverTypeWrapper<Partial<Scalars['String']>>;
   ID: ResolverTypeWrapper<Partial<Scalars['ID']>>;
   Boolean: ResolverTypeWrapper<Partial<Scalars['Boolean']>>;
-  User: ResolverTypeWrapper<UserWithID>;
+  User: ResolverTypeWrapper<MappedUser>;
   Roles: ResolverTypeWrapper<Partial<Roles>>;
   Terms: ResolverTypeWrapper<Partial<Terms>>;
-  Home: ResolverTypeWrapper<HomeWithID>;
+  Home: ResolverTypeWrapper<MappedHome>;
   Session: ResolverTypeWrapper<Partial<Omit<Session, 'user'> & { user?: Maybe<ResolversTypes['User']> }>>;
   NewUserInput: ResolverTypeWrapper<Partial<NewUserInput>>;
   SignInUserInput: ResolverTypeWrapper<Partial<SignInUserInput>>;
@@ -207,14 +205,14 @@ export type ResolversTypes = ResolversObject<{
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
-  Device: DeviceWithID;
+  Device: MappedDevice;
   String: Partial<Scalars['String']>;
   ID: Partial<Scalars['ID']>;
   Boolean: Partial<Scalars['Boolean']>;
-  User: UserWithID;
+  User: MappedUser;
   Roles: Partial<Roles>;
   Terms: Partial<Terms>;
-  Home: HomeWithID;
+  Home: MappedHome;
   Session: Partial<Omit<Session, 'user'> & { user?: Maybe<ResolversParentTypes['User']> }>;
   NewUserInput: Partial<NewUserInput>;
   SignInUserInput: Partial<SignInUserInput>;

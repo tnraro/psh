@@ -1,20 +1,7 @@
 import { IDBDevice } from "@psh/db/dist/Device";
-import { Home, User } from "@psh/schema/dist/generated/resolvers";
+import { MappedDevice } from "@psh/schema/dist/src/mappers";
 
-export type DeviceWithID = {
-    __typename: "Device",
-    id: string,
-    type: string,
-    alias?: string,
-    status: string,
-    private: boolean,
-    ownerId?: string;
-    homeId: string;
-    home?: Home;
-    owner?: User;
-}
-
-export const mapDevice = (device: IDBDevice): DeviceWithID => {
+export const mapDevice = (device: IDBDevice): MappedDevice => {
     return {
         __typename: "Device",
         id: device.tnid,
