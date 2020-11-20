@@ -1,6 +1,6 @@
 import Header from "@/comps/layouts/Header";
 import { Box, Stat, StatHelpText, StatLabel } from "@chakra-ui/react";
-import { operations } from "@psh/schema";
+import * as operations from "@psh/schema/dist/operations.gen";
 import React from "react";
 
 const App = () => {

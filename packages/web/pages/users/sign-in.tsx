@@ -7,7 +7,7 @@ import {
     Link,
     useToast
 } from "@chakra-ui/react";
-import { operations } from "@psh/schema";
+import * as operations from "@psh/schema/dist/operations.gen";
 import { StatusCodes } from "http-status-codes";
 import NextLink from "next/link";
 import { useForm } from "react-hook-form";

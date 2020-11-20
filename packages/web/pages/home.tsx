@@ -25,7 +25,7 @@ import {
     useMeQuery,
     useMyHomeQuery,
     useNewHomeMutation
-} from "@psh/schema/dist/generated/operations";
+} from "@psh/schema/dist/operations.gen";
 import { StatusCodes } from "http-status-codes";
 import { useRouter } from "next/dist/client/router";
 import React, { useState } from "react";
