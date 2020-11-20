@@ -5,4 +5,4 @@ module.exports = {
             localSchemaFile: "packages/schema/generated/graphql.schema.json"
         }
     }
-}
+};

@@ -8,13 +8,13 @@ export * as User from "./User";
 
 async function loadConfig(): Promise<any> {
     const path = resolve(__dirname, "../.env/db-config.json");
-    const data = await fs.readFile(path)
+    const data = await fs.readFile(path);
     return JSON.parse(data.toString());
 }
 
 async function getPool() {
     const config = await loadConfig();
-    
+
     // Should be validate config file
     const options = {
         host: config.host,
@@ -26,7 +26,7 @@ async function getPool() {
         queueLimit: 0
     };
     const pool = mysql.createPool(options);
-    
+
     return pool;
 }
 

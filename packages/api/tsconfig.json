@@ -5,8 +5,5 @@
         "rootDir": "src"
     },
     "include": ["src"],
-    "references": [
-        { "path": "../db" },
-        { "path": "../schema" }
-    ]
+    "references": [{ "path": "../db" }, { "path": "../schema" }]
 }

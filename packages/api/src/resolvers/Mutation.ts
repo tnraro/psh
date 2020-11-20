@@ -21,7 +21,7 @@ const resolver: resolvers.MutationResolvers = {
                 agelimit: args.user.agelimit,
                 usepolicy: args.user.usepolicy,
                 privacy: args.user.privacy,
-                promotion: args.user.promotion,
+                promotion: args.user.promotion
             },
             hashedPassword: await bcrypt.hash(args.user.password, 10)
         };
@@ -48,15 +48,15 @@ const resolver: resolvers.MutationResolvers = {
         if (!user) {
             throw PshError(StatusCodes.UNAUTHORIZED);
         }
-        
+
         const match = await compare(args.user.password, user.hashedPassword);
-    
+
         if (!match) {
             throw PshError(StatusCodes.UNAUTHORIZED);
         }
-    
+
         // TODO: generate access_token
-    
+
         return {
             access_token: user.tnid,
             user: mapUser(user)
@@ -66,8 +66,7 @@ const resolver: resolvers.MutationResolvers = {
         return tnid(4);
     },
     async newHome(_, args, context) {
-        if (!context.session)
-            throw PshError(StatusCodes.UNAUTHORIZED);
+        if (!context.session) throw PshError(StatusCodes.UNAUTHORIZED);
         const id = tnid(4);
         const home: Home.IDBHome = {
             tnid: id,
@@ -75,8 +74,12 @@ const resolver: resolvers.MutationResolvers = {
         };
 
         try {
-            await Home.createHome(context.pool, home, context.session.user.tnid);
-        } catch(e) {
+            await Home.createHome(
+                context.pool,
+                home,
+                context.session.user.tnid
+            );
+        } catch (e) {
             if (e === "NO_USER_CHANGED") {
                 throw PshError(StatusCodes.UNAUTHORIZED);
             } else {
@@ -87,11 +90,9 @@ const resolver: resolvers.MutationResolvers = {
         return mapHome(home);
     },
     async joinHome(_, args, context) {
-        if (!context.session)
-            throw PshError(StatusCodes.UNAUTHORIZED);
+        if (!context.session) throw PshError(StatusCodes.UNAUTHORIZED);
         const home = await Home.getHomeById(context.pool, args.home);
-        if (!home)
-            throw PshError(StatusCodes.BAD_REQUEST);
+        if (!home) throw PshError(StatusCodes.BAD_REQUEST);
         await Home.joinHome(context.pool, home.tnid, context.session.user.tnid);
         return mapHome(home);
     }

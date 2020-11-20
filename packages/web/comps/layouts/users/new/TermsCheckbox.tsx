@@ -19,18 +19,29 @@ const TermsCheckbox = (props: IProp) => {
         isChecked = props.isChecked,
         onChange = props.onChange,
         register = props.register;
-    return <Checkbox
+    return (
+        <Checkbox
             name={id}
             isChecked={isChecked}
             onChange={onChange}
             ref={register({
                 required: isRequired
             })}>
-        {url ? <a href={url} target="_blank" style={{ textDecoration: "underline" }}>
-            {message}
-        </a> : message}
-        <Box as="span" color={isRequired ? "blue.400" : "gray.400"}>({isRequired ? "필수" : "선택"})</Box>
-    </Checkbox>
-}
+            {url ? (
+                <a
+                    href={url}
+                    target="_blank"
+                    style={{ textDecoration: "underline" }}>
+                    {message}
+                </a>
+            ) : (
+                message
+            )}
+            <Box as="span" color={isRequired ? "blue.400" : "gray.400"}>
+                ({isRequired ? "필수" : "선택"})
+            </Box>
+        </Checkbox>
+    );
+};
 
 export default TermsCheckbox;

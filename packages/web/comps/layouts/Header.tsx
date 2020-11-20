@@ -15,41 +15,53 @@ const Header = (props: IProps) => {
         props.client.clearStore();
         localStorage.setItem("access-token", "");
         location.replace("/");
-    }
-    return <>
-        <Flex py={5} px={{ base: 1, md: 5 }}>
-            <Logo />
-            <Spacer />
-            <Box as="nav">
-                {props.me
-                    && <>
-                        <NextLink href="/home">
-                            <Link mx={1} py={5} px={{ base: 1, md: 5 }}>가상 홈</Link>
-                        </NextLink>
-                        <NextLink href="devices">
-                            <Link mx={1} py={5} px={{ base: 1, md: 5 }}>내 장치</Link>
-                        </NextLink>
-                    </>
-                }
-            </Box>
-            <Spacer />
-            <Box>
-                {props.me
-                    ? 
-                        <Link mx={1} p={5} onClick={handleLogout}>로그아웃</Link>
-                    : <>
-                        <NextLink href="/users/sign-in">
-                            <Link mx={1} p={5}>로그인</Link>
-                        </NextLink>
-                        <NextLink href="/users/new">
-                            <Link mx={1} p={5}>회원가입</Link>
-                        </NextLink>
-                    </>
-                } 
-            </Box>
-        </Flex>
-        <Divider />
-    </>;
-}
+    };
+    return (
+        <>
+            <Flex py={5} px={{ base: 1, md: 5 }}>
+                <Logo />
+                <Spacer />
+                <Box as="nav">
+                    {props.me && (
+                        <>
+                            <NextLink href="/home">
+                                <Link mx={1} py={5} px={{ base: 1, md: 5 }}>
+                                    가상 홈
+                                </Link>
+                            </NextLink>
+                            <NextLink href="devices">
+                                <Link mx={1} py={5} px={{ base: 1, md: 5 }}>
+                                    내 장치
+                                </Link>
+                            </NextLink>
+                        </>
+                    )}
+                </Box>
+                <Spacer />
+                <Box>
+                    {props.me ? (
+                        <Link mx={1} p={5} onClick={handleLogout}>
+                            로그아웃
+                        </Link>
+                    ) : (
+                        <>
+                            <NextLink href="/users/sign-in">
+                                <Link mx={1} p={5}>
+                                    로그인
+                                </Link>
+                            </NextLink>
+                            <NextLink href="/users/new">
+                                <Link mx={1} p={5}>
+                                    회원가입
+                                </Link>
+                            </NextLink>
+                        </>
+                    )}
+                </Box>
+            </Flex>
+            <Divider />
+        </>
+    );
+};
 
 export default Header;

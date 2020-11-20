@@ -1,29 +1,19 @@
 {
-  "extends": "../../tsconfig",
-  "compilerOptions": {
-    "lib": ["es2020", "DOM"],
-    "outDir": "dist",
-    "allowJs": true,
-    "noEmit": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "baseUrl": ".",
-    "paths": {
-      "@/*": [
-        "./*"
-      ]
-    }
-  },
-  "exclude": [
-    "node_modules"
-  ],
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx"
-  ],
-  "files": [
-    ".env/config.ts"
-  ]
+    "extends": "../../tsconfig",
+    "compilerOptions": {
+        "lib": ["es2020", "DOM"],
+        "outDir": "dist",
+        "allowJs": true,
+        "noEmit": true,
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "jsx": "preserve",
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["./*"]
+        }
+    },
+    "exclude": ["node_modules"],
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+    "files": [".env/config.ts"]
 }

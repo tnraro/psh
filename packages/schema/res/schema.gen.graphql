@@ -1,73 +1,73 @@
 type Device {
-  alias: String
-  home: Home
-  id: ID
-  lastOnline: String
-  online: Boolean
-  owner: User
-  private: Boolean
-  status: String
-  type: String
+    alias: String
+    home: Home
+    id: ID
+    lastOnline: String
+    online: Boolean
+    owner: User
+    private: Boolean
+    status: String
+    type: String
 }
 
 type User {
-  devices: [Device]
-  email: String
-  home: Home
-  id: ID
-  roles: Roles
-  terms: Terms
-  username: String
+    devices: [Device]
+    email: String
+    home: Home
+    id: ID
+    roles: Roles
+    terms: Terms
+    username: String
 }
 
 type Roles {
-  admin: Boolean
+    admin: Boolean
 }
 
 type Terms {
-  agelimit: Boolean
-  privacy: Boolean
-  promotion: Boolean
-  usepolicy: Boolean
+    agelimit: Boolean
+    privacy: Boolean
+    promotion: Boolean
+    usepolicy: Boolean
 }
 
 type Home {
-  admins: [User]
-  devices: [Device]
-  family: [User]
-  id: ID
-  name: String
+    admins: [User]
+    devices: [Device]
+    family: [User]
+    id: ID
+    name: String
 }
 
 type Session {
-  access_token: ID!
-  user: User
+    access_token: ID!
+    user: User
 }
 
 input NewUserInput {
-  agelimit: Boolean!
-  email: String!
-  password: String!
-  privacy: Boolean!
-  promotion: Boolean!
-  usepolicy: Boolean!
-  username: String!
+    agelimit: Boolean!
+    email: String!
+    password: String!
+    privacy: Boolean!
+    promotion: Boolean!
+    usepolicy: Boolean!
+    username: String!
 }
 
 input SignInUserInput {
-  email: String!
-  password: String!
+    email: String!
+    password: String!
 }
 
 type Query {
-  user(id: ID!): User
-  me: User
+    user(id: ID!): User
+    me: User
 }
 
 type Mutation {
-  newUser(user: NewUserInput!): Session
-  signInUser(user: SignInUserInput!): Session
-  newHome(name: String!): Home
-  joinHome(home: String!): Home
-  tnid: ID
+    newUser(user: NewUserInput!): Session
+    signInUser(user: SignInUserInput!): Session
+    newHome(name: String!): Home
+    joinHome(home: String!): Home
+    tnid: ID
 }

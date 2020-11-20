@@ -12,12 +12,12 @@ const resolver: resolvers.SessionResolvers = {
         const id = parent.access_token;
 
         const user = await User.getUserById(context.pool, id);
-        
+
         if (!user) {
             throw PshError(StatusCodes.BAD_REQUEST);
         }
         return mapUser(user);
-    },
+    }
 };
 
 export default resolver;

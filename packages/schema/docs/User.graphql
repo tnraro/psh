@@ -1,68 +1,68 @@
-mutation NewUser($params: NewUserInput!){
-  newUser(user: $params) {
-    access_token
-    user {
-      id
-      email
-      username
+mutation NewUser($params: NewUserInput!) {
+    newUser(user: $params) {
+        access_token
+        user {
+            id
+            email
+            username
+        }
     }
-  }
 }
 mutation SignIn($params: SignInUserInput!) {
-  signInUser(user: $params) {
-    access_token
-    user {
-      id
-      email
-      username
+    signInUser(user: $params) {
+        access_token
+        user {
+            id
+            email
+            username
+        }
     }
-  }
 }
 query Me {
-  me {
-    id
-    email
-    username
-  }
-}
-query MyHome {
-  me {
-    id
-    email
-    username
-    home {
-      id
-      name
-      family {
+    me {
         id
         email
         username
-      }
-      devices {
-        id
-        type
-        alias
-        private
-        online
-        owner {
-          id
-          username
-        }
-        status
-      }
     }
-  }
 }
-query User($id: ID!){
-  user(id: $id) {
-    id
-    email
-    username
-    terms {
-      agelimit
-      privacy
-      promotion
-      usepolicy
+query MyHome {
+    me {
+        id
+        email
+        username
+        home {
+            id
+            name
+            family {
+                id
+                email
+                username
+            }
+            devices {
+                id
+                type
+                alias
+                private
+                online
+                owner {
+                    id
+                    username
+                }
+                status
+            }
+        }
     }
-  }
+}
+query User($id: ID!) {
+    user(id: $id) {
+        id
+        email
+        username
+        terms {
+            agelimit
+            privacy
+            promotion
+            usepolicy
+        }
+    }
 }

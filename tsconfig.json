@@ -17,7 +17,8 @@
         "allowSyntheticDefaultImports": true,
         "declaration": true,
         "declarationMap": true,
-        "composite": true
+        "composite": true,
+        "newLine": "LF"
     },
     "include": ["packages"],
     "exclude": ["node_modules", "**/*.spec.ts"]

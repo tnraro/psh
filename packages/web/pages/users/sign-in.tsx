@@ -1,13 +1,18 @@
 import Logo from "@/comps/Logo";
-import { Box, Button, FormControl, Input, Link, useToast } from "@chakra-ui/react";
+import {
+    Box,
+    Button,
+    FormControl,
+    Input,
+    Link,
+    useToast
+} from "@chakra-ui/react";
 import { operations } from "@psh/schema";
 import { StatusCodes } from "http-status-codes";
 import NextLink from "next/link";
 import { useForm } from "react-hook-form";
 
-interface IProp {
-
-}
+interface IProp {}
 
 const App = (props: IProp) => {
     const toast = useToast();
@@ -28,7 +33,7 @@ const App = (props: IProp) => {
                 localStorage.setItem("access-token", session.access_token);
                 location.replace("/");
             }
-        } catch(e: any) {
+        } catch (e: any) {
             for (const errors of e.graphQLErrors) {
                 if (errors.extensions.code == StatusCodes.UNAUTHORIZED) {
                     toast({
@@ -48,52 +53,64 @@ const App = (props: IProp) => {
             }
             console.error(e.message);
         }
-    }
-    return <Box bg="gray.50" height="100vh">
-        <Box w={300} mx="auto" px="1em">
-            <Box py={10}>
-                <Logo />
-            </Box>
-            <form onSubmit={handleSubmit(onSubmit)} noValidate>
-                <FormControl isInvalid={errors.email} isRequired>
-                    <Input
-                        name="email"
-                        placeholder="이메일"
-                        bg="white"
-                        ref={register({
-                            required: true
-                        })}/>
-                </FormControl>
-                <FormControl isInvalid={errors.password} isRequired>
-                    <Input
-                        name="password"
-                        type="password"
-                        placeholder="비밀번호"
-                        bg="white"
-                        ref={register({
-                            required: true
-                        })}/>
-                </FormControl>
-                <Button
-                    mt={4}
-                    w="100%"
-                    colorScheme="blue"
-                    isLoading={formState.isSubmitting}
-                    type="submit"
-                    fontWeight="normal">
-                    로그인
-                </Button>
-            </form>
-            <Box textAlign="center" fontSize="0.9em" color="gray.600" my={3}>
-                <NextLink href="/users/password/new">
-                    <Link display="inline-display" mx={5}>비밀번호 재설정</Link>
-                </NextLink>
-                <NextLink href="/users/new">
-                    <Link display="inline-display" mx={5}>회원가입</Link>
-                </NextLink>
+    };
+    return (
+        <Box bg="gray.50" height="100vh">
+            <Box w={300} mx="auto" px="1em">
+                <Box py={10}>
+                    <Logo />
+                </Box>
+                <form onSubmit={handleSubmit(onSubmit)} noValidate>
+                    <FormControl isInvalid={errors.email} isRequired>
+                        <Input
+                            name="email"
+                            placeholder="이메일"
+                            bg="white"
+                            ref={register({
+                                required: true
+                            })}
+                        />
+                    </FormControl>
+                    <FormControl isInvalid={errors.password} isRequired>
+                        <Input
+                            name="password"
+                            type="password"
+                            placeholder="비밀번호"
+                            bg="white"
+                            ref={register({
+                                required: true
+                            })}
+                        />
+                    </FormControl>
+                    <Button
+                        mt={4}
+                        w="100%"
+                        colorScheme="blue"
+                        isLoading={formState.isSubmitting}
+                        type="submit"
+                        fontWeight="normal">
+                        로그인
+                    </Button>
+                </form>
+                <Box
+                    textAlign="center"
+                    fontSize="0.9em"
+                    color="gray.600"
+                    my={3}>
+                    <NextLink href="/users/password/new">
+                        <Link display="inline-display" mx={5}>
+                            비밀번호 재설정
+                        </Link>
+                    </NextLink>
+                    <NextLink href="/users/new">
+                        <Link display="inline-display" mx={5}>
+                            회원가입
+                        </Link>
+                    </NextLink>
+                </Box>
             </Box>
         </Box>
-    </Box>;
-}
+    );
+};
 
 export default App;

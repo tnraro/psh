@@ -11,32 +11,48 @@ export interface IDBUser {
         agelimit: boolean;
         promotion: boolean;
         usepolicy: boolean;
-    }
+    };
 }
 
-export const getUserById = async (pool: Pool, id: string): Promise<IDBUser | null> => {
-    const [rows] = await pool.execute("SELECT * FROM `customer`.`User` WHERE `tnid`=?", [
+export const getUserById = async (
+    pool: Pool,
+    id: string
+): Promise<IDBUser | null> => {
+    const [
+        rows
+    ] = await pool.execute("SELECT * FROM `customer`.`User` WHERE `tnid`=?", [
         id
     ]);
     const user = (<IDBUser[]>rows)[0];
     return user;
-}
-export const getUserByEmail = async (pool: Pool, email: string): Promise<IDBUser | null> => {
-    const [rows] = await pool.execute("SELECT * FROM `customer`.`User` WHERE `email`=?", [
+};
+export const getUserByEmail = async (
+    pool: Pool,
+    email: string
+): Promise<IDBUser | null> => {
+    const [
+        rows
+    ] = await pool.execute("SELECT * FROM `customer`.`User` WHERE `email`=?", [
         email
     ]);
     const user = (<IDBUser[]>rows)[0];
     return user;
-}
+};
 export const getFamily = async (pool: Pool, id: string): Promise<IDBUser[]> => {
     const QUERY = "SELECT * FROM `customer`.`User` WHERE `homeId`=?";
     const [rows] = await pool.execute(QUERY, [id]);
-    const users = (<IDBUser[]>rows);
+    const users = <IDBUser[]>rows;
     return users;
-}
+};
 export const newUser = async (pool: Pool, user: IDBUser) => {
     return await pool.execute(
         "INSERT INTO `customer`.`User` (`tnid`, `email`, `hashedPassword`, `username`, `terms`) VALUES (?,?,?,?,?);",
-        [user.tnid, user.email, user.hashedPassword, user.username, JSON.stringify(user.terms)]
+        [
+            user.tnid,
+            user.email,
+            user.hashedPassword,
+            user.username,
+            JSON.stringify(user.terms)
+        ]
     );
-}
+};

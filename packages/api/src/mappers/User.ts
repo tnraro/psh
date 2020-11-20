@@ -10,4 +10,4 @@ export const mapUser = (user: User.IDBUser): mappers.MappedUser => {
         terms: user.terms,
         homeId: user.homeId
     };
-}
+};

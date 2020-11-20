@@ -6,9 +6,7 @@ interface ILogo {
 }
 
 const Logo = (props: ILogo) => {
-    return <Link href={props.to || "/"}>
-        PSH Logo
-    </Link>;
-}
+    return <Link href={props.to || "/"}>PSH Logo</Link>;
+};
 
 export default Logo;

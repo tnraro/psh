@@ -11,17 +11,16 @@ const resolver: resolvers.UserResolvers = {
         return devices.map(mapDevice);
     },
     async home(parent, args, context) {
-        if (!parent.homeId)
-            throw PshError(StatusCodes.FORBIDDEN);
+        if (!parent.homeId) throw PshError(StatusCodes.FORBIDDEN);
         const home = await Home.getHomeById(context.pool, parent.homeId);
-        
+
         return home ? mapHome(home) : null;
     },
     roles(parent, args, context) {
         throw PshError(StatusCodes.NOT_IMPLEMENTED);
         return {
             admin: false
-        }
+        };
     }
 };
 export default resolver;

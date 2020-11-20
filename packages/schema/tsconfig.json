@@ -9,7 +9,5 @@
         }
     },
     "include": ["src"],
-    "references": [
-        { "path": "../db" }
-    ]
+    "references": [{ "path": "../db" }]
 }

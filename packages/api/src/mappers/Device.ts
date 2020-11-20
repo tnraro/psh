@@ -12,4 +12,4 @@ export const mapDevice = (device: Device.IDBDevice): mappers.MappedDevice => {
         ownerId: device.ownerId,
         homeId: device.homeId
     };
-}
+};

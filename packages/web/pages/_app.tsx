@@ -1,7 +1,12 @@
 import config from "@/.env/config";
 import "@/styles/styles.css";
 import theme from "@/styles/theme";
-import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache } from "@apollo/client";
+import {
+    ApolloClient,
+    ApolloProvider,
+    createHttpLink,
+    InMemoryCache
+} from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { ChakraProvider } from "@chakra-ui/react";
 import type { AppProps } from "next/app";
@@ -14,7 +19,7 @@ const authLink = setContext((_, { headers }) => {
     return {
         headers: {
             ...headers,
-            authorization: token || "",
+            authorization: token || ""
         }
     };
 });
@@ -25,11 +30,13 @@ const client = new ApolloClient({
 });
 
 const App = ({ Component, pageProps }: AppProps) => {
-    return <ChakraProvider theme={theme}>
-        <ApolloProvider client={client}>
-            <Component {...pageProps} />
-        </ApolloProvider>
-    </ChakraProvider>;
-}
+    return (
+        <ChakraProvider theme={theme}>
+            <ApolloProvider client={client}>
+                <Component {...pageProps} />
+            </ApolloProvider>
+        </ChakraProvider>
+    );
+};
 
 export default App;

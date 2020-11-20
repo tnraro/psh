@@ -1,23 +1,27 @@
 {
-  "name": "psh",
-  "version": "0.0.0",
-  "description": "psh",
-  "main": "index.js",
-  "repository": "git@github.com:hoshi-hitsuji/psh.git",
-  "author": "tnRaro <deokji53@gmail.com>",
-  "license": "MIT",
-  "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
-  "scripts": {
-    "api": "yarn workspace @psh/api",
-    "db": "yarn workspace @psh/db",
-    "schema": "yarn workspace @psh/schema",
-    "web": "yarn workspace @psh/web",
-    "startapi": "yarn schema build && yarn api start"
-  },
-  "devDependencies": {
-    "lerna": "^3.22.1"
-  }
+    "name": "psh",
+    "version": "0.0.0",
+    "description": "psh",
+    "main": "index.js",
+    "repository": "git@github.com:hoshi-hitsuji/psh.git",
+    "author": "tnRaro <deokji53@gmail.com>",
+    "license": "MIT",
+    "private": true,
+    "workspaces": [
+        "packages/*"
+    ],
+    "scripts": {
+        "api": "yarn workspace @psh/api",
+        "db": "yarn workspace @psh/db",
+        "schema": "yarn workspace @psh/schema",
+        "web": "yarn workspace @psh/web",
+        "startapi": "yarn schema build && yarn api start",
+        "postinstall": "husky install"
+    },
+    "devDependencies": {
+        "husky": "^5.0.1",
+        "lerna": "^3.22.1",
+        "lint-staged": "^10.5.1",
+        "prettier": "^2.2.0"
+    }
 }

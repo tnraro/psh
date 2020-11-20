@@ -7,4 +7,4 @@ export const mapHome = (home: Home.IDBHome): mappers.MappedHome => {
         id: home.tnid,
         name: home.name
     };
-}
+};
