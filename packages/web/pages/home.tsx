@@ -8,13 +8,12 @@ import {
     Button,
     Center,
     Heading,
+    Icon,
+    IconButton,
     Input,
     Spacer,
     Stack,
-    Stat,
-    StatHelpText,
-    StatLabel,
-    toast,
+    Text,
     useToast,
     Wrap,
     WrapItem
@@ -29,7 +28,7 @@ import {
 import { StatusCodes } from "http-status-codes";
 import { useRouter } from "next/dist/client/router";
 import React, { useState } from "react";
-import { FiHeart } from "react-icons/fi";
+import { FiHeart, FiTrash2 } from "react-icons/fi";
 
 interface IProp {}
 
@@ -120,19 +119,30 @@ const NoHome = (props: any) => {
     );
 };
 
+const HomeDashboardItem = (props: { children: any }) => (
+    <Box bg="white" borderRadius={10} p={5} border="1px" borderColor="gray.300">
+        {props.children}
+    </Box>
+);
+
 const HomeDashboard = (props: { me: MyHomeQuery["me"]; client: any }) => {
     const me = props.me;
     console.log(me);
 
     return (
-        <Stack spacing={5}>
-            <Heading>{me?.home?.name}</Heading>
-            <Box>
+        <Stack spacing={3}>
+            <HomeDashboardItem>
+                <Text fontSize="md" fontWeight={700}>
+                    대시보드
+                </Text>
+                <Text>{me?.home?.name}</Text>
+            </HomeDashboardItem>
+            <HomeDashboardItem>
                 <Heading size="md">가족구성원</Heading>
-                <Wrap>
+                <Wrap direction="column">
                     {me?.home?.family?.map((user) => {
                         return (
-                            <WrapItem>
+                            <WrapItem key={user?.id} w="100%">
                                 <Center>
                                     <Avatar size="sm" m={2} />
                                     {user?.username}
@@ -141,31 +151,37 @@ const HomeDashboard = (props: { me: MyHomeQuery["me"]; client: any }) => {
                         );
                     })}
                 </Wrap>
-            </Box>
-            <Box>
+            </HomeDashboardItem>
+            <HomeDashboardItem>
                 <Heading size="md">등록된 장치</Heading>
                 <Wrap>
                     {me?.home?.devices?.map((device) => {
                         return (
                             <WrapItem
+                                key={device?.id}
                                 border="1px"
                                 borderRadius=".8em"
                                 borderColor="gray.200"
                                 py={2}
                                 px={4}>
-                                <Stat>
-                                    <StatLabel>{device?.alias}</StatLabel>
-                                    <StatHelpText>{device?.type}</StatHelpText>
+                                <Box>
+                                    <Text>{device?.alias}</Text>
+                                    <Text fontSize="0.9em" fontWeight={100}>
+                                        {device?.type}
+                                    </Text>
                                     {!device?.private ||
                                         (device?.owner?.id === me.id && (
-                                            <FiHeart />
+                                            <Icon
+                                                as={FiHeart}
+                                                color="red.400"
+                                            />
                                         ))}
-                                </Stat>
+                                </Box>
                             </WrapItem>
                         );
                     })}
                 </Wrap>
-            </Box>
+            </HomeDashboardItem>
         </Stack>
     );
 };
@@ -178,7 +194,7 @@ const App = (props: IProp) => {
     const noHome = errorCode == StatusCodes.FORBIDDEN;
 
     return (
-        <Box>
+        <Box bg="gray.100" height="100vh">
             <Header client={client} me={meData?.me} />
             <Body>
                 <Spacer h={3} />

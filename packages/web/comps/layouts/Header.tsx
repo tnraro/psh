@@ -1,7 +1,7 @@
 import Logo from "@/comps/Logo";
 import { ApolloClient } from "@apollo/client";
 import { Box, Divider, Flex, Link, Spacer } from "@chakra-ui/react";
-import { operations } from "@psh/schema";
+import * as operations from "@psh/schema/dist/operations.gen";
 import NextLink from "next/link";
 import React from "react";
 
@@ -17,7 +17,7 @@ const Header = (props: IProps) => {
         location.replace("/");
     };
     return (
-        <>
+        <Box bg="white">
             <Flex py={5} px={{ base: 1, md: 5 }}>
                 <Logo />
                 <Spacer />
@@ -60,7 +60,7 @@ const Header = (props: IProps) => {
                 </Box>
             </Flex>
             <Divider />
-        </>
+        </Box>
     );
 };
 
