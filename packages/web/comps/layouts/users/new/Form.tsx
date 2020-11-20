@@ -13,7 +13,7 @@ import {
     useToast
 } from "@chakra-ui/react";
 import TermsCheckbox from "./TermsCheckbox";
-import { useNewUserMutation } from "@psh/schema/dist/generated/operations";
+import { operations } from "@psh/schema";
 import { StatusCodes } from "http-status-codes";
 
 type TermsItems = {
@@ -27,7 +27,7 @@ type TermsItems = {
 const Form = () => {
     const toast = useToast();
     const { handleSubmit, errors, register, formState, watch } = useForm();
-    const [newUser, result] = useNewUserMutation();
+    const [newUser, result] = operations.useNewUserMutation();
     const [termsItems, setTermsItems] = useState<TermsItems[]>([
         {
             id: "agelimit",

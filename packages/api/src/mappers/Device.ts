@@ -1,7 +1,7 @@
-import { IDBDevice } from "@psh/db/dist/Device";
-import { MappedDevice } from "@psh/schema/dist/src/mappers";
+import { Device } from "@psh/db";
+import { mappers } from "@psh/schema";
 
-export const mapDevice = (device: IDBDevice): MappedDevice => {
+export const mapDevice = (device: Device.IDBDevice): mappers.MappedDevice => {
     return {
         __typename: "Device",
         id: device.tnid,

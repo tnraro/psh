@@ -2,29 +2,24 @@ overwrite: true
 schema: "schema/**/*.graphql"
 documents: "docs/**/*.graphql"
 generates:
-  ./generated/resolvers.ts:
+  ./src/resolvers.gen.ts:
     config:
       useIndexSignature: true
       defaultMapper: Partial<{T}>
       contextType: "@psh/api/src/resolvers/types#IContext"
       mappers:
-        User: "@/mappers#MappedUser"
-        Device: "@/mappers#MappedDevice"
-        Home: "@/mappers#MappedHome"
+        User: "./mappers#MappedUser"
+        Device: "./mappers#MappedDevice"
+        Home: "./mappers#MappedHome"
     plugins:
       - "typescript"
       - "typescript-resolvers"
-  ./generated/operations.ts:
+  ./src/operations.gen.ts:
     plugins:
       - "typescript"
       - "typescript-operations"
       - "typescript-react-apollo"
-  ./generated/graphql.schema.json:
-    config:
-      minify: true
-    plugins:
-      - "introspection"
-  ./generated/schema.graphql:
+  ./res/schema.gen.graphql:
     config:
       - sort: true
       - commentDescriptions: true

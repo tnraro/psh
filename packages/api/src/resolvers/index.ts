@@ -1,4 +1,4 @@
-import { Resolvers } from "@psh/schema/dist/generated/resolvers";
+import { resolvers } from "@psh/schema";
 import Device from "./Device";
 import Home from "./Home";
 import Mutation from "./Mutation";
@@ -6,7 +6,7 @@ import Query from "./Query";
 import Session from "./Session";
 import User from "./User";
 
-const resolvers: Resolvers = {
+const resolver: resolvers.Resolvers = {
     Device,
     Home,
     Session,
@@ -15,4 +15,4 @@ const resolvers: Resolvers = {
     Mutation
 };
 
-export default resolvers;
+export default resolver;

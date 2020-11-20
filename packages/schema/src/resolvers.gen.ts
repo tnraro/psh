@@ -1,5 +1,5 @@
 import { GraphQLResolveInfo } from 'graphql';
-import { MappedUser, MappedDevice, MappedHome } from '@/mappers';
+import { MappedUser, MappedDevice, MappedHome } from './mappers';
 import { IContext } from '@psh/api/src/resolvers/types';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };

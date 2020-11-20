@@ -1,7 +1,7 @@
-import { IDBUser } from "@psh/db/dist/User";
-import { MappedUser } from "@psh/schema/dist/src/mappers";
+import { User } from "@psh/db";
+import { mappers } from "@psh/schema";
 
-export const mapUser = (user: IDBUser): MappedUser => {
+export const mapUser = (user: User.IDBUser): mappers.MappedUser => {
     return {
         __typename: "User",
         id: user.tnid,

@@ -1,14 +1,14 @@
 import { PshError } from "../errors";
-import { getDevicesByHome } from "@psh/db/dist/Device";
-import { getFamily } from "@psh/db/dist/User";
-import type { HomeResolvers } from "@psh/schema/dist/generated/resolvers";
+import { Device } from "@psh/db";
+import { User } from "@psh/db";
+import type { resolvers } from "@psh/schema";
 import { StatusCodes } from "http-status-codes";
 import { mapDevice } from "../mappers/Device";
 import { mapUser } from "../mappers/User";
 
-const resolver: HomeResolvers = {
+const resolver: resolvers.HomeResolvers = {
     async family(parent, _, context) {
-        const family = await getFamily(context.pool, parent.id);
+        const family = await User.getFamily(context.pool, parent.id);
         return family.map(mapUser);
     },
     async admins(parent, _, context) {
@@ -16,7 +16,7 @@ const resolver: HomeResolvers = {
         return [];
     },
     async devices(parent, _, context) {
-        const devices = await getDevicesByHome(context.pool, parent.id);
+        const devices = await Device.getDevicesByHome(context.pool, parent.id);
 
         return devices.map(mapDevice);
     }

@@ -1,5 +1,5 @@
 import getPool from "@psh/db";
-import { getUserById } from "@psh/db/dist/User";
+import { User } from "@psh/db";
 import schema from "@psh/schema";
 import { ApolloServer } from "apollo-server";
 import resolvers from "./resolvers";
@@ -15,7 +15,7 @@ const main = async () => {
 
             let session = null;
             if (access_token) {
-                const user = await getUserById(pool, access_token);
+                const user = await User.getUserById(pool, access_token);
                 if (user) {
                     if (user.tnid === access_token) {
                         session = {

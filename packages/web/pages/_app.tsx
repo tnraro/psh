@@ -1,10 +1,10 @@
-import type { AppProps } from "next/app";
-import { ChakraProvider } from "@chakra-ui/react";
-import { ApolloProvider, ApolloClient, InMemoryCache, gql, createHttpLink } from "@apollo/client";
+import config from "@/.env/config";
 import "@/styles/styles.css";
 import theme from "@/styles/theme";
-import config from "@/.env/config";
+import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
+import { ChakraProvider } from "@chakra-ui/react";
+import type { AppProps } from "next/app";
 
 const httpLink = createHttpLink({
     uri: config.endpoint

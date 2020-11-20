@@ -1,13 +1,13 @@
 import Logo from "@/comps/Logo";
 import { ApolloClient } from "@apollo/client";
 import { Box, Divider, Flex, Link, Spacer } from "@chakra-ui/react";
-import { MeQuery, MyHomeQuery } from "@psh/schema/dist/generated/operations";
+import { operations } from "@psh/schema";
 import NextLink from "next/link";
 import React from "react";
 
 interface IProps {
     client: ApolloClient<any>;
-    me: MeQuery["me"];
+    me: operations.MeQuery["me"];
 }
 
 const Header = (props: IProps) => {

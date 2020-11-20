@@ -1,7 +1,7 @@
-import { IDBHome } from "@psh/db/dist/Home";
-import { MappedHome } from "@psh/schema/dist/src/mappers";
+import { Home } from "@psh/db";
+import { mappers } from "@psh/schema";
 
-export const mapHome = (home: IDBHome): MappedHome => {
+export const mapHome = (home: Home.IDBHome): mappers.MappedHome => {
     return {
         __typename: "Home",
         id: home.tnid,

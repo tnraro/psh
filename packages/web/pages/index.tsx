@@ -1,10 +1,10 @@
 import Header from "@/comps/layouts/Header";
 import { Box, Stat, StatHelpText, StatLabel } from "@chakra-ui/react";
-import { useMeQuery } from "@psh/schema/dist/generated/operations";
+import { operations } from "@psh/schema";
 import React from "react";
 
 const App = () => {
-    const { client, loading, data } = useMeQuery();
+    const { client, loading, data } = operations.useMeQuery();
     return <div>
         <Header client={client} me={data?.me}/>
         <Box>

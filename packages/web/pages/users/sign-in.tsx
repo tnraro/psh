@@ -1,9 +1,9 @@
-import { Box, Button, FormControl, FormErrorMessage, FormHelperText, FormLabel, Input, Link, useToast } from "@chakra-ui/react";
-import { useForm } from "react-hook-form";
 import Logo from "@/comps/Logo";
-import { useSignInMutation } from "@psh/schema/dist/generated/operations";
+import { Box, Button, FormControl, Input, Link, useToast } from "@chakra-ui/react";
+import { operations } from "@psh/schema";
 import { StatusCodes } from "http-status-codes";
 import NextLink from "next/link";
+import { useForm } from "react-hook-form";
 
 interface IProp {
 
@@ -12,7 +12,7 @@ interface IProp {
 const App = (props: IProp) => {
     const toast = useToast();
     const { handleSubmit, errors, register, formState } = useForm();
-    const [signIn, result] = useSignInMutation();
+    const [signIn, result] = operations.useSignInMutation();
     const onSubmit = async (values: any) => {
         try {
             const result = await signIn({

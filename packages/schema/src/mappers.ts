@@ -1,4 +1,4 @@
-import { Device, Home, Roles, Terms, User } from "@generated/resolvers";
+import { Device, Home, Roles, Terms, User } from "./resolvers.gen";
 
 export type MappedDevice = {
     __typename: "Device",
