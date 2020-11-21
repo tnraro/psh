@@ -1,5 +1,6 @@
 #import * from "User.graphql"
 #import * from "Home.graphql"
+#import * from "Device.graphql"
 
 type Query {
     user(id: ID!): User
@@ -11,5 +12,7 @@ type Mutation {
     signInUser(user: SignInUserInput!): Session
     newHome(name: String!): Home
     joinHome(home: String!): Home
+    newDevice(device: NewDeviceInput!): Device
+    deleteDevice(id: ID): Device
     tnid: ID
 }

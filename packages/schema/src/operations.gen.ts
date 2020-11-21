@@ -59,6 +59,13 @@ export type Home = {
     name?: Maybe<Scalars["String"]>;
 };
 
+export type NewDeviceInput = {
+    alias: Scalars["String"];
+    id: Scalars["ID"];
+    private: Scalars["Boolean"];
+    type: Scalars["String"];
+};
+
 export type Session = {
     __typename?: "Session";
     access_token: Scalars["ID"];
@@ -96,6 +103,8 @@ export type Mutation = {
     signInUser?: Maybe<Session>;
     newHome?: Maybe<Home>;
     joinHome?: Maybe<Home>;
+    newDevice?: Maybe<Device>;
+    deleteDevice?: Maybe<Device>;
     tnid?: Maybe<Scalars["ID"]>;
 };
 
@@ -113,6 +122,44 @@ export type MutationNewHomeArgs = {
 
 export type MutationJoinHomeArgs = {
     home: Scalars["String"];
+};
+
+export type MutationNewDeviceArgs = {
+    device: NewDeviceInput;
+};
+
+export type MutationDeleteDeviceArgs = {
+    id?: Maybe<Scalars["ID"]>;
+};
+
+export type NewDeviceMutationVariables = Exact<{
+    device: NewDeviceInput;
+}>;
+
+export type NewDeviceMutation = { __typename?: "Mutation" } & {
+    newDevice?: Maybe<
+        { __typename?: "Device" } & Pick<
+            Device,
+            "id" | "type" | "alias" | "private"
+        > & {
+                owner?: Maybe<
+                    { __typename?: "User" } & Pick<User, "id" | "username">
+                >;
+                home?: Maybe<
+                    { __typename?: "Home" } & Pick<Home, "id" | "name">
+                >;
+            }
+    >;
+};
+
+export type DeleteDeviceMutationVariables = Exact<{
+    id: Scalars["ID"];
+}>;
+
+export type DeleteDeviceMutation = { __typename?: "Mutation" } & {
+    deleteDevice?: Maybe<
+        { __typename?: "Device" } & Pick<Device, "id" | "alias">
+    >;
 };
 
 export type NewHomeMutationVariables = Exact<{
@@ -245,6 +292,114 @@ export type GetUserByIdQuery = { __typename?: "Query" } & {
     user?: Maybe<{ __typename?: "User" } & Pick<User, "id" | "username">>;
 };
 
+export const NewDeviceDocument = gql`
+    mutation NewDevice($device: NewDeviceInput!) {
+        newDevice(device: $device) {
+            id
+            type
+            alias
+            private
+            owner {
+                id
+                username
+            }
+            home {
+                id
+                name
+            }
+        }
+    }
+`;
+export type NewDeviceMutationFn = Apollo.MutationFunction<
+    NewDeviceMutation,
+    NewDeviceMutationVariables
+>;
+
+/**
+ * __useNewDeviceMutation__
+ *
+ * To run a mutation, you first call `useNewDeviceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useNewDeviceMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [newDeviceMutation, { data, loading, error }] = useNewDeviceMutation({
+ *   variables: {
+ *      device: // value for 'device'
+ *   },
+ * });
+ */
+export function useNewDeviceMutation(
+    baseOptions?: Apollo.MutationHookOptions<
+        NewDeviceMutation,
+        NewDeviceMutationVariables
+    >
+) {
+    return Apollo.useMutation<NewDeviceMutation, NewDeviceMutationVariables>(
+        NewDeviceDocument,
+        baseOptions
+    );
+}
+export type NewDeviceMutationHookResult = ReturnType<
+    typeof useNewDeviceMutation
+>;
+export type NewDeviceMutationResult = Apollo.MutationResult<NewDeviceMutation>;
+export type NewDeviceMutationOptions = Apollo.BaseMutationOptions<
+    NewDeviceMutation,
+    NewDeviceMutationVariables
+>;
+export const DeleteDeviceDocument = gql`
+    mutation DeleteDevice($id: ID!) {
+        deleteDevice(id: $id) {
+            id
+            alias
+        }
+    }
+`;
+export type DeleteDeviceMutationFn = Apollo.MutationFunction<
+    DeleteDeviceMutation,
+    DeleteDeviceMutationVariables
+>;
+
+/**
+ * __useDeleteDeviceMutation__
+ *
+ * To run a mutation, you first call `useDeleteDeviceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteDeviceMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteDeviceMutation, { data, loading, error }] = useDeleteDeviceMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteDeviceMutation(
+    baseOptions?: Apollo.MutationHookOptions<
+        DeleteDeviceMutation,
+        DeleteDeviceMutationVariables
+    >
+) {
+    return Apollo.useMutation<
+        DeleteDeviceMutation,
+        DeleteDeviceMutationVariables
+    >(DeleteDeviceDocument, baseOptions);
+}
+export type DeleteDeviceMutationHookResult = ReturnType<
+    typeof useDeleteDeviceMutation
+>;
+export type DeleteDeviceMutationResult = Apollo.MutationResult<DeleteDeviceMutation>;
+export type DeleteDeviceMutationOptions = Apollo.BaseMutationOptions<
+    DeleteDeviceMutation,
+    DeleteDeviceMutationVariables
+>;
 export const NewHomeDocument = gql`
     mutation NewHome($name: String!) {
         newHome(name: $name) {

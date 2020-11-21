@@ -65,6 +65,13 @@ export type Home = {
     name?: Maybe<Scalars["String"]>;
 };
 
+export type NewDeviceInput = {
+    alias: Scalars["String"];
+    id: Scalars["ID"];
+    private: Scalars["Boolean"];
+    type: Scalars["String"];
+};
+
 export type Session = {
     __typename?: "Session";
     access_token: Scalars["ID"];
@@ -102,6 +109,8 @@ export type Mutation = {
     signInUser?: Maybe<Session>;
     newHome?: Maybe<Home>;
     joinHome?: Maybe<Home>;
+    newDevice?: Maybe<Device>;
+    deleteDevice?: Maybe<Device>;
     tnid?: Maybe<Scalars["ID"]>;
 };
 
@@ -119,6 +128,14 @@ export type MutationNewHomeArgs = {
 
 export type MutationJoinHomeArgs = {
     home: Scalars["String"];
+};
+
+export type MutationNewDeviceArgs = {
+    device: NewDeviceInput;
+};
+
+export type MutationDeleteDeviceArgs = {
+    id?: Maybe<Scalars["ID"]>;
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -248,6 +265,7 @@ export type ResolversTypes = ResolversObject<{
     Roles: ResolverTypeWrapper<Partial<Roles>>;
     Terms: ResolverTypeWrapper<Partial<Terms>>;
     Home: ResolverTypeWrapper<MappedHome>;
+    NewDeviceInput: ResolverTypeWrapper<Partial<NewDeviceInput>>;
     Session: ResolverTypeWrapper<
         Partial<
             Omit<Session, "user"> & { user?: Maybe<ResolversTypes["User"]> }
@@ -269,6 +287,7 @@ export type ResolversParentTypes = ResolversObject<{
     Roles: Partial<Roles>;
     Terms: Partial<Terms>;
     Home: MappedHome;
+    NewDeviceInput: Partial<NewDeviceInput>;
     Session: Partial<
         Omit<Session, "user"> & { user?: Maybe<ResolversParentTypes["User"]> }
     >;
@@ -436,6 +455,18 @@ export type MutationResolvers<
         ParentType,
         ContextType,
         RequireFields<MutationJoinHomeArgs, "home">
+    >;
+    newDevice?: Resolver<
+        Maybe<ResolversTypes["Device"]>,
+        ParentType,
+        ContextType,
+        RequireFields<MutationNewDeviceArgs, "device">
+    >;
+    deleteDevice?: Resolver<
+        Maybe<ResolversTypes["Device"]>,
+        ParentType,
+        ContextType,
+        RequireFields<MutationDeleteDeviceArgs, never>
     >;
     tnid?: Resolver<Maybe<ResolversTypes["ID"]>, ParentType, ContextType>;
 }>;

@@ -1,0 +1,22 @@
+mutation NewDevice($device: NewDeviceInput!) {
+    newDevice(device: $device) {
+        id
+        type
+        alias
+        private
+        owner {
+            id
+            username
+        }
+        home {
+            id
+            name
+        }
+    }
+}
+mutation DeleteDevice($id: ID!) {
+    deleteDevice(id: $id) {
+        id
+        alias
+    }
+}

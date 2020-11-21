@@ -12,3 +12,9 @@ type Device {
     lastOnline: String
     status: String
 }
+input NewDeviceInput {
+    id: ID!
+    type: String!
+    alias: String!
+    private: Boolean!
+}
