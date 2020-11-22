@@ -1,7 +1,11 @@
 mutation NewDevice($device: NewDeviceInput!) {
     newDevice(device: $device) {
         id
-        type
+        type {
+            id
+            type
+            name
+        }
         alias
         private
         owner {
@@ -18,5 +22,12 @@ mutation DeleteDevice($id: ID!) {
     deleteDevice(id: $id) {
         id
         alias
+    }
+}
+query GetDeviceTypes {
+    deviceTypes {
+        id
+        type
+        name
     }
 }

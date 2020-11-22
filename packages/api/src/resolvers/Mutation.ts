@@ -6,7 +6,7 @@ import tnid from "tnid";
 import { PshError } from "../errors";
 import { mapUser } from "../mappers/User";
 import { mapHome } from "../mappers/Home";
-import { mapDevice } from "../mappers/Device";
+import { mapDevice, mapDeviceType } from "../mappers/Device";
 import { deleteDevice } from "@psh/db/dist/Device";
 
 const resolver: resolvers.MutationResolvers = {
@@ -102,16 +102,29 @@ const resolver: resolvers.MutationResolvers = {
         if (!context.session) throw PshError(StatusCodes.UNAUTHORIZED);
         if (!context.session.user.homeId)
             throw PshError(StatusCodes.BAD_REQUEST);
-        const id = tnid(4);
+        if (!args.device.alias) throw PshError(StatusCodes.BAD_REQUEST);
+        if (!args.device.id) throw PshError(StatusCodes.BAD_REQUEST);
+        if (!args.device.type) throw PshError(StatusCodes.BAD_REQUEST);
+        let type = null;
+        try {
+            type = await Device.getDeviceTypeById(
+                context.pool,
+                args.device.type
+            );
+        } catch (e) {
+            console.error(e);
+            throw PshError(StatusCodes.BAD_REQUEST);
+        }
+        if (!type) throw PshError(StatusCodes.BAD_REQUEST);
         const device: Device.IDBDevice = {
-            tnid: id,
-            type: args.device.type,
+            tnid: args.device.id,
+            typeId: args.device.type,
             alias: args.device.alias,
             homeId: context.session.user.homeId,
             ownerId: args.device.private
                 ? context.session.user.tnid
                 : undefined,
-            status: "{}"
+            status: type.defaultStatus
         };
         try {
             await Device.createDevice(context.pool, device);

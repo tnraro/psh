@@ -29,7 +29,7 @@ const Header = (props: IProps) => {
                                     가상 홈
                                 </Link>
                             </NextLink>
-                            <NextLink href="devices">
+                            <NextLink href="/devices">
                                 <Link mx={1} py={5} px={{ base: 1, md: 5 }}>
                                     내 장치
                                 </Link>

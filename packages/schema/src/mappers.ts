@@ -1,25 +1,32 @@
-import { Device, Home, Roles, Terms, User } from "./resolvers.gen";
+import { Roles, Terms } from "./resolvers.gen";
 
 export type MappedDevice = {
     __typename: "Device";
     id: string;
-    type: string;
+    typeId: string;
+    type?: MappedDeviceType;
     alias?: string;
     status: string;
     private: boolean;
     ownerId?: string;
     homeId: string;
-    home?: Home;
-    owner?: User;
+    home?: MappedHome;
+    owner?: MappedUser;
+};
+export type MappedDeviceType = {
+    __typename: "DeviceType";
+    id: string;
+    type: string;
+    name: string;
 };
 
 export type MappedHome = {
     __typename: "Home";
     id: string;
     name: string;
-    admins?: User[];
-    devices?: Device[];
-    family?: User[];
+    admins?: MappedUser[];
+    devices?: MappedDevice[];
+    family?: MappedUser[];
 };
 
 export type MappedUser = {
@@ -29,7 +36,7 @@ export type MappedUser = {
     username: string;
     terms: Terms;
     homeId?: string;
-    devices?: Device[];
-    home?: Home;
+    devices?: MappedDevice[];
+    home?: MappedHome;
     roles?: Roles;
 };
