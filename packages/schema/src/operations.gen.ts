@@ -61,7 +61,6 @@ export type Home = {
 
 export type NewDeviceInput = {
     alias: Scalars["String"];
-    id: Scalars["ID"];
     private: Scalars["Boolean"];
     type: Scalars["String"];
 };

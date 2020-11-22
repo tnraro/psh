@@ -41,7 +41,6 @@ type Home {
 
 input NewDeviceInput {
   alias: String!
-  id: ID!
   private: Boolean!
   type: String!
 }

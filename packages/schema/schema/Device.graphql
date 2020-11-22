@@ -13,7 +13,6 @@ type Device {
     status: String
 }
 input NewDeviceInput {
-    id: ID!
     type: String!
     alias: String!
     private: Boolean!
