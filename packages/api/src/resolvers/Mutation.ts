@@ -1,4 +1,4 @@
-import { User, Home } from "@psh/db";
+import { User, Home, Device } from "@psh/db";
 import type { resolvers } from "@psh/schema";
 import bcrypt, { compare } from "bcrypt";
 import { StatusCodes } from "http-status-codes";
@@ -6,6 +6,8 @@ import tnid from "tnid";
 import { PshError } from "../errors";
 import { mapUser } from "../mappers/User";
 import { mapHome } from "../mappers/Home";
+import { mapDevice } from "../mappers/Device";
+import { deleteDevice } from "@psh/db/dist/Device";
 
 const resolver: resolvers.MutationResolvers = {
     async newUser(_, args, { pool }) {
@@ -95,6 +97,53 @@ const resolver: resolvers.MutationResolvers = {
         if (!home) throw PshError(StatusCodes.BAD_REQUEST);
         await Home.joinHome(context.pool, home.tnid, context.session.user.tnid);
         return mapHome(home);
+    },
+    async newDevice(_, args, context) {
+        if (!context.session) throw PshError(StatusCodes.UNAUTHORIZED);
+        if (!context.session.user.homeId)
+            throw PshError(StatusCodes.BAD_REQUEST);
+        const id = tnid(4);
+        const device: Device.IDBDevice = {
+            tnid: id,
+            type: args.device.type,
+            alias: args.device.alias,
+            homeId: context.session.user.homeId,
+            ownerId: args.device.private
+                ? context.session.user.tnid
+                : undefined,
+            status: "{}"
+        };
+        try {
+            await Device.createDevice(context.pool, device);
+        } catch (e) {
+            console.error(e);
+            throw PshError(StatusCodes.BAD_REQUEST);
+        }
+        return mapDevice(device);
+    },
+    async deleteDevice(_, args, context) {
+        if (!context.session) throw PshError(StatusCodes.UNAUTHORIZED);
+
+        const deviceId = args.id;
+        const homeId = context.session.user.homeId;
+        const ownerId = context.session.user.tnid;
+
+        if (!deviceId || !homeId || !ownerId)
+            throw PshError(StatusCodes.BAD_REQUEST);
+
+        const device = await Device.getDeviceById(context.pool, deviceId);
+        if (!device) throw PshError(StatusCodes.BAD_REQUEST);
+        if (device.homeId !== homeId) throw PshError(StatusCodes.BAD_REQUEST);
+        if (device.ownerId && device.ownerId !== ownerId)
+            throw PshError(StatusCodes.BAD_REQUEST);
+
+        try {
+            await Device.deleteDevice(context.pool, deviceId);
+        } catch (e) {
+            console.error(e);
+            throw PshError(StatusCodes.BAD_REQUEST);
+        }
+        return mapDevice(device);
     }
 };
 
