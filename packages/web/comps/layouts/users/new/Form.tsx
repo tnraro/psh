@@ -13,7 +13,7 @@ import {
     useToast
 } from "@chakra-ui/react";
 import TermsCheckbox from "./TermsCheckbox";
-import { operations } from "@psh/schema";
+import * as operations from "@psh/schema/dist/operations.gen";
 import { StatusCodes } from "http-status-codes";
 
 type TermsItems = {
