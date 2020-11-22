@@ -198,20 +198,17 @@ const HomeDashboard = (props: { me: MeQuery["me"]; client: any }) => {
 };
 
 const App = (props: IProp) => {
-    const { client, error, data } = useMeQuery();
-
-    const errorCode = error?.graphQLErrors[0]?.extensions?.code;
-    const noHome = errorCode == StatusCodes.FORBIDDEN;
+    const { client, data } = useMeQuery();
 
     return (
-        <Box bg="gray.100" height="100vh">
+        <Box>
             <Header client={client} me={data?.me} />
             <Body>
                 <Spacer h={3} />
-                {noHome ? (
-                    <NoHome />
-                ) : (
+                {data?.me?.home ? (
                     <HomeDashboard client={client} me={data?.me} />
+                ) : (
+                    <NoHome />
                 )}
             </Body>
         </Box>

@@ -5,6 +5,7 @@ import React from "react";
 
 const App = () => {
     const { client, loading, data } = operations.useMeQuery();
+    console.log(loading, data?.me);
     return (
         <div>
             <Header client={client} me={data?.me} />

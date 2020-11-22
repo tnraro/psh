@@ -7,7 +7,7 @@ import { mapHome } from "../mappers/Home";
 
 const resolver: resolvers.UserResolvers = {
     async devices(parent, args, context) {
-        if (!parent.homeId) throw PshError(StatusCodes.BAD_REQUEST);
+        if (!parent.homeId) return [];
         try {
             const devices = await Device.getDevicesByHome(
                 context.pool,
@@ -24,7 +24,7 @@ const resolver: resolvers.UserResolvers = {
         }
     },
     async home(parent, args, context) {
-        if (!parent.homeId) throw PshError(StatusCodes.FORBIDDEN);
+        if (!parent.homeId) return null;
         const home = await Home.getHomeById(context.pool, parent.homeId);
 
         return home ? mapHome(home) : null;
