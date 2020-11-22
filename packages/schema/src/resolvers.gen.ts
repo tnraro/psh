@@ -19,6 +19,13 @@ export type Scalars = {
     Float: number;
 };
 
+export type DeviceType = {
+    __typename?: "DeviceType";
+    id?: Maybe<Scalars["ID"]>;
+    name?: Maybe<Scalars["String"]>;
+    type?: Maybe<Scalars["String"]>;
+};
+
 export type Device = {
     __typename?: "Device";
     alias?: Maybe<Scalars["String"]>;
@@ -29,7 +36,7 @@ export type Device = {
     owner?: Maybe<User>;
     private?: Maybe<Scalars["Boolean"]>;
     status?: Maybe<Scalars["String"]>;
-    type?: Maybe<Scalars["String"]>;
+    type?: Maybe<DeviceType>;
 };
 
 export type User = {
@@ -67,6 +74,7 @@ export type Home = {
 
 export type NewDeviceInput = {
     alias: Scalars["String"];
+    id: Scalars["String"];
     private: Scalars["Boolean"];
     type: Scalars["String"];
 };
@@ -96,6 +104,7 @@ export type Query = {
     __typename?: "Query";
     user?: Maybe<User>;
     me?: Maybe<User>;
+    deviceTypes?: Maybe<Array<Maybe<DeviceType>>>;
 };
 
 export type QueryUserArgs = {
@@ -256,9 +265,10 @@ export type DirectiveResolverFn<
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
-    Device: ResolverTypeWrapper<MappedDevice>;
-    String: ResolverTypeWrapper<Partial<Scalars["String"]>>;
+    DeviceType: ResolverTypeWrapper<Partial<DeviceType>>;
     ID: ResolverTypeWrapper<Partial<Scalars["ID"]>>;
+    String: ResolverTypeWrapper<Partial<Scalars["String"]>>;
+    Device: ResolverTypeWrapper<MappedDevice>;
     Boolean: ResolverTypeWrapper<Partial<Scalars["Boolean"]>>;
     User: ResolverTypeWrapper<MappedUser>;
     Roles: ResolverTypeWrapper<Partial<Roles>>;
@@ -278,9 +288,10 @@ export type ResolversTypes = ResolversObject<{
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
-    Device: MappedDevice;
-    String: Partial<Scalars["String"]>;
+    DeviceType: Partial<DeviceType>;
     ID: Partial<Scalars["ID"]>;
+    String: Partial<Scalars["String"]>;
+    Device: MappedDevice;
     Boolean: Partial<Scalars["Boolean"]>;
     User: MappedUser;
     Roles: Partial<Roles>;
@@ -294,6 +305,16 @@ export type ResolversParentTypes = ResolversObject<{
     SignInUserInput: Partial<SignInUserInput>;
     Query: {};
     Mutation: {};
+}>;
+
+export type DeviceTypeResolvers<
+    ContextType = IContext,
+    ParentType extends ResolversParentTypes["DeviceType"] = ResolversParentTypes["DeviceType"]
+> = ResolversObject<{
+    id?: Resolver<Maybe<ResolversTypes["ID"]>, ParentType, ContextType>;
+    name?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
+    type?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
+    __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type DeviceResolvers<
@@ -320,7 +341,11 @@ export type DeviceResolvers<
         ContextType
     >;
     status?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
-    type?: Resolver<Maybe<ResolversTypes["String"]>, ParentType, ContextType>;
+    type?: Resolver<
+        Maybe<ResolversTypes["DeviceType"]>,
+        ParentType,
+        ContextType
+    >;
     __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -425,6 +450,11 @@ export type QueryResolvers<
         RequireFields<QueryUserArgs, "id">
     >;
     me?: Resolver<Maybe<ResolversTypes["User"]>, ParentType, ContextType>;
+    deviceTypes?: Resolver<
+        Maybe<Array<Maybe<ResolversTypes["DeviceType"]>>>,
+        ParentType,
+        ContextType
+    >;
 }>;
 
 export type MutationResolvers<
@@ -471,6 +501,7 @@ export type MutationResolvers<
 }>;
 
 export type Resolvers<ContextType = IContext> = ResolversObject<{
+    DeviceType?: DeviceTypeResolvers<ContextType>;
     Device?: DeviceResolvers<ContextType>;
     User?: UserResolvers<ContextType>;
     Roles?: RolesResolvers<ContextType>;

@@ -1,3 +1,4 @@
+import DeviceIcon from "@/comps/DeviceIcon";
 import Body from "@/comps/layouts/Body";
 import Header from "@/comps/layouts/Header";
 import {
@@ -8,9 +9,8 @@ import {
     Button,
     Center,
     Heading,
-    Icon,
-    IconButton,
     Input,
+    Link,
     Spacer,
     Stack,
     Text,
@@ -19,16 +19,15 @@ import {
     WrapItem
 } from "@chakra-ui/react";
 import {
-    MyHomeQuery,
+    MeQuery,
     useJoinHomeMutation,
     useMeQuery,
-    useMyHomeQuery,
     useNewHomeMutation
 } from "@psh/schema/dist/operations.gen";
 import { StatusCodes } from "http-status-codes";
 import { useRouter } from "next/dist/client/router";
+import NextLink from "next/link";
 import React, { useState } from "react";
-import { FiHeart, FiTrash2 } from "react-icons/fi";
 
 interface IProp {}
 
@@ -125,7 +124,7 @@ const HomeDashboardItem = (props: { children: any }) => (
     </Box>
 );
 
-const HomeDashboard = (props: { me: MyHomeQuery["me"]; client: any }) => {
+const HomeDashboard = (props: { me: MeQuery["me"]; client: any }) => {
     const me = props.me;
     console.log(me);
 
@@ -153,30 +152,42 @@ const HomeDashboard = (props: { me: MyHomeQuery["me"]; client: any }) => {
                 </Wrap>
             </HomeDashboardItem>
             <HomeDashboardItem>
-                <Heading size="md">등록된 장치</Heading>
+                <NextLink href="/devices">
+                    <Link>
+                        <Heading size="md">등록된 장치</Heading>
+                    </Link>
+                </NextLink>
                 <Wrap>
                     {me?.home?.devices?.map((device) => {
                         return (
-                            <WrapItem
-                                key={device?.id}
-                                border="1px"
-                                borderRadius=".8em"
-                                borderColor="gray.200"
-                                py={2}
-                                px={4}>
-                                <Box>
-                                    <Text>{device?.alias}</Text>
-                                    <Text fontSize="0.9em" fontWeight={100}>
-                                        {device?.type}
-                                    </Text>
-                                    {!device?.private ||
-                                        (device?.owner?.id === me.id && (
-                                            <Icon
-                                                as={FiHeart}
-                                                color="red.400"
+                            <WrapItem>
+                                <NextLink href={`/device/${device?.id}`}>
+                                    <Link>
+                                        <Box
+                                            key={device?.id}
+                                            border="1px"
+                                            borderRadius=".8em"
+                                            borderColor="gray.200"
+                                            py={2}
+                                            px={4}>
+                                            <Text>{device?.alias}</Text>
+                                            <Text
+                                                fontSize="0.9em"
+                                                fontWeight={100}>
+                                                {device?.type?.name}
+                                            </Text>
+                                            <DeviceIcon
+                                                isPrivate={
+                                                    device?.private || false
+                                                }
+                                                ownerId={
+                                                    device?.owner?.id || null
+                                                }
+                                                myId={me.id || null}
                                             />
-                                        ))}
-                                </Box>
+                                        </Box>
+                                    </Link>
+                                </NextLink>
                             </WrapItem>
                         );
                     })}
@@ -187,15 +198,14 @@ const HomeDashboard = (props: { me: MyHomeQuery["me"]; client: any }) => {
 };
 
 const App = (props: IProp) => {
-    const { data: meData } = useMeQuery();
-    const { client, loading, data, error } = useMyHomeQuery();
+    const { client, error, data } = useMeQuery();
 
     const errorCode = error?.graphQLErrors[0]?.extensions?.code;
     const noHome = errorCode == StatusCodes.FORBIDDEN;
 
     return (
         <Box bg="gray.100" height="100vh">
-            <Header client={client} me={meData?.me} />
+            <Header client={client} me={data?.me} />
             <Body>
                 <Spacer h={3} />
                 {noHome ? (

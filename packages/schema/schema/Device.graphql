@@ -1,9 +1,14 @@
 #import * from "User.graphql"
 #import * from "Home.graphql"
 
-type Device {
+type DeviceType {
     id: ID
     type: String
+    name: String
+}
+type Device {
+    id: ID
+    type: DeviceType
     alias: String
     private: Boolean
     online: Boolean
@@ -13,6 +18,7 @@ type Device {
     status: String
 }
 input NewDeviceInput {
+    id: String!
     type: String!
     alias: String!
     private: Boolean!

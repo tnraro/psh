@@ -23,13 +23,6 @@ query Me {
         id
         email
         username
-    }
-}
-query MyHome {
-    me {
-        id
-        email
-        username
         home {
             id
             name
@@ -40,7 +33,11 @@ query MyHome {
             }
             devices {
                 id
-                type
+                type {
+                    id
+                    type
+                    name
+                }
                 alias
                 private
                 online
@@ -50,6 +47,22 @@ query MyHome {
                 }
                 status
             }
+        }
+        devices {
+            id
+            type {
+                id
+                type
+                name
+            }
+            alias
+            private
+            online
+            owner {
+                id
+                username
+            }
+            status
         }
     }
 }

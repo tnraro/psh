@@ -13,6 +13,13 @@ export type Scalars = {
     Float: number;
 };
 
+export type DeviceType = {
+    __typename?: "DeviceType";
+    id?: Maybe<Scalars["ID"]>;
+    name?: Maybe<Scalars["String"]>;
+    type?: Maybe<Scalars["String"]>;
+};
+
 export type Device = {
     __typename?: "Device";
     alias?: Maybe<Scalars["String"]>;
@@ -23,7 +30,7 @@ export type Device = {
     owner?: Maybe<User>;
     private?: Maybe<Scalars["Boolean"]>;
     status?: Maybe<Scalars["String"]>;
-    type?: Maybe<Scalars["String"]>;
+    type?: Maybe<DeviceType>;
 };
 
 export type User = {
@@ -61,6 +68,7 @@ export type Home = {
 
 export type NewDeviceInput = {
     alias: Scalars["String"];
+    id: Scalars["String"];
     private: Scalars["Boolean"];
     type: Scalars["String"];
 };
@@ -90,6 +98,7 @@ export type Query = {
     __typename?: "Query";
     user?: Maybe<User>;
     me?: Maybe<User>;
+    deviceTypes?: Maybe<Array<Maybe<DeviceType>>>;
 };
 
 export type QueryUserArgs = {
@@ -137,10 +146,13 @@ export type NewDeviceMutationVariables = Exact<{
 
 export type NewDeviceMutation = { __typename?: "Mutation" } & {
     newDevice?: Maybe<
-        { __typename?: "Device" } & Pick<
-            Device,
-            "id" | "type" | "alias" | "private"
-        > & {
+        { __typename?: "Device" } & Pick<Device, "id" | "alias" | "private"> & {
+                type?: Maybe<
+                    { __typename?: "DeviceType" } & Pick<
+                        DeviceType,
+                        "id" | "type" | "name"
+                    >
+                >;
                 owner?: Maybe<
                     { __typename?: "User" } & Pick<User, "id" | "username">
                 >;
@@ -158,6 +170,21 @@ export type DeleteDeviceMutationVariables = Exact<{
 export type DeleteDeviceMutation = { __typename?: "Mutation" } & {
     deleteDevice?: Maybe<
         { __typename?: "Device" } & Pick<Device, "id" | "alias">
+    >;
+};
+
+export type GetDeviceTypesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetDeviceTypesQuery = { __typename?: "Query" } & {
+    deviceTypes?: Maybe<
+        Array<
+            Maybe<
+                { __typename?: "DeviceType" } & Pick<
+                    DeviceType,
+                    "id" | "type" | "name"
+                >
+            >
+        >
     >;
 };
 
@@ -215,14 +242,6 @@ export type MeQueryVariables = Exact<{ [key: string]: never }>;
 
 export type MeQuery = { __typename?: "Query" } & {
     me?: Maybe<
-        { __typename?: "User" } & Pick<User, "id" | "email" | "username">
-    >;
-};
-
-export type MyHomeQueryVariables = Exact<{ [key: string]: never }>;
-
-export type MyHomeQuery = { __typename?: "Query" } & {
-    me?: Maybe<
         { __typename?: "User" } & Pick<User, "id" | "email" | "username"> & {
                 home?: Maybe<
                     { __typename?: "Home" } & Pick<Home, "id" | "name"> & {
@@ -242,12 +261,19 @@ export type MyHomeQuery = { __typename?: "Query" } & {
                                         { __typename?: "Device" } & Pick<
                                             Device,
                                             | "id"
-                                            | "type"
                                             | "alias"
                                             | "private"
                                             | "online"
                                             | "status"
                                         > & {
+                                                type?: Maybe<
+                                                    {
+                                                        __typename?: "DeviceType";
+                                                    } & Pick<
+                                                        DeviceType,
+                                                        "id" | "type" | "name"
+                                                    >
+                                                >;
                                                 owner?: Maybe<
                                                     {
                                                         __typename?: "User";
@@ -261,6 +287,29 @@ export type MyHomeQuery = { __typename?: "Query" } & {
                                 >
                             >;
                         }
+                >;
+                devices?: Maybe<
+                    Array<
+                        Maybe<
+                            { __typename?: "Device" } & Pick<
+                                Device,
+                                "id" | "alias" | "private" | "online" | "status"
+                            > & {
+                                    type?: Maybe<
+                                        { __typename?: "DeviceType" } & Pick<
+                                            DeviceType,
+                                            "id" | "type" | "name"
+                                        >
+                                    >;
+                                    owner?: Maybe<
+                                        { __typename?: "User" } & Pick<
+                                            User,
+                                            "id" | "username"
+                                        >
+                                    >;
+                                }
+                        >
+                    >
                 >;
             }
     >;
@@ -283,19 +332,15 @@ export type UserQuery = { __typename?: "Query" } & {
     >;
 };
 
-export type GetUserByIdQueryVariables = Exact<{
-    id: Scalars["ID"];
-}>;
-
-export type GetUserByIdQuery = { __typename?: "Query" } & {
-    user?: Maybe<{ __typename?: "User" } & Pick<User, "id" | "username">>;
-};
-
 export const NewDeviceDocument = gql`
     mutation NewDevice($device: NewDeviceInput!) {
         newDevice(device: $device) {
             id
-            type
+            type {
+                id
+                type
+                name
+            }
             alias
             private
             owner {
@@ -398,6 +443,63 @@ export type DeleteDeviceMutationResult = Apollo.MutationResult<DeleteDeviceMutat
 export type DeleteDeviceMutationOptions = Apollo.BaseMutationOptions<
     DeleteDeviceMutation,
     DeleteDeviceMutationVariables
+>;
+export const GetDeviceTypesDocument = gql`
+    query GetDeviceTypes {
+        deviceTypes {
+            id
+            type
+            name
+        }
+    }
+`;
+
+/**
+ * __useGetDeviceTypesQuery__
+ *
+ * To run a query within a React component, call `useGetDeviceTypesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetDeviceTypesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetDeviceTypesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetDeviceTypesQuery(
+    baseOptions?: Apollo.QueryHookOptions<
+        GetDeviceTypesQuery,
+        GetDeviceTypesQueryVariables
+    >
+) {
+    return Apollo.useQuery<GetDeviceTypesQuery, GetDeviceTypesQueryVariables>(
+        GetDeviceTypesDocument,
+        baseOptions
+    );
+}
+export function useGetDeviceTypesLazyQuery(
+    baseOptions?: Apollo.LazyQueryHookOptions<
+        GetDeviceTypesQuery,
+        GetDeviceTypesQueryVariables
+    >
+) {
+    return Apollo.useLazyQuery<
+        GetDeviceTypesQuery,
+        GetDeviceTypesQueryVariables
+    >(GetDeviceTypesDocument, baseOptions);
+}
+export type GetDeviceTypesQueryHookResult = ReturnType<
+    typeof useGetDeviceTypesQuery
+>;
+export type GetDeviceTypesLazyQueryHookResult = ReturnType<
+    typeof useGetDeviceTypesLazyQuery
+>;
+export type GetDeviceTypesQueryResult = Apollo.QueryResult<
+    GetDeviceTypesQuery,
+    GetDeviceTypesQueryVariables
 >;
 export const NewHomeDocument = gql`
     mutation NewHome($name: String!) {
@@ -601,6 +703,47 @@ export const MeDocument = gql`
             id
             email
             username
+            home {
+                id
+                name
+                family {
+                    id
+                    email
+                    username
+                }
+                devices {
+                    id
+                    type {
+                        id
+                        type
+                        name
+                    }
+                    alias
+                    private
+                    online
+                    owner {
+                        id
+                        username
+                    }
+                    status
+                }
+            }
+            devices {
+                id
+                type {
+                    id
+                    type
+                    name
+                }
+                alias
+                private
+                online
+                owner {
+                    id
+                    username
+                }
+                status
+            }
         }
     }
 `;
@@ -636,74 +779,6 @@ export function useMeLazyQuery(
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
-export const MyHomeDocument = gql`
-    query MyHome {
-        me {
-            id
-            email
-            username
-            home {
-                id
-                name
-                family {
-                    id
-                    email
-                    username
-                }
-                devices {
-                    id
-                    type
-                    alias
-                    private
-                    online
-                    owner {
-                        id
-                        username
-                    }
-                    status
-                }
-            }
-        }
-    }
-`;
-
-/**
- * __useMyHomeQuery__
- *
- * To run a query within a React component, call `useMyHomeQuery` and pass it any options that fit your needs.
- * When your component renders, `useMyHomeQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useMyHomeQuery({
- *   variables: {
- *   },
- * });
- */
-export function useMyHomeQuery(
-    baseOptions?: Apollo.QueryHookOptions<MyHomeQuery, MyHomeQueryVariables>
-) {
-    return Apollo.useQuery<MyHomeQuery, MyHomeQueryVariables>(
-        MyHomeDocument,
-        baseOptions
-    );
-}
-export function useMyHomeLazyQuery(
-    baseOptions?: Apollo.LazyQueryHookOptions<MyHomeQuery, MyHomeQueryVariables>
-) {
-    return Apollo.useLazyQuery<MyHomeQuery, MyHomeQueryVariables>(
-        MyHomeDocument,
-        baseOptions
-    );
-}
-export type MyHomeQueryHookResult = ReturnType<typeof useMyHomeQuery>;
-export type MyHomeLazyQueryHookResult = ReturnType<typeof useMyHomeLazyQuery>;
-export type MyHomeQueryResult = Apollo.QueryResult<
-    MyHomeQuery,
-    MyHomeQueryVariables
->;
 export const UserDocument = gql`
     query User($id: ID!) {
         user(id: $id) {
@@ -755,58 +830,3 @@ export function useUserLazyQuery(
 export type UserQueryHookResult = ReturnType<typeof useUserQuery>;
 export type UserLazyQueryHookResult = ReturnType<typeof useUserLazyQuery>;
 export type UserQueryResult = Apollo.QueryResult<UserQuery, UserQueryVariables>;
-export const GetUserByIdDocument = gql`
-    query GetUserById($id: ID!) {
-        user(id: $id) {
-            id
-            username
-        }
-    }
-`;
-
-/**
- * __useGetUserByIdQuery__
- *
- * To run a query within a React component, call `useGetUserByIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetUserByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetUserByIdQuery({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useGetUserByIdQuery(
-    baseOptions: Apollo.QueryHookOptions<
-        GetUserByIdQuery,
-        GetUserByIdQueryVariables
-    >
-) {
-    return Apollo.useQuery<GetUserByIdQuery, GetUserByIdQueryVariables>(
-        GetUserByIdDocument,
-        baseOptions
-    );
-}
-export function useGetUserByIdLazyQuery(
-    baseOptions?: Apollo.LazyQueryHookOptions<
-        GetUserByIdQuery,
-        GetUserByIdQueryVariables
-    >
-) {
-    return Apollo.useLazyQuery<GetUserByIdQuery, GetUserByIdQueryVariables>(
-        GetUserByIdDocument,
-        baseOptions
-    );
-}
-export type GetUserByIdQueryHookResult = ReturnType<typeof useGetUserByIdQuery>;
-export type GetUserByIdLazyQueryHookResult = ReturnType<
-    typeof useGetUserByIdLazyQuery
->;
-export type GetUserByIdQueryResult = Apollo.QueryResult<
-    GetUserByIdQuery,
-    GetUserByIdQueryVariables
->;

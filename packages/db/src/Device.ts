@@ -2,13 +2,19 @@ import { Pool } from "mysql2/promise";
 
 export interface IDBDevice {
     tnid: string;
-    type: string;
+    typeId: string;
     alias?: string;
     homeId: string;
     ownerId?: string;
     status: string;
     // online: string;
     // lastOnline: string;
+}
+export interface IDBDeviceType {
+    tnid: string;
+    type: string;
+    name: string;
+    defaultStatus: string;
 }
 
 export const getDeviceById = async (
@@ -51,14 +57,14 @@ export const getDevicesByHome = async (
 };
 export const createDevice = async (pool: Pool, device: IDBDevice) => {
     return await pool.execute(
-        "INSERT INTO `customer`.`Device` (`tnid`, `homeId`, `ownerId`, `status`, `alias`, `type`) VALUES (?,?,?,?,?,?);",
+        "INSERT INTO `customer`.`Device` (`tnid`, `homeId`, `ownerId`, `status`, `alias`, `typeId`) VALUES (?,?,?,?,?,?);",
         [
             device.tnid,
             device.homeId,
-            device.ownerId,
+            device.ownerId || null,
             device.status,
-            device.alias,
-            device.type
+            device.alias || null,
+            device.typeId
         ]
     );
 };
@@ -67,4 +73,19 @@ export const deleteDevice = async (pool: Pool, id: string) => {
         "DELETE FROM `customer`.`Device` WHERE (`tnid`=?);",
         [id]
     );
+};
+export const getDeviceTypes = async (pool: Pool) => {
+    const [rows] = await pool.execute("SELECT * FROM `customer`.`DeviceType`;");
+    const types = <IDBDeviceType[]>rows;
+    return types;
+};
+export const getDeviceTypeById = async (pool: Pool, id: string) => {
+    const [
+        rows
+    ] = await pool.execute(
+        "SELECT * FROM `customer`.`DeviceType` WHERE (`tnid`=?);",
+        [id]
+    );
+    const deviceType = (<IDBDeviceType[]>rows)[0];
+    return deviceType;
 };

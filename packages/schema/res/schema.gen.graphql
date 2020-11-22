@@ -1,3 +1,9 @@
+type DeviceType {
+  id: ID
+  name: String
+  type: String
+}
+
 type Device {
   alias: String
   home: Home
@@ -7,7 +13,7 @@ type Device {
   owner: User
   private: Boolean
   status: String
-  type: String
+  type: DeviceType
 }
 
 type User {
@@ -41,6 +47,7 @@ type Home {
 
 input NewDeviceInput {
   alias: String!
+  id: String!
   private: Boolean!
   type: String!
 }
@@ -68,6 +75,7 @@ input SignInUserInput {
 type Query {
   user(id: ID!): User
   me: User
+  deviceTypes: [DeviceType]
 }
 
 type Mutation {
