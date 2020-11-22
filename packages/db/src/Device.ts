@@ -51,14 +51,14 @@ export const getDevicesByHome = async (
 };
 export const createDevice = async (pool: Pool, device: IDBDevice) => {
     return await pool.execute(
-        "INSERT INTO `customer`.`Device` (`tnid`, `type`, `homeId`, `ownerId`, `status`, `alias`) VALUES (?,?,?,?,?);",
+        "INSERT INTO `customer`.`Device` (`tnid`, `homeId`, `ownerId`, `status`, `alias`, `type`) VALUES (?,?,?,?,?,?);",
         [
             device.tnid,
-            device.type,
             device.homeId,
             device.ownerId,
             device.status,
-            device.alias
+            device.alias,
+            device.type
         ]
     );
 };
