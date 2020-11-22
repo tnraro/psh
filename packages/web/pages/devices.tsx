@@ -37,7 +37,7 @@ import {
 } from "@psh/schema/dist/operations.gen";
 import { useRouter } from "next/dist/client/router";
 import NextLink from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FiPlus, FiTrash2 } from "react-icons/fi";
 interface IDeviceItemProp {
     myId: string;
@@ -268,18 +268,18 @@ const App = (props: IProp) => {
     const deviceTypes = useGetDeviceTypesQuery();
     const { isOpen, onOpen, onClose } = useDisclosure();
 
-    useEffect(() => {
-        console.log(deviceTypes);
-    });
-
     const me = data?.me;
 
     return (
         <>
-            <Box bg="gray.100" height="100vh">
+            <Box>
                 <Header client={client} me={me} />
                 <Body>
-                    <DeviceList me={me} onOpenModal={onOpen} />
+                    {me?.home ? (
+                        <DeviceList me={me} onOpenModal={onOpen} />
+                    ) : (
+                        "NO_HOME"
+                    )}
                 </Body>
             </Box>
             {deviceTypes.loading || (
