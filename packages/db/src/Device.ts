@@ -1,4 +1,4 @@
-import { Pool } from "mysql2/promise";
+import { Pool, ResultSetHeader } from "mysql2/promise";
 
 export interface IDBDevice {
     tnid: string;
@@ -88,4 +88,21 @@ export const getDeviceTypeById = async (pool: Pool, id: string) => {
     );
     const deviceType = (<IDBDeviceType[]>rows)[0];
     return deviceType;
+};
+export const updateDeviceStatus = async (
+    pool: Pool,
+    deviceId: string,
+    status: string
+) => {
+    const QUERY = "UPDATE `customer`.`Device` SET `status`=? WHERE (`tnid`=?);";
+    const [result]: [ResultSetHeader, any] = await pool.execute(QUERY, [
+        status,
+        deviceId
+    ]);
+
+    if (result.affectedRows === 0) {
+        throw new Error("NO_USER_CHANGED");
+    }
+
+    return status;
 };

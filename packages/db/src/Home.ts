@@ -1,4 +1,4 @@
-import { Pool } from "mysql2/promise";
+import { Pool, ResultSetHeader } from "mysql2/promise";
 
 export interface IDBHome {
     tnid: string;
@@ -37,11 +37,11 @@ export const createHome = async (pool: Pool, home: IDBHome, userId: string) => {
     try {
         await connection.beginTransaction();
         await connection.execute(INSERT_QUERY, [home.tnid, home.name]);
-        const [rows] = await connection.execute(UPDATE_QUERY, [
-            home.tnid,
-            userId
-        ]);
-        if ((<any[]>rows).length === 0) {
+        const [result]: [
+            ResultSetHeader,
+            any
+        ] = await connection.execute(UPDATE_QUERY, [home.tnid, userId]);
+        if (result.affectedRows === 0) {
             throw new Error("NO_USER_CHANGED");
         }
         await connection.commit();

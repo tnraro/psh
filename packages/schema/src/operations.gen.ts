@@ -99,10 +99,15 @@ export type Query = {
     user?: Maybe<User>;
     me?: Maybe<User>;
     deviceTypes?: Maybe<Array<Maybe<DeviceType>>>;
+    fetchDeviceStatus?: Maybe<Scalars["String"]>;
 };
 
 export type QueryUserArgs = {
     id: Scalars["ID"];
+};
+
+export type QueryFetchDeviceStatusArgs = {
+    device: Scalars["ID"];
 };
 
 export type Mutation = {
@@ -114,6 +119,7 @@ export type Mutation = {
     newDevice?: Maybe<Device>;
     deleteDevice?: Maybe<Device>;
     tnid?: Maybe<Scalars["ID"]>;
+    pushDeviceStatus?: Maybe<Scalars["String"]>;
 };
 
 export type MutationNewUserArgs = {
@@ -137,7 +143,12 @@ export type MutationNewDeviceArgs = {
 };
 
 export type MutationDeleteDeviceArgs = {
-    id?: Maybe<Scalars["ID"]>;
+    id: Scalars["ID"];
+};
+
+export type MutationPushDeviceStatusArgs = {
+    device: Scalars["ID"];
+    status?: Maybe<Scalars["String"]>;
 };
 
 export type NewDeviceMutationVariables = Exact<{
