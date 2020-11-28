@@ -1,13 +1,12 @@
-import { User, Home, Device } from "@psh/db";
+import { Device, Home, User } from "@psh/db";
 import type { resolvers } from "@psh/schema";
 import bcrypt, { compare } from "bcrypt";
 import { StatusCodes } from "http-status-codes";
 import tnid from "tnid";
 import { PshError } from "../errors";
-import { mapUser } from "../mappers/User";
+import { mapDevice } from "../mappers/Device";
 import { mapHome } from "../mappers/Home";
-import { mapDevice, mapDeviceType } from "../mappers/Device";
-import { deleteDevice } from "@psh/db/dist/Device";
+import { mapUser } from "../mappers/User";
 
 const resolver: resolvers.MutationResolvers = {
     async newUser(_, args, { pool }) {
@@ -157,6 +156,35 @@ const resolver: resolvers.MutationResolvers = {
             throw PshError(StatusCodes.BAD_REQUEST);
         }
         return mapDevice(device);
+    },
+    async pushDeviceStatus(_, args, context) {
+        if (!context.session) {
+            throw PshError(StatusCodes.UNAUTHORIZED);
+        }
+        const status = args.status || "";
+        try {
+            const device = await Device.getDeviceById(
+                context.pool,
+                args.device
+            );
+            if (device?.ownerId) {
+                if (device.ownerId !== context.session.user.tnid) {
+                    throw PshError(StatusCodes.BAD_REQUEST);
+                }
+            } else {
+                if (device?.homeId !== context.session.user.homeId) {
+                    throw PshError(StatusCodes.BAD_REQUEST);
+                }
+            }
+            return await Device.updateDeviceStatus(
+                context.pool,
+                args.device,
+                status
+            );
+        } catch (e) {
+            console.error(e);
+            throw PshError(StatusCodes.BAD_REQUEST);
+        }
     }
 };
 

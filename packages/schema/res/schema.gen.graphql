@@ -76,6 +76,7 @@ type Query {
   user(id: ID!): User
   me: User
   deviceTypes: [DeviceType]
+  fetchDeviceStatus(device: ID!): String
 }
 
 type Mutation {
@@ -84,6 +85,7 @@ type Mutation {
   newHome(name: String!): Home
   joinHome(home: String!): Home
   newDevice(device: NewDeviceInput!): Device
-  deleteDevice(id: ID): Device
+  deleteDevice(id: ID!): Device
   tnid: ID
+  pushDeviceStatus(device: ID!, status: String): String
 }

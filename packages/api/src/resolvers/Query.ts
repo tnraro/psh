@@ -26,6 +26,18 @@ const resolver: resolvers.QueryResolvers = {
             console.log(e);
             throw PshError(StatusCodes.INTERNAL_SERVER_ERROR);
         }
+    },
+    async fetchDeviceStatus(_, args, context) {
+        try {
+            const result = await Device.getDeviceById(
+                context.pool,
+                args.device
+            );
+            return result?.status || "";
+        } catch (e) {
+            console.log(e);
+            throw PshError(StatusCodes.BAD_REQUEST);
+        }
     }
 };
 

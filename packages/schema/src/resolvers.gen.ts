@@ -105,10 +105,15 @@ export type Query = {
     user?: Maybe<User>;
     me?: Maybe<User>;
     deviceTypes?: Maybe<Array<Maybe<DeviceType>>>;
+    fetchDeviceStatus?: Maybe<Scalars["String"]>;
 };
 
 export type QueryUserArgs = {
     id: Scalars["ID"];
+};
+
+export type QueryFetchDeviceStatusArgs = {
+    device: Scalars["ID"];
 };
 
 export type Mutation = {
@@ -120,6 +125,7 @@ export type Mutation = {
     newDevice?: Maybe<Device>;
     deleteDevice?: Maybe<Device>;
     tnid?: Maybe<Scalars["ID"]>;
+    pushDeviceStatus?: Maybe<Scalars["String"]>;
 };
 
 export type MutationNewUserArgs = {
@@ -143,7 +149,12 @@ export type MutationNewDeviceArgs = {
 };
 
 export type MutationDeleteDeviceArgs = {
-    id?: Maybe<Scalars["ID"]>;
+    id: Scalars["ID"];
+};
+
+export type MutationPushDeviceStatusArgs = {
+    device: Scalars["ID"];
+    status?: Maybe<Scalars["String"]>;
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -455,6 +466,12 @@ export type QueryResolvers<
         ParentType,
         ContextType
     >;
+    fetchDeviceStatus?: Resolver<
+        Maybe<ResolversTypes["String"]>,
+        ParentType,
+        ContextType,
+        RequireFields<QueryFetchDeviceStatusArgs, "device">
+    >;
 }>;
 
 export type MutationResolvers<
@@ -495,9 +512,15 @@ export type MutationResolvers<
         Maybe<ResolversTypes["Device"]>,
         ParentType,
         ContextType,
-        RequireFields<MutationDeleteDeviceArgs, never>
+        RequireFields<MutationDeleteDeviceArgs, "id">
     >;
     tnid?: Resolver<Maybe<ResolversTypes["ID"]>, ParentType, ContextType>;
+    pushDeviceStatus?: Resolver<
+        Maybe<ResolversTypes["String"]>,
+        ParentType,
+        ContextType,
+        RequireFields<MutationPushDeviceStatusArgs, "device">
+    >;
 }>;
 
 export type Resolvers<ContextType = IContext> = ResolversObject<{
