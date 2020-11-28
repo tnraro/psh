@@ -15,6 +15,7 @@
         "db": "yarn workspace @psh/db",
         "schema": "yarn workspace @psh/schema",
         "web": "yarn workspace @psh/web",
+        "services": "yarn workspace @psh/services",
         "startapi": "yarn schema build && yarn api start",
         "postinstall": "husky install"
     },
