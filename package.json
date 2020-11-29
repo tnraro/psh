@@ -12,12 +12,15 @@
     ],
     "scripts": {
         "api": "yarn workspace @psh/api",
+        "broker": "yarn workspace @psh/broker",
         "db": "yarn workspace @psh/db",
         "schema": "yarn workspace @psh/schema",
         "web": "yarn workspace @psh/web",
         "services": "yarn workspace @psh/services",
         "startapi": "yarn schema build && yarn api start",
-        "postinstall": "husky install"
+        "postinstall": "husky install",
+        "dev": "lerna run --parallel dev",
+        "start": "lerna run --parallel start"
     },
     "devDependencies": {
         "husky": "^5.0.1",

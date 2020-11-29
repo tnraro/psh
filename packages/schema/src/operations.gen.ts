@@ -199,6 +199,15 @@ export type GetDeviceTypesQuery = { __typename?: "Query" } & {
     >;
 };
 
+export type PushDeviceStatusMutationVariables = Exact<{
+    deviceId: Scalars["ID"];
+    status?: Maybe<Scalars["String"]>;
+}>;
+
+export type PushDeviceStatusMutation = { __typename?: "Mutation" } & {
+    status: Mutation["pushDeviceStatus"];
+};
+
 export type NewHomeMutationVariables = Exact<{
     name: Scalars["String"];
 }>;
@@ -511,6 +520,53 @@ export type GetDeviceTypesLazyQueryHookResult = ReturnType<
 export type GetDeviceTypesQueryResult = Apollo.QueryResult<
     GetDeviceTypesQuery,
     GetDeviceTypesQueryVariables
+>;
+export const PushDeviceStatusDocument = gql`
+    mutation PushDeviceStatus($deviceId: ID!, $status: String) {
+        status: pushDeviceStatus(device: $deviceId, status: $status)
+    }
+`;
+export type PushDeviceStatusMutationFn = Apollo.MutationFunction<
+    PushDeviceStatusMutation,
+    PushDeviceStatusMutationVariables
+>;
+
+/**
+ * __usePushDeviceStatusMutation__
+ *
+ * To run a mutation, you first call `usePushDeviceStatusMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `usePushDeviceStatusMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [pushDeviceStatusMutation, { data, loading, error }] = usePushDeviceStatusMutation({
+ *   variables: {
+ *      deviceId: // value for 'deviceId'
+ *      status: // value for 'status'
+ *   },
+ * });
+ */
+export function usePushDeviceStatusMutation(
+    baseOptions?: Apollo.MutationHookOptions<
+        PushDeviceStatusMutation,
+        PushDeviceStatusMutationVariables
+    >
+) {
+    return Apollo.useMutation<
+        PushDeviceStatusMutation,
+        PushDeviceStatusMutationVariables
+    >(PushDeviceStatusDocument, baseOptions);
+}
+export type PushDeviceStatusMutationHookResult = ReturnType<
+    typeof usePushDeviceStatusMutation
+>;
+export type PushDeviceStatusMutationResult = Apollo.MutationResult<PushDeviceStatusMutation>;
+export type PushDeviceStatusMutationOptions = Apollo.BaseMutationOptions<
+    PushDeviceStatusMutation,
+    PushDeviceStatusMutationVariables
 >;
 export const NewHomeDocument = gql`
     mutation NewHome($name: String!) {

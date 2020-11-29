@@ -31,3 +31,6 @@ query GetDeviceTypes {
         name
     }
 }
+mutation PushDeviceStatus($deviceId:ID!,$status:String) {
+    status:pushDeviceStatus(device:$deviceId,status:$status)
+}

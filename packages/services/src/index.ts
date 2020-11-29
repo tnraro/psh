@@ -1,9 +1,9 @@
-import { connect, MqttClient } from "mqtt";
+import mqtt, { MqttClient } from "mqtt";
 import fs from "fs";
 import { resolve } from "path";
 import fetch from "node-fetch";
 interface IConfig {
-    endpoint: string;
+    mqtt: string;
     graphql: string;
 }
 function loadConfig(): IConfig {
@@ -12,16 +12,36 @@ function loadConfig(): IConfig {
     return JSON.parse(data.toString());
 }
 const config = loadConfig();
-interface Client {
-    mqtt: MqttClient;
-}
-const client: Client = {
-    mqtt: connect(config.endpoint)
-};
+const client = mqtt.connect(config.mqtt);
+client.on("connect", (packet) => {
+    console.log(packet);
+    client.subscribe(
+        topics.map((t) => t.topic),
+        (err) => {
+            if (err) {
+                console.error(err);
+                return;
+            }
+            console.log("ready", config.mqtt);
+        }
+    );
+});
+client.on("message", (topic, payload) => {
+    for (const t of topics) {
+        const m = t.test.exec(topic);
+        if (m) {
+            t.resolver.call(null, client, payload, ...m.slice(1, m.length));
+            break;
+        }
+    }
+});
+client.on("error", (err: any) => {
+    console.error(err.code);
+});
 interface ITopic {
     topic: string;
     test: RegExp;
-    resolver: (client: Client, payload: Buffer, ...args: any[]) => void;
+    resolver: (client: MqttClient, payload: Buffer, ...args: any[]) => void;
 }
 const PUSH_QUERY = `
 mutation PushDeviceStatus($deviceId:ID!,$status:String) {
@@ -36,22 +56,25 @@ const topics: ITopic[] = [
         topic: "+/+/push",
         test: /^([a-zA-Z0-9_-]{16})\/([a-zA-Z0-9_-]{16})\/push$/,
         resolver: async (client, payload, deviceId, sessionId) => {
-            const result = await fetch(config.graphql, {
-                method: "POST",
-                headers: {
-                    Authorization: sessionId,
-                    "Content-Type": "application/json",
-                    Accept: "application/json"
-                },
-                body: JSON.stringify({
-                    query: PUSH_QUERY,
-                    variables: {
-                        deviceId: deviceId,
-                        status: payload.toString()
-                    }
-                })
-            });
-            console.log(await result.text());
+            try {
+                const result = await fetch(config.graphql, {
+                    method: "POST",
+                    headers: {
+                        Authorization: sessionId,
+                        "Content-Type": "application/json",
+                        Accept: "application/json"
+                    },
+                    body: JSON.stringify({
+                        query: PUSH_QUERY,
+                        variables: {
+                            deviceId: deviceId,
+                            status: payload.toString()
+                        }
+                    })
+                });
+            } catch (e) {
+                console.error(e);
+            }
         }
     },
     {
@@ -72,24 +95,8 @@ const topics: ITopic[] = [
                 })
             });
             const data = await result.text();
-            client.mqtt.publish(`${deviceId}/push`, data);
+            console.log(data);
+            client.publish(`${deviceId}/push`, data);
         }
     }
 ];
-client.mqtt.on("connect", () => {
-    client.mqtt.subscribe(topics.map((t) => t.topic));
-
-    client.mqtt.publish("lUd0IaqQZGnUvUYA/fetch", "");
-});
-client.mqtt.on("message", (topic, payload) => {
-    for (const t of topics) {
-        const m = t.test.exec(topic);
-        if (m) {
-            t.resolver.call(null, client, payload, ...m.slice(1, m.length));
-            break;
-        }
-    }
-});
-client.mqtt.on("error", (err: any) => {
-    console.error(err.code);
-});
