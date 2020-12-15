@@ -1,0 +1,10 @@
+**/.*
+**/node_modules
+**/apollo.config.js
+**/Dockerfile
+**/tsconfig.*
+**/src
+**/*.ts
+**/*.tsx
+**/*.map
+!**/.next

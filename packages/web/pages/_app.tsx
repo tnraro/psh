@@ -1,4 +1,3 @@
-import config from "@/.env/config";
 import "@/styles/styles.css";
 import theme from "@/styles/theme";
 import {
@@ -12,7 +11,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import type { AppProps } from "next/app";
 
 const httpLink = createHttpLink({
-    uri: config.endpoint
+    uri: "/graphql"
 });
 const authLink = setContext((_, { headers }) => {
     const token = localStorage.getItem("access-token");

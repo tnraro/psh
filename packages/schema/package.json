@@ -8,9 +8,7 @@
     "scripts": {
         "generate": "graphql-codegen --config codegen.yml",
         "prebuild": "yarn generate",
-        "build": "tsc --build",
-        "start": "node dist/index.js",
-        "dev": "yarn build && yarn start"
+        "build": "tsc --build"
     },
     "dependencies": {
         "apollo-server": "^2.19.0",
@@ -18,11 +16,11 @@
         "graphql-tools": "^7.0.1"
     },
     "devDependencies": {
-        "@graphql-codegen/cli": "1.19.1",
-        "@graphql-codegen/schema-ast": "^1.18.0",
-        "@graphql-codegen/typescript": "1.17.11",
-        "@graphql-codegen/typescript-operations": "1.17.9",
-        "@graphql-codegen/typescript-react-apollo": "2.1.1",
-        "@graphql-codegen/typescript-resolvers": "1.17.10"
+        "@graphql-codegen/cli": "^1.19.4",
+        "@graphql-codegen/schema-ast": "^1.18.1",
+        "@graphql-codegen/typescript": "^1.19.0",
+        "@graphql-codegen/typescript-operations": "^1.17.12",
+        "@graphql-codegen/typescript-react-apollo": "^2.2.1",
+        "@graphql-codegen/typescript-resolvers": "^1.18.0"
     }
 }

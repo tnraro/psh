@@ -1,4 +1,4 @@
-import config from "@/.env/config";
+import DeviceIcon from "@/comps/DeviceIcon";
 import Body from "@/comps/layouts/Body";
 import Header from "@/comps/layouts/Header";
 import {
@@ -24,13 +24,11 @@ import {
 import {
     Device,
     MeQuery,
-    useMeQuery,
-    usePushDeviceStatusMutation
+    useMeQuery
 } from "@psh/schema/dist/operations.gen";
 import mqtt from "mqtt";
 import { useRouter } from "next/dist/client/router";
-import { Reducer, useEffect, useState } from "react";
-import DeviceIcon from "@/comps/DeviceIcon";
+import { useEffect, useState } from "react";
 
 interface IRemoteControlTypeProp {
     value: boolean | number;
@@ -90,7 +88,7 @@ const RemoteControlComponent = (props: IRemoteControlProp) => {
         setStatus(JSON.parse(props.status));
     }, []);
     useEffect(() => {
-        const client = mqtt.connect(config.mqtt);
+        const client = mqtt.connect(`${location.origin}/ws`);
         setClient(client);
 
         client.on("connect", () => {
@@ -109,7 +107,6 @@ const RemoteControlComponent = (props: IRemoteControlProp) => {
             });
         });
         client.on("message", (topic, message) => {
-            console.log(topic, message);
             const m = /^[a-zA-Z0-9_-]{16}\/(.+?)$/.exec(topic);
             if (m) {
                 const type = m[1];
@@ -154,9 +151,6 @@ const RemoteControlComponent = (props: IRemoteControlProp) => {
                                         [name]: value
                                     };
                                     setStatus(s);
-                                    console.log(
-                                        `${props.id}/${props.sessionId}/push`
-                                    );
                                     client?.publish(
                                         `${props.id}/${props.sessionId}/push`,
                                         JSON.stringify(s)

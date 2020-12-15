@@ -126,7 +126,6 @@ const HomeDashboardItem = (props: { children: any }) => (
 
 const HomeDashboard = (props: { me: MeQuery["me"]; client: any }) => {
     const me = props.me;
-    console.log(me);
 
     return (
         <Stack spacing={3}>

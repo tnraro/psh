@@ -4,6 +4,12 @@ import schema from "@psh/schema";
 import { ApolloServer } from "apollo-server";
 import resolvers from "./resolvers";
 
+const GRAPHQL = process.env.GRAPHQL;
+
+if (!GRAPHQL) {
+    throw new Error("No env");
+}
+
 const main = async () => {
     const pool = await getPool();
 
@@ -31,7 +37,7 @@ const main = async () => {
             };
         }
     });
-    const { url } = await server.listen();
+    const { url } = await server.listen({ port: GRAPHQL });
 
     console.log(`🚀 Server ready at ${url}`);
 };

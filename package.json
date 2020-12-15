@@ -17,15 +17,22 @@
         "schema": "yarn workspace @psh/schema",
         "web": "yarn workspace @psh/web",
         "services": "yarn workspace @psh/services",
-        "startapi": "yarn schema build && yarn api start",
-        "postinstall": "husky install",
-        "dev": "lerna run --parallel dev",
-        "start": "lerna run --parallel start"
+        "lerna:dev": "lerna run --parallel dev",
+        "lerna:start": "lerna run --parallel start",
+        "lerna:build": "lerna run build",
+        "docker:build": "docker build -t psh .",
+        "docker:run": "docker run --env-file .env -p 80:80 --restart unless-stopped -d psh",
+        "build": "yarn lerna:build && yarn docker:build",
+        "start": "yarn lerna:start"
+    },
+    "dependencies": {
+        "lerna": "^3.22.1"
     },
     "devDependencies": {
-        "husky": "^5.0.1",
-        "lerna": "^3.22.1",
         "lint-staged": "^10.5.1",
         "prettier": "^2.2.0"
+    },
+    "optionalDependencies": {
+        "husky": "^5.0.1"
     }
 }

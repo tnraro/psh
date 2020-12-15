@@ -2,16 +2,11 @@ import mqtt, { MqttClient } from "mqtt";
 import fs from "fs";
 import { resolve } from "path";
 import fetch from "node-fetch";
-interface IConfig {
-    mqtt: string;
-    graphql: string;
-}
-function loadConfig(): IConfig {
-    const path = resolve(__dirname, "../.env/config.json");
-    const data = fs.readFileSync(path);
-    return JSON.parse(data.toString());
-}
-const config = loadConfig();
+const { MQTT_NET, GRAPHQL } = process.env;
+const config = {
+    mqtt: `mqtt://localhost:${MQTT_NET}`,
+    graphql: `http://localhost:${GRAPHQL}`
+};
 const client = mqtt.connect(config.mqtt);
 client.on("connect", (packet) => {
     console.log(packet);
