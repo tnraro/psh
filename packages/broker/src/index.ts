@@ -2,8 +2,11 @@ import Aedes from "aedes";
 import net from "net";
 import http from "http";
 import ws from "websocket-stream";
-const port = 1883;
-const wsPort = 8888;
+const { MQTT_NET, MQTT_WS } = process.env;
+
+if (!(MQTT_NET && MQTT_WS)) {
+    throw new Error("No env");
+}
 
 const aedes = Aedes();
 aedes.on("clientError", (client) => {
@@ -24,14 +27,14 @@ aedes.on("clientDisconnect", (client) => {
 
 const server = net.createServer(aedes.handle);
 
-server.listen(port, () => {
-    console.log(`🚀 Server ready at :${port}`);
+server.listen(MQTT_NET, () => {
+    console.log(`🚀 Server ready at :${MQTT_NET}`);
 });
 
 const httpServer = http.createServer();
 
 ws.createServer({ server: httpServer }, aedes.handle as any);
 
-httpServer.listen(wsPort, () => {
-    console.log(`🚀 Server ready at :${wsPort}`);
+httpServer.listen(MQTT_WS, () => {
+    console.log(`🚀 Server ready at :${MQTT_WS}`);
 });

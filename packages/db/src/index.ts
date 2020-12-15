@@ -1,26 +1,21 @@
 import mysql from "mysql2/promise";
-import { resolve } from "path";
-import fs from "fs/promises";
 
 export * as Device from "./Device";
 export * as Home from "./Home";
 export * as User from "./User";
 
-async function loadConfig(): Promise<any> {
-    const path = resolve(__dirname, "../.env/db-config.json");
-    const data = await fs.readFile(path);
-    return JSON.parse(data.toString());
+const { DB_HOST, DB_USER, DB_PASSWORD, DB_NAME } = process.env;
+
+if (!(DB_HOST && DB_USER && DB_PASSWORD && DB_NAME)) {
+    throw new Error("No env");
 }
 
-async function getPool() {
-    const config = await loadConfig();
-
-    // Should be validate config file
+function getPool() {
     const options = {
-        host: config.host,
-        user: config.user,
-        password: config.password,
-        database: config.database,
+        host: DB_HOST,
+        user: DB_USER,
+        password: DB_PASSWORD,
+        database: DB_NAME,
         waitForConnections: true,
         connectionLimit: 10,
         queueLimit: 0

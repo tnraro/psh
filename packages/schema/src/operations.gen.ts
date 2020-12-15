@@ -1,383 +1,363 @@
-import { gql } from "@apollo/client";
-import * as Apollo from "@apollo/client";
+import { gql } from '@apollo/client';
+import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
-export type Exact<T extends { [key: string]: unknown }> = {
-    [K in keyof T]: T[K];
-};
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-    ID: string;
-    String: string;
-    Boolean: boolean;
-    Int: number;
-    Float: number;
+  ID: string;
+  String: string;
+  Boolean: boolean;
+  Int: number;
+  Float: number;
 };
 
 export type DeviceType = {
-    __typename?: "DeviceType";
-    id?: Maybe<Scalars["ID"]>;
-    name?: Maybe<Scalars["String"]>;
-    type?: Maybe<Scalars["String"]>;
+  __typename?: 'DeviceType';
+  id?: Maybe<Scalars['ID']>;
+  name?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['String']>;
 };
 
 export type Device = {
-    __typename?: "Device";
-    alias?: Maybe<Scalars["String"]>;
-    home?: Maybe<Home>;
-    id?: Maybe<Scalars["ID"]>;
-    lastOnline?: Maybe<Scalars["String"]>;
-    online?: Maybe<Scalars["Boolean"]>;
-    owner?: Maybe<User>;
-    private?: Maybe<Scalars["Boolean"]>;
-    status?: Maybe<Scalars["String"]>;
-    type?: Maybe<DeviceType>;
+  __typename?: 'Device';
+  alias?: Maybe<Scalars['String']>;
+  home?: Maybe<Home>;
+  id?: Maybe<Scalars['ID']>;
+  lastOnline?: Maybe<Scalars['String']>;
+  online?: Maybe<Scalars['Boolean']>;
+  owner?: Maybe<User>;
+  private?: Maybe<Scalars['Boolean']>;
+  status?: Maybe<Scalars['String']>;
+  type?: Maybe<DeviceType>;
 };
 
 export type User = {
-    __typename?: "User";
-    devices?: Maybe<Array<Maybe<Device>>>;
-    email?: Maybe<Scalars["String"]>;
-    home?: Maybe<Home>;
-    id?: Maybe<Scalars["ID"]>;
-    roles?: Maybe<Roles>;
-    terms?: Maybe<Terms>;
-    username?: Maybe<Scalars["String"]>;
+  __typename?: 'User';
+  devices?: Maybe<Array<Maybe<Device>>>;
+  email?: Maybe<Scalars['String']>;
+  home?: Maybe<Home>;
+  id?: Maybe<Scalars['ID']>;
+  roles?: Maybe<Roles>;
+  terms?: Maybe<Terms>;
+  username?: Maybe<Scalars['String']>;
 };
 
 export type Roles = {
-    __typename?: "Roles";
-    admin?: Maybe<Scalars["Boolean"]>;
+  __typename?: 'Roles';
+  admin?: Maybe<Scalars['Boolean']>;
 };
 
 export type Terms = {
-    __typename?: "Terms";
-    agelimit?: Maybe<Scalars["Boolean"]>;
-    privacy?: Maybe<Scalars["Boolean"]>;
-    promotion?: Maybe<Scalars["Boolean"]>;
-    usepolicy?: Maybe<Scalars["Boolean"]>;
+  __typename?: 'Terms';
+  agelimit?: Maybe<Scalars['Boolean']>;
+  privacy?: Maybe<Scalars['Boolean']>;
+  promotion?: Maybe<Scalars['Boolean']>;
+  usepolicy?: Maybe<Scalars['Boolean']>;
 };
 
 export type Home = {
-    __typename?: "Home";
-    admins?: Maybe<Array<Maybe<User>>>;
-    devices?: Maybe<Array<Maybe<Device>>>;
-    family?: Maybe<Array<Maybe<User>>>;
-    id?: Maybe<Scalars["ID"]>;
-    name?: Maybe<Scalars["String"]>;
+  __typename?: 'Home';
+  admins?: Maybe<Array<Maybe<User>>>;
+  devices?: Maybe<Array<Maybe<Device>>>;
+  family?: Maybe<Array<Maybe<User>>>;
+  id?: Maybe<Scalars['ID']>;
+  name?: Maybe<Scalars['String']>;
 };
 
 export type NewDeviceInput = {
-    alias: Scalars["String"];
-    id: Scalars["String"];
-    private: Scalars["Boolean"];
-    type: Scalars["String"];
+  alias: Scalars['String'];
+  id: Scalars['String'];
+  private: Scalars['Boolean'];
+  type: Scalars['String'];
 };
 
 export type Session = {
-    __typename?: "Session";
-    access_token: Scalars["ID"];
-    user?: Maybe<User>;
+  __typename?: 'Session';
+  access_token: Scalars['ID'];
+  user?: Maybe<User>;
 };
 
 export type NewUserInput = {
-    agelimit: Scalars["Boolean"];
-    email: Scalars["String"];
-    password: Scalars["String"];
-    privacy: Scalars["Boolean"];
-    promotion: Scalars["Boolean"];
-    usepolicy: Scalars["Boolean"];
-    username: Scalars["String"];
+  agelimit: Scalars['Boolean'];
+  email: Scalars['String'];
+  password: Scalars['String'];
+  privacy: Scalars['Boolean'];
+  promotion: Scalars['Boolean'];
+  usepolicy: Scalars['Boolean'];
+  username: Scalars['String'];
 };
 
 export type SignInUserInput = {
-    email: Scalars["String"];
-    password: Scalars["String"];
+  email: Scalars['String'];
+  password: Scalars['String'];
 };
 
 export type Query = {
-    __typename?: "Query";
-    user?: Maybe<User>;
-    me?: Maybe<User>;
-    deviceTypes?: Maybe<Array<Maybe<DeviceType>>>;
-    fetchDeviceStatus?: Maybe<Scalars["String"]>;
+  __typename?: 'Query';
+  user?: Maybe<User>;
+  me?: Maybe<User>;
+  deviceTypes?: Maybe<Array<Maybe<DeviceType>>>;
+  fetchDeviceStatus?: Maybe<Scalars['String']>;
 };
+
 
 export type QueryUserArgs = {
-    id: Scalars["ID"];
+  id: Scalars['ID'];
 };
 
+
 export type QueryFetchDeviceStatusArgs = {
-    device: Scalars["ID"];
+  device: Scalars['ID'];
 };
 
 export type Mutation = {
-    __typename?: "Mutation";
-    newUser?: Maybe<Session>;
-    signInUser?: Maybe<Session>;
-    newHome?: Maybe<Home>;
-    joinHome?: Maybe<Home>;
-    newDevice?: Maybe<Device>;
-    deleteDevice?: Maybe<Device>;
-    tnid?: Maybe<Scalars["ID"]>;
-    pushDeviceStatus?: Maybe<Scalars["String"]>;
+  __typename?: 'Mutation';
+  newUser?: Maybe<Session>;
+  signInUser?: Maybe<Session>;
+  newHome?: Maybe<Home>;
+  joinHome?: Maybe<Home>;
+  newDevice?: Maybe<Device>;
+  deleteDevice?: Maybe<Device>;
+  tnid?: Maybe<Scalars['ID']>;
+  pushDeviceStatus?: Maybe<Scalars['String']>;
 };
+
 
 export type MutationNewUserArgs = {
-    user: NewUserInput;
+  user: NewUserInput;
 };
+
 
 export type MutationSignInUserArgs = {
-    user: SignInUserInput;
+  user: SignInUserInput;
 };
+
 
 export type MutationNewHomeArgs = {
-    name: Scalars["String"];
+  name: Scalars['String'];
 };
+
 
 export type MutationJoinHomeArgs = {
-    home: Scalars["String"];
+  home: Scalars['String'];
 };
+
 
 export type MutationNewDeviceArgs = {
-    device: NewDeviceInput;
+  device: NewDeviceInput;
 };
+
 
 export type MutationDeleteDeviceArgs = {
-    id: Scalars["ID"];
+  id: Scalars['ID'];
 };
 
+
 export type MutationPushDeviceStatusArgs = {
-    device: Scalars["ID"];
-    status?: Maybe<Scalars["String"]>;
+  device: Scalars['ID'];
+  status?: Maybe<Scalars['String']>;
 };
 
 export type NewDeviceMutationVariables = Exact<{
-    device: NewDeviceInput;
+  device: NewDeviceInput;
 }>;
 
-export type NewDeviceMutation = { __typename?: "Mutation" } & {
-    newDevice?: Maybe<
-        { __typename?: "Device" } & Pick<Device, "id" | "alias" | "private"> & {
-                type?: Maybe<
-                    { __typename?: "DeviceType" } & Pick<
-                        DeviceType,
-                        "id" | "type" | "name"
-                    >
-                >;
-                owner?: Maybe<
-                    { __typename?: "User" } & Pick<User, "id" | "username">
-                >;
-                home?: Maybe<
-                    { __typename?: "Home" } & Pick<Home, "id" | "name">
-                >;
-            }
-    >;
-};
+
+export type NewDeviceMutation = (
+  { __typename?: 'Mutation' }
+  & { newDevice?: Maybe<(
+    { __typename?: 'Device' }
+    & Pick<Device, 'id' | 'alias' | 'private'>
+    & { type?: Maybe<(
+      { __typename?: 'DeviceType' }
+      & Pick<DeviceType, 'id' | 'type' | 'name'>
+    )>, owner?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'username'>
+    )>, home?: Maybe<(
+      { __typename?: 'Home' }
+      & Pick<Home, 'id' | 'name'>
+    )> }
+  )> }
+);
 
 export type DeleteDeviceMutationVariables = Exact<{
-    id: Scalars["ID"];
+  id: Scalars['ID'];
 }>;
 
-export type DeleteDeviceMutation = { __typename?: "Mutation" } & {
-    deleteDevice?: Maybe<
-        { __typename?: "Device" } & Pick<Device, "id" | "alias">
-    >;
-};
 
-export type GetDeviceTypesQueryVariables = Exact<{ [key: string]: never }>;
+export type DeleteDeviceMutation = (
+  { __typename?: 'Mutation' }
+  & { deleteDevice?: Maybe<(
+    { __typename?: 'Device' }
+    & Pick<Device, 'id' | 'alias'>
+  )> }
+);
 
-export type GetDeviceTypesQuery = { __typename?: "Query" } & {
-    deviceTypes?: Maybe<
-        Array<
-            Maybe<
-                { __typename?: "DeviceType" } & Pick<
-                    DeviceType,
-                    "id" | "type" | "name"
-                >
-            >
-        >
-    >;
-};
+export type GetDeviceTypesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetDeviceTypesQuery = (
+  { __typename?: 'Query' }
+  & { deviceTypes?: Maybe<Array<Maybe<(
+    { __typename?: 'DeviceType' }
+    & Pick<DeviceType, 'id' | 'type' | 'name'>
+  )>>> }
+);
 
 export type PushDeviceStatusMutationVariables = Exact<{
-    deviceId: Scalars["ID"];
-    status?: Maybe<Scalars["String"]>;
+  deviceId: Scalars['ID'];
+  status?: Maybe<Scalars['String']>;
 }>;
 
-export type PushDeviceStatusMutation = { __typename?: "Mutation" } & {
-    status: Mutation["pushDeviceStatus"];
-};
+
+export type PushDeviceStatusMutation = (
+  { __typename?: 'Mutation' }
+  & { status: Mutation['pushDeviceStatus'] }
+);
 
 export type NewHomeMutationVariables = Exact<{
-    name: Scalars["String"];
+  name: Scalars['String'];
 }>;
 
-export type NewHomeMutation = { __typename?: "Mutation" } & {
-    newHome?: Maybe<{ __typename?: "Home" } & Pick<Home, "id" | "name">>;
-};
+
+export type NewHomeMutation = (
+  { __typename?: 'Mutation' }
+  & { newHome?: Maybe<(
+    { __typename?: 'Home' }
+    & Pick<Home, 'id' | 'name'>
+  )> }
+);
 
 export type JoinHomeMutationVariables = Exact<{
-    homeId: Scalars["String"];
+  homeId: Scalars['String'];
 }>;
 
-export type JoinHomeMutation = { __typename?: "Mutation" } & {
-    joinHome?: Maybe<{ __typename?: "Home" } & Pick<Home, "id" | "name">>;
-};
+
+export type JoinHomeMutation = (
+  { __typename?: 'Mutation' }
+  & { joinHome?: Maybe<(
+    { __typename?: 'Home' }
+    & Pick<Home, 'id' | 'name'>
+  )> }
+);
 
 export type NewUserMutationVariables = Exact<{
-    params: NewUserInput;
+  params: NewUserInput;
 }>;
 
-export type NewUserMutation = { __typename?: "Mutation" } & {
-    newUser?: Maybe<
-        { __typename?: "Session" } & Pick<Session, "access_token"> & {
-                user?: Maybe<
-                    { __typename?: "User" } & Pick<
-                        User,
-                        "id" | "email" | "username"
-                    >
-                >;
-            }
-    >;
-};
+
+export type NewUserMutation = (
+  { __typename?: 'Mutation' }
+  & { newUser?: Maybe<(
+    { __typename?: 'Session' }
+    & Pick<Session, 'access_token'>
+    & { user?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'email' | 'username'>
+    )> }
+  )> }
+);
 
 export type SignInMutationVariables = Exact<{
-    params: SignInUserInput;
+  params: SignInUserInput;
 }>;
 
-export type SignInMutation = { __typename?: "Mutation" } & {
-    signInUser?: Maybe<
-        { __typename?: "Session" } & Pick<Session, "access_token"> & {
-                user?: Maybe<
-                    { __typename?: "User" } & Pick<
-                        User,
-                        "id" | "email" | "username"
-                    >
-                >;
-            }
-    >;
-};
 
-export type MeQueryVariables = Exact<{ [key: string]: never }>;
+export type SignInMutation = (
+  { __typename?: 'Mutation' }
+  & { signInUser?: Maybe<(
+    { __typename?: 'Session' }
+    & Pick<Session, 'access_token'>
+    & { user?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'email' | 'username'>
+    )> }
+  )> }
+);
 
-export type MeQuery = { __typename?: "Query" } & {
-    me?: Maybe<
-        { __typename?: "User" } & Pick<User, "id" | "email" | "username"> & {
-                home?: Maybe<
-                    { __typename?: "Home" } & Pick<Home, "id" | "name"> & {
-                            family?: Maybe<
-                                Array<
-                                    Maybe<
-                                        { __typename?: "User" } & Pick<
-                                            User,
-                                            "id" | "email" | "username"
-                                        >
-                                    >
-                                >
-                            >;
-                            devices?: Maybe<
-                                Array<
-                                    Maybe<
-                                        { __typename?: "Device" } & Pick<
-                                            Device,
-                                            | "id"
-                                            | "alias"
-                                            | "private"
-                                            | "online"
-                                            | "status"
-                                        > & {
-                                                type?: Maybe<
-                                                    {
-                                                        __typename?: "DeviceType";
-                                                    } & Pick<
-                                                        DeviceType,
-                                                        "id" | "type" | "name"
-                                                    >
-                                                >;
-                                                owner?: Maybe<
-                                                    {
-                                                        __typename?: "User";
-                                                    } & Pick<
-                                                        User,
-                                                        "id" | "username"
-                                                    >
-                                                >;
-                                            }
-                                    >
-                                >
-                            >;
-                        }
-                >;
-                devices?: Maybe<
-                    Array<
-                        Maybe<
-                            { __typename?: "Device" } & Pick<
-                                Device,
-                                "id" | "alias" | "private" | "online" | "status"
-                            > & {
-                                    type?: Maybe<
-                                        { __typename?: "DeviceType" } & Pick<
-                                            DeviceType,
-                                            "id" | "type" | "name"
-                                        >
-                                    >;
-                                    owner?: Maybe<
-                                        { __typename?: "User" } & Pick<
-                                            User,
-                                            "id" | "username"
-                                        >
-                                    >;
-                                }
-                        >
-                    >
-                >;
-            }
-    >;
-};
+export type MeQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MeQuery = (
+  { __typename?: 'Query' }
+  & { me?: Maybe<(
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'email' | 'username'>
+    & { home?: Maybe<(
+      { __typename?: 'Home' }
+      & Pick<Home, 'id' | 'name'>
+      & { family?: Maybe<Array<Maybe<(
+        { __typename?: 'User' }
+        & Pick<User, 'id' | 'email' | 'username'>
+      )>>>, devices?: Maybe<Array<Maybe<(
+        { __typename?: 'Device' }
+        & Pick<Device, 'id' | 'alias' | 'private' | 'online' | 'status'>
+        & { type?: Maybe<(
+          { __typename?: 'DeviceType' }
+          & Pick<DeviceType, 'id' | 'type' | 'name'>
+        )>, owner?: Maybe<(
+          { __typename?: 'User' }
+          & Pick<User, 'id' | 'username'>
+        )> }
+      )>>> }
+    )>, devices?: Maybe<Array<Maybe<(
+      { __typename?: 'Device' }
+      & Pick<Device, 'id' | 'alias' | 'private' | 'online' | 'status'>
+      & { type?: Maybe<(
+        { __typename?: 'DeviceType' }
+        & Pick<DeviceType, 'id' | 'type' | 'name'>
+      )>, owner?: Maybe<(
+        { __typename?: 'User' }
+        & Pick<User, 'id' | 'username'>
+      )> }
+    )>>> }
+  )> }
+);
 
 export type UserQueryVariables = Exact<{
-    id: Scalars["ID"];
+  id: Scalars['ID'];
 }>;
 
-export type UserQuery = { __typename?: "Query" } & {
-    user?: Maybe<
-        { __typename?: "User" } & Pick<User, "id" | "email" | "username"> & {
-                terms?: Maybe<
-                    { __typename?: "Terms" } & Pick<
-                        Terms,
-                        "agelimit" | "privacy" | "promotion" | "usepolicy"
-                    >
-                >;
-            }
-    >;
-};
+
+export type UserQuery = (
+  { __typename?: 'Query' }
+  & { user?: Maybe<(
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'email' | 'username'>
+    & { terms?: Maybe<(
+      { __typename?: 'Terms' }
+      & Pick<Terms, 'agelimit' | 'privacy' | 'promotion' | 'usepolicy'>
+    )> }
+  )> }
+);
+
 
 export const NewDeviceDocument = gql`
     mutation NewDevice($device: NewDeviceInput!) {
-        newDevice(device: $device) {
-            id
-            type {
-                id
-                type
-                name
-            }
-            alias
-            private
-            owner {
-                id
-                username
-            }
-            home {
-                id
-                name
-            }
-        }
+  newDevice(device: $device) {
+    id
+    type {
+      id
+      type
+      name
     }
-`;
-export type NewDeviceMutationFn = Apollo.MutationFunction<
-    NewDeviceMutation,
-    NewDeviceMutationVariables
->;
+    alias
+    private
+    owner {
+      id
+      username
+    }
+    home {
+      id
+      name
+    }
+  }
+}
+    `;
+export type NewDeviceMutationFn = Apollo.MutationFunction<NewDeviceMutation, NewDeviceMutationVariables>;
 
 /**
  * __useNewDeviceMutation__
@@ -396,37 +376,21 @@ export type NewDeviceMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useNewDeviceMutation(
-    baseOptions?: Apollo.MutationHookOptions<
-        NewDeviceMutation,
-        NewDeviceMutationVariables
-    >
-) {
-    return Apollo.useMutation<NewDeviceMutation, NewDeviceMutationVariables>(
-        NewDeviceDocument,
-        baseOptions
-    );
-}
-export type NewDeviceMutationHookResult = ReturnType<
-    typeof useNewDeviceMutation
->;
+export function useNewDeviceMutation(baseOptions?: Apollo.MutationHookOptions<NewDeviceMutation, NewDeviceMutationVariables>) {
+        return Apollo.useMutation<NewDeviceMutation, NewDeviceMutationVariables>(NewDeviceDocument, baseOptions);
+      }
+export type NewDeviceMutationHookResult = ReturnType<typeof useNewDeviceMutation>;
 export type NewDeviceMutationResult = Apollo.MutationResult<NewDeviceMutation>;
-export type NewDeviceMutationOptions = Apollo.BaseMutationOptions<
-    NewDeviceMutation,
-    NewDeviceMutationVariables
->;
+export type NewDeviceMutationOptions = Apollo.BaseMutationOptions<NewDeviceMutation, NewDeviceMutationVariables>;
 export const DeleteDeviceDocument = gql`
     mutation DeleteDevice($id: ID!) {
-        deleteDevice(id: $id) {
-            id
-            alias
-        }
-    }
-`;
-export type DeleteDeviceMutationFn = Apollo.MutationFunction<
-    DeleteDeviceMutation,
-    DeleteDeviceMutationVariables
->;
+  deleteDevice(id: $id) {
+    id
+    alias
+  }
+}
+    `;
+export type DeleteDeviceMutationFn = Apollo.MutationFunction<DeleteDeviceMutation, DeleteDeviceMutationVariables>;
 
 /**
  * __useDeleteDeviceMutation__
@@ -445,34 +409,21 @@ export type DeleteDeviceMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useDeleteDeviceMutation(
-    baseOptions?: Apollo.MutationHookOptions<
-        DeleteDeviceMutation,
-        DeleteDeviceMutationVariables
-    >
-) {
-    return Apollo.useMutation<
-        DeleteDeviceMutation,
-        DeleteDeviceMutationVariables
-    >(DeleteDeviceDocument, baseOptions);
-}
-export type DeleteDeviceMutationHookResult = ReturnType<
-    typeof useDeleteDeviceMutation
->;
+export function useDeleteDeviceMutation(baseOptions?: Apollo.MutationHookOptions<DeleteDeviceMutation, DeleteDeviceMutationVariables>) {
+        return Apollo.useMutation<DeleteDeviceMutation, DeleteDeviceMutationVariables>(DeleteDeviceDocument, baseOptions);
+      }
+export type DeleteDeviceMutationHookResult = ReturnType<typeof useDeleteDeviceMutation>;
 export type DeleteDeviceMutationResult = Apollo.MutationResult<DeleteDeviceMutation>;
-export type DeleteDeviceMutationOptions = Apollo.BaseMutationOptions<
-    DeleteDeviceMutation,
-    DeleteDeviceMutationVariables
->;
+export type DeleteDeviceMutationOptions = Apollo.BaseMutationOptions<DeleteDeviceMutation, DeleteDeviceMutationVariables>;
 export const GetDeviceTypesDocument = gql`
     query GetDeviceTypes {
-        deviceTypes {
-            id
-            type
-            name
-        }
-    }
-`;
+  deviceTypes {
+    id
+    type
+    name
+  }
+}
+    `;
 
 /**
  * __useGetDeviceTypesQuery__
@@ -489,47 +440,21 @@ export const GetDeviceTypesDocument = gql`
  *   },
  * });
  */
-export function useGetDeviceTypesQuery(
-    baseOptions?: Apollo.QueryHookOptions<
-        GetDeviceTypesQuery,
-        GetDeviceTypesQueryVariables
-    >
-) {
-    return Apollo.useQuery<GetDeviceTypesQuery, GetDeviceTypesQueryVariables>(
-        GetDeviceTypesDocument,
-        baseOptions
-    );
-}
-export function useGetDeviceTypesLazyQuery(
-    baseOptions?: Apollo.LazyQueryHookOptions<
-        GetDeviceTypesQuery,
-        GetDeviceTypesQueryVariables
-    >
-) {
-    return Apollo.useLazyQuery<
-        GetDeviceTypesQuery,
-        GetDeviceTypesQueryVariables
-    >(GetDeviceTypesDocument, baseOptions);
-}
-export type GetDeviceTypesQueryHookResult = ReturnType<
-    typeof useGetDeviceTypesQuery
->;
-export type GetDeviceTypesLazyQueryHookResult = ReturnType<
-    typeof useGetDeviceTypesLazyQuery
->;
-export type GetDeviceTypesQueryResult = Apollo.QueryResult<
-    GetDeviceTypesQuery,
-    GetDeviceTypesQueryVariables
->;
+export function useGetDeviceTypesQuery(baseOptions?: Apollo.QueryHookOptions<GetDeviceTypesQuery, GetDeviceTypesQueryVariables>) {
+        return Apollo.useQuery<GetDeviceTypesQuery, GetDeviceTypesQueryVariables>(GetDeviceTypesDocument, baseOptions);
+      }
+export function useGetDeviceTypesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetDeviceTypesQuery, GetDeviceTypesQueryVariables>) {
+          return Apollo.useLazyQuery<GetDeviceTypesQuery, GetDeviceTypesQueryVariables>(GetDeviceTypesDocument, baseOptions);
+        }
+export type GetDeviceTypesQueryHookResult = ReturnType<typeof useGetDeviceTypesQuery>;
+export type GetDeviceTypesLazyQueryHookResult = ReturnType<typeof useGetDeviceTypesLazyQuery>;
+export type GetDeviceTypesQueryResult = Apollo.QueryResult<GetDeviceTypesQuery, GetDeviceTypesQueryVariables>;
 export const PushDeviceStatusDocument = gql`
     mutation PushDeviceStatus($deviceId: ID!, $status: String) {
-        status: pushDeviceStatus(device: $deviceId, status: $status)
-    }
-`;
-export type PushDeviceStatusMutationFn = Apollo.MutationFunction<
-    PushDeviceStatusMutation,
-    PushDeviceStatusMutationVariables
->;
+  status: pushDeviceStatus(device: $deviceId, status: $status)
+}
+    `;
+export type PushDeviceStatusMutationFn = Apollo.MutationFunction<PushDeviceStatusMutation, PushDeviceStatusMutationVariables>;
 
 /**
  * __usePushDeviceStatusMutation__
@@ -549,37 +474,21 @@ export type PushDeviceStatusMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function usePushDeviceStatusMutation(
-    baseOptions?: Apollo.MutationHookOptions<
-        PushDeviceStatusMutation,
-        PushDeviceStatusMutationVariables
-    >
-) {
-    return Apollo.useMutation<
-        PushDeviceStatusMutation,
-        PushDeviceStatusMutationVariables
-    >(PushDeviceStatusDocument, baseOptions);
-}
-export type PushDeviceStatusMutationHookResult = ReturnType<
-    typeof usePushDeviceStatusMutation
->;
+export function usePushDeviceStatusMutation(baseOptions?: Apollo.MutationHookOptions<PushDeviceStatusMutation, PushDeviceStatusMutationVariables>) {
+        return Apollo.useMutation<PushDeviceStatusMutation, PushDeviceStatusMutationVariables>(PushDeviceStatusDocument, baseOptions);
+      }
+export type PushDeviceStatusMutationHookResult = ReturnType<typeof usePushDeviceStatusMutation>;
 export type PushDeviceStatusMutationResult = Apollo.MutationResult<PushDeviceStatusMutation>;
-export type PushDeviceStatusMutationOptions = Apollo.BaseMutationOptions<
-    PushDeviceStatusMutation,
-    PushDeviceStatusMutationVariables
->;
+export type PushDeviceStatusMutationOptions = Apollo.BaseMutationOptions<PushDeviceStatusMutation, PushDeviceStatusMutationVariables>;
 export const NewHomeDocument = gql`
     mutation NewHome($name: String!) {
-        newHome(name: $name) {
-            id
-            name
-        }
-    }
-`;
-export type NewHomeMutationFn = Apollo.MutationFunction<
-    NewHomeMutation,
-    NewHomeMutationVariables
->;
+  newHome(name: $name) {
+    id
+    name
+  }
+}
+    `;
+export type NewHomeMutationFn = Apollo.MutationFunction<NewHomeMutation, NewHomeMutationVariables>;
 
 /**
  * __useNewHomeMutation__
@@ -598,35 +507,21 @@ export type NewHomeMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useNewHomeMutation(
-    baseOptions?: Apollo.MutationHookOptions<
-        NewHomeMutation,
-        NewHomeMutationVariables
-    >
-) {
-    return Apollo.useMutation<NewHomeMutation, NewHomeMutationVariables>(
-        NewHomeDocument,
-        baseOptions
-    );
-}
+export function useNewHomeMutation(baseOptions?: Apollo.MutationHookOptions<NewHomeMutation, NewHomeMutationVariables>) {
+        return Apollo.useMutation<NewHomeMutation, NewHomeMutationVariables>(NewHomeDocument, baseOptions);
+      }
 export type NewHomeMutationHookResult = ReturnType<typeof useNewHomeMutation>;
 export type NewHomeMutationResult = Apollo.MutationResult<NewHomeMutation>;
-export type NewHomeMutationOptions = Apollo.BaseMutationOptions<
-    NewHomeMutation,
-    NewHomeMutationVariables
->;
+export type NewHomeMutationOptions = Apollo.BaseMutationOptions<NewHomeMutation, NewHomeMutationVariables>;
 export const JoinHomeDocument = gql`
     mutation JoinHome($homeId: String!) {
-        joinHome(home: $homeId) {
-            id
-            name
-        }
-    }
-`;
-export type JoinHomeMutationFn = Apollo.MutationFunction<
-    JoinHomeMutation,
-    JoinHomeMutationVariables
->;
+  joinHome(home: $homeId) {
+    id
+    name
+  }
+}
+    `;
+export type JoinHomeMutationFn = Apollo.MutationFunction<JoinHomeMutation, JoinHomeMutationVariables>;
 
 /**
  * __useJoinHomeMutation__
@@ -645,39 +540,25 @@ export type JoinHomeMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useJoinHomeMutation(
-    baseOptions?: Apollo.MutationHookOptions<
-        JoinHomeMutation,
-        JoinHomeMutationVariables
-    >
-) {
-    return Apollo.useMutation<JoinHomeMutation, JoinHomeMutationVariables>(
-        JoinHomeDocument,
-        baseOptions
-    );
-}
+export function useJoinHomeMutation(baseOptions?: Apollo.MutationHookOptions<JoinHomeMutation, JoinHomeMutationVariables>) {
+        return Apollo.useMutation<JoinHomeMutation, JoinHomeMutationVariables>(JoinHomeDocument, baseOptions);
+      }
 export type JoinHomeMutationHookResult = ReturnType<typeof useJoinHomeMutation>;
 export type JoinHomeMutationResult = Apollo.MutationResult<JoinHomeMutation>;
-export type JoinHomeMutationOptions = Apollo.BaseMutationOptions<
-    JoinHomeMutation,
-    JoinHomeMutationVariables
->;
+export type JoinHomeMutationOptions = Apollo.BaseMutationOptions<JoinHomeMutation, JoinHomeMutationVariables>;
 export const NewUserDocument = gql`
     mutation NewUser($params: NewUserInput!) {
-        newUser(user: $params) {
-            access_token
-            user {
-                id
-                email
-                username
-            }
-        }
+  newUser(user: $params) {
+    access_token
+    user {
+      id
+      email
+      username
     }
-`;
-export type NewUserMutationFn = Apollo.MutationFunction<
-    NewUserMutation,
-    NewUserMutationVariables
->;
+  }
+}
+    `;
+export type NewUserMutationFn = Apollo.MutationFunction<NewUserMutation, NewUserMutationVariables>;
 
 /**
  * __useNewUserMutation__
@@ -696,39 +577,25 @@ export type NewUserMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useNewUserMutation(
-    baseOptions?: Apollo.MutationHookOptions<
-        NewUserMutation,
-        NewUserMutationVariables
-    >
-) {
-    return Apollo.useMutation<NewUserMutation, NewUserMutationVariables>(
-        NewUserDocument,
-        baseOptions
-    );
-}
+export function useNewUserMutation(baseOptions?: Apollo.MutationHookOptions<NewUserMutation, NewUserMutationVariables>) {
+        return Apollo.useMutation<NewUserMutation, NewUserMutationVariables>(NewUserDocument, baseOptions);
+      }
 export type NewUserMutationHookResult = ReturnType<typeof useNewUserMutation>;
 export type NewUserMutationResult = Apollo.MutationResult<NewUserMutation>;
-export type NewUserMutationOptions = Apollo.BaseMutationOptions<
-    NewUserMutation,
-    NewUserMutationVariables
->;
+export type NewUserMutationOptions = Apollo.BaseMutationOptions<NewUserMutation, NewUserMutationVariables>;
 export const SignInDocument = gql`
     mutation SignIn($params: SignInUserInput!) {
-        signInUser(user: $params) {
-            access_token
-            user {
-                id
-                email
-                username
-            }
-        }
+  signInUser(user: $params) {
+    access_token
+    user {
+      id
+      email
+      username
     }
-`;
-export type SignInMutationFn = Apollo.MutationFunction<
-    SignInMutation,
-    SignInMutationVariables
->;
+  }
+}
+    `;
+export type SignInMutationFn = Apollo.MutationFunction<SignInMutation, SignInMutationVariables>;
 
 /**
  * __useSignInMutation__
@@ -747,73 +614,62 @@ export type SignInMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useSignInMutation(
-    baseOptions?: Apollo.MutationHookOptions<
-        SignInMutation,
-        SignInMutationVariables
-    >
-) {
-    return Apollo.useMutation<SignInMutation, SignInMutationVariables>(
-        SignInDocument,
-        baseOptions
-    );
-}
+export function useSignInMutation(baseOptions?: Apollo.MutationHookOptions<SignInMutation, SignInMutationVariables>) {
+        return Apollo.useMutation<SignInMutation, SignInMutationVariables>(SignInDocument, baseOptions);
+      }
 export type SignInMutationHookResult = ReturnType<typeof useSignInMutation>;
 export type SignInMutationResult = Apollo.MutationResult<SignInMutation>;
-export type SignInMutationOptions = Apollo.BaseMutationOptions<
-    SignInMutation,
-    SignInMutationVariables
->;
+export type SignInMutationOptions = Apollo.BaseMutationOptions<SignInMutation, SignInMutationVariables>;
 export const MeDocument = gql`
     query Me {
-        me {
-            id
-            email
-            username
-            home {
-                id
-                name
-                family {
-                    id
-                    email
-                    username
-                }
-                devices {
-                    id
-                    type {
-                        id
-                        type
-                        name
-                    }
-                    alias
-                    private
-                    online
-                    owner {
-                        id
-                        username
-                    }
-                    status
-                }
-            }
-            devices {
-                id
-                type {
-                    id
-                    type
-                    name
-                }
-                alias
-                private
-                online
-                owner {
-                    id
-                    username
-                }
-                status
-            }
+  me {
+    id
+    email
+    username
+    home {
+      id
+      name
+      family {
+        id
+        email
+        username
+      }
+      devices {
+        id
+        type {
+          id
+          type
+          name
         }
+        alias
+        private
+        online
+        owner {
+          id
+          username
+        }
+        status
+      }
     }
-`;
+    devices {
+      id
+      type {
+        id
+        type
+        name
+      }
+      alias
+      private
+      online
+      owner {
+        id
+        username
+      }
+      status
+    }
+  }
+}
+    `;
 
 /**
  * __useMeQuery__
@@ -830,37 +686,30 @@ export const MeDocument = gql`
  *   },
  * });
  */
-export function useMeQuery(
-    baseOptions?: Apollo.QueryHookOptions<MeQuery, MeQueryVariables>
-) {
-    return Apollo.useQuery<MeQuery, MeQueryVariables>(MeDocument, baseOptions);
-}
-export function useMeLazyQuery(
-    baseOptions?: Apollo.LazyQueryHookOptions<MeQuery, MeQueryVariables>
-) {
-    return Apollo.useLazyQuery<MeQuery, MeQueryVariables>(
-        MeDocument,
-        baseOptions
-    );
-}
+export function useMeQuery(baseOptions?: Apollo.QueryHookOptions<MeQuery, MeQueryVariables>) {
+        return Apollo.useQuery<MeQuery, MeQueryVariables>(MeDocument, baseOptions);
+      }
+export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery, MeQueryVariables>) {
+          return Apollo.useLazyQuery<MeQuery, MeQueryVariables>(MeDocument, baseOptions);
+        }
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
 export const UserDocument = gql`
     query User($id: ID!) {
-        user(id: $id) {
-            id
-            email
-            username
-            terms {
-                agelimit
-                privacy
-                promotion
-                usepolicy
-            }
-        }
+  user(id: $id) {
+    id
+    email
+    username
+    terms {
+      agelimit
+      privacy
+      promotion
+      usepolicy
     }
-`;
+  }
+}
+    `;
 
 /**
  * __useUserQuery__
@@ -878,22 +727,12 @@ export const UserDocument = gql`
  *   },
  * });
  */
-export function useUserQuery(
-    baseOptions: Apollo.QueryHookOptions<UserQuery, UserQueryVariables>
-) {
-    return Apollo.useQuery<UserQuery, UserQueryVariables>(
-        UserDocument,
-        baseOptions
-    );
-}
-export function useUserLazyQuery(
-    baseOptions?: Apollo.LazyQueryHookOptions<UserQuery, UserQueryVariables>
-) {
-    return Apollo.useLazyQuery<UserQuery, UserQueryVariables>(
-        UserDocument,
-        baseOptions
-    );
-}
+export function useUserQuery(baseOptions: Apollo.QueryHookOptions<UserQuery, UserQueryVariables>) {
+        return Apollo.useQuery<UserQuery, UserQueryVariables>(UserDocument, baseOptions);
+      }
+export function useUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserQuery, UserQueryVariables>) {
+          return Apollo.useLazyQuery<UserQuery, UserQueryVariables>(UserDocument, baseOptions);
+        }
 export type UserQueryHookResult = ReturnType<typeof useUserQuery>;
 export type UserLazyQueryHookResult = ReturnType<typeof useUserLazyQuery>;
 export type UserQueryResult = Apollo.QueryResult<UserQuery, UserQueryVariables>;

@@ -6,9 +6,7 @@
     "license": "MIT",
     "private": true,
     "scripts": {
-        "build": "tsc --build",
-        "start": "node dist/index.js",
-        "dev": "yarn build && yarn start"
+        
     },
     "dependencies": {
         "mysql2": "^2.2.5"
