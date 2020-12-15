@@ -138,6 +138,15 @@ const AddDeviceModal = (props: IAddDeviceModal) => {
             id,
             private: _private
         };
+        if (!/^[a-zA-Z0-9_-]{16}$/.test(values.id)) {
+            toast({
+                title: `올바르지 않은 장치 식별자 ${values.id}가 입력 되었습니다`,
+                status: "error",
+                duration: 3000,
+                isClosable: true
+            });
+            return;
+        }
         try {
             const result = await newDevice({
                 variables: {
@@ -177,6 +186,7 @@ const AddDeviceModal = (props: IAddDeviceModal) => {
                             placeholder="장치 식별자"
                             name="id"
                             value={id}
+                            pattern={"^[a-zA-Z0-9_-]{16}$"}
                             onChange={(e) => {
                                 setId(e.target.value);
                             }}
