@@ -111,12 +111,13 @@ const RemoteControlComponent = (props: IRemoteControlProp) => {
             const m = /^[a-zA-Z0-9_-]{16}\/(.+?)$/.exec(topic);
             if (m) {
                 const type = m[1];
+                if (type === "push" || type === "fetch") return;
                 const value = message.toString("utf-8");
 
-                setRealtimeData({
+                setRealtimeData((realtimeData) => ({
                     ...realtimeData,
                     [type]: value
-                });
+                }));
             }
         });
         client.on("error", (err) => {
@@ -163,14 +164,14 @@ const RemoteControlComponent = (props: IRemoteControlProp) => {
                     </Box>
                 );
             })}
+            <Text fontWeight="semibold">실시간 데이터</Text>
             {Object.entries(realtimeData).map(
                 ([name, value]: [string, any]) => {
                     return (
                         <>
-                            <Text>실시간 데이터</Text>
                             <Wrap>
                                 <WrapItem>
-                                    <Text>{name}</Text>
+                                    <Text>{name}{": "}</Text>
                                     {name === "image" ? <Image src={value} /> : <Text>{value}</Text>}
                                 </WrapItem>
                             </Wrap>
