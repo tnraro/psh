@@ -19,7 +19,8 @@ import {
     Text,
     useToast,
     Wrap,
-    WrapItem
+    WrapItem,
+    Image
 } from "@chakra-ui/react";
 import {
     Device,
@@ -170,7 +171,7 @@ const RemoteControlComponent = (props: IRemoteControlProp) => {
                             <Wrap>
                                 <WrapItem>
                                     <Text>{name}</Text>
-                                    <Text>{value}</Text>
+                                    {name === "image" ? <Image src={value} /> : <Text>{value}</Text>}
                                 </WrapItem>
                             </Wrap>
                         </>
