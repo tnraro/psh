@@ -21,7 +21,8 @@
         "lerna:start": "lerna run --parallel start",
         "lerna:build": "lerna run build",
         "docker:build": "docker build -t psh .",
-        "docker:run": "docker run --env-file .env -p 80:80 --restart unless-stopped -d psh",
+        "docker:run": "docker run --env-file .env -p 80:80 -p 1883:1883 --restart unless-stopped -d psh",
+        "docker:release": "docker save -o out.tar psh",
         "build": "yarn lerna:build && yarn docker:build",
         "start": "yarn lerna:start"
     },

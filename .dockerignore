@@ -8,3 +8,5 @@
 **/*.tsx
 **/*.map
 !**/.next
+**/.next/cache
+out.tar
