@@ -5,7 +5,7 @@ ENV NODE_ENV=production \
     GRAPHQL=4000 \
     ALPINE_MIRROR="http://dl-cdn.alpinelinux.org/alpine"
 RUN echo "${ALPINE_MIRROR}/edge/main" >> /etc/apk/repositories
-RUN apk update && apk upgrade && \
+RUN apk update && \
     apk add --no-cache nodejs-current \
             yarn --repository="${ALPINE_MIRROR}/edge/community"
 WORKDIR /psh
