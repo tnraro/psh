@@ -89,9 +89,10 @@ const topics: ITopic[] = [
                     }
                 })
             });
-            const data = await result.text();
-            console.log(data);
-            client.publish(`${deviceId}/push`, data);
+            const data = await result.json();
+            const status = data.data.status;
+            console.log(status);
+            client.publish(`${deviceId}/push`, status);
         }
     }
 ];

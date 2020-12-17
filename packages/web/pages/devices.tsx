@@ -2,6 +2,9 @@ import DeviceIcon from "@/comps/DeviceIcon";
 import Body from "@/comps/layouts/Body";
 import Header from "@/comps/layouts/Header";
 import {
+    Alert,
+    AlertDescription,
+    AlertIcon,
     Box,
     Button,
     Center,
@@ -140,7 +143,7 @@ const AddDeviceModal = (props: IAddDeviceModal) => {
         };
         if (!/^[a-zA-Z0-9_-]{16}$/.test(values.id)) {
             toast({
-                title: `올바르지 않은 장치 식별자 ${values.id}가 입력 되었습니다`,
+                title: `올바르지 않은 장치 식별자가 입력 되었습니다`,
                 status: "error",
                 duration: 3000,
                 isClosable: true
@@ -207,6 +210,13 @@ const AddDeviceModal = (props: IAddDeviceModal) => {
                             }}>
                             개인용
                         </Checkbox>
+                        <Alert status="info" mt={5}>
+                            <AlertIcon />
+                            <AlertDescription fontSize="10pt">
+                                장치 식별자는 제품 정보에 적혀있는 16자리
+                                문자열입니다.
+                            </AlertDescription>
+                        </Alert>
                     </Stack>
                 </ModalBody>
                 <ModalFooter>
