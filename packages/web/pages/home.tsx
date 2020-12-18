@@ -8,12 +8,18 @@ import {
     Box,
     Button,
     Center,
+    Divider,
+    Flex,
     Heading,
+    IconButton,
     Input,
     Link,
+    Skeleton,
     Spacer,
     Stack,
     Text,
+    Tooltip,
+    useClipboard,
     useToast,
     Wrap,
     WrapItem
@@ -24,10 +30,10 @@ import {
     useMeQuery,
     useNewHomeMutation
 } from "@psh/schema/dist/operations.gen";
-import { StatusCodes } from "http-status-codes";
 import { useRouter } from "next/dist/client/router";
 import NextLink from "next/link";
 import React, { useState } from "react";
+import { FiCheckSquare, FiCopy, FiEye, FiEyeOff } from "react-icons/fi";
 
 interface IProp {}
 
@@ -126,14 +132,44 @@ const HomeDashboardItem = (props: { children: any }) => (
 
 const HomeDashboard = (props: { me: MeQuery["me"]; client: any }) => {
     const me = props.me;
+    const homeId = me!.home!.id!;
+    const [isHiddenHomeId, setIsHiddenHomeId] = useState(true);
+    const { hasCopied, onCopy } = useClipboard(homeId);
 
     return (
         <Stack spacing={3}>
             <HomeDashboardItem>
-                <Text fontSize="md" fontWeight={700}>
+                <Text mb={2} fontWeight={700}>
                     대시보드
                 </Text>
                 <Text>{me?.home?.name}</Text>
+                <Divider my={2} />
+                <Text mb={2} fontWeight={700}>
+                    초대 코드
+                </Text>
+                <Flex alignItems="center">
+                    <Input
+                        value={isHiddenHomeId ? "****************" : homeId}
+                        isReadOnly
+                        isDisabled={isHiddenHomeId}
+                    />
+                    <Tooltip label={isHiddenHomeId ? "보이기" : "숨기기"}>
+                        <IconButton
+                            onClick={() => setIsHiddenHomeId(!isHiddenHomeId)}
+                            ml={2}
+                            aria-label={isHiddenHomeId ? "보이기" : "숨기기"}
+                            icon={isHiddenHomeId ? <FiEye /> : <FiEyeOff />}
+                        />
+                    </Tooltip>
+                    <Tooltip label={hasCopied ? "복사됨" : "복사"}>
+                        <IconButton
+                            onClick={onCopy}
+                            ml={2}
+                            aria-label={hasCopied ? "복사됨" : "복사"}
+                            icon={hasCopied ? <FiCheckSquare /> : <FiCopy />}
+                        />
+                    </Tooltip>
+                </Flex>
             </HomeDashboardItem>
             <HomeDashboardItem>
                 <Heading size="md">가족구성원</Heading>
